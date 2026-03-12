@@ -1,0 +1,13 @@
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\LexDoctor.AlertasApi.exe
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\LexDoctor.AlertasApi.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\LexDoctor.AlertasApi.deps.json
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\LexDoctor.AlertasApi.runtimeconfig.json
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\LexDoctor.AlertasApi.pdb
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\Dapper.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\FirebirdSql.Data.FirebirdClient.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\fedeytamy\source\repos\LexDoctor.AlertasApi\LexDoctor.AlertasApi\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
