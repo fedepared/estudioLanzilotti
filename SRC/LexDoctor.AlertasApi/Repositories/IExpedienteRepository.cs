@@ -7,6 +7,6 @@ namespace LexDoctor.AlertasApi.Repositories
 {
     public interface IExpedienteRepository
     {
-        Task<IEnumerable<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync();
+        Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize);
     }
 }

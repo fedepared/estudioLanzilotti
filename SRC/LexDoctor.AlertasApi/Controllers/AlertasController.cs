@@ -16,12 +16,12 @@ namespace LexDoctor.AlertasApi.Controllers
             _repository = repository;
         }
 
-        [HttpGet("caducidad")]
-        public async Task<IActionResult> GetAlertasCaducidad()
+        [HttpGet("caducidad/{pageNumber}/{pageSize}")]
+        public async Task<IActionResult> GetAlertasCaducidad(int pageNumber, int pageSize)
         {
             try
             {
-                var alertas = await _repository.ObtenerAlertasCaducidadAsync();
+                var alertas = await _repository.ObtenerAlertasCaducidadAsync(pageNumber,pageSize);
                 return Ok(alertas);
             }
             catch (Exception ex)
