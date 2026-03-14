@@ -14,17 +14,17 @@ namespace LexDoctor.AlertasApi.Repositories
 
         public ExpedienteRepository(IOptions<DatabaseOptions> options)
         {
-            _connectionString = options?.Value?.ConnectionString 
+            _connectionString = options?.Value?.ConnectionString
                 ?? throw new System.ArgumentNullException(nameof(options), "La cadena de conexión no puede ser nula.");
         }
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize)
         {
-            // Calculamos los límites para Firebird (basado en 1, no en 0)
+            // limites
             int startRow = ((pageNumber - 1) * pageSize) + 1;
             int endRow = pageNumber * pageSize;
 
-            // El SQL base con los CTEs intactos
+            // CTE Base:  para reutilizarla en ambas consultas y refactorizar
             const string cteBase = @"
                 WITH UltimasMarcasTiempo AS (
                     SELECT PROC, MAX(FECH || COALESCE(HORA, '0000')) AS MaxMarcaTiempo
@@ -34,7 +34,9 @@ namespace LexDoctor.AlertasApi.Repositories
                 ),
                 DetalleUltimoMovimiento AS (
                     SELECT 
-                        m.PROC, m.DSCR, m.HECH,
+                        m.PROC,
+                        m.DSCR,
+                        m.HECH,
                         CAST(
                             SUBSTRING(m.FECH FROM 1 FOR 4) || '-' || 
                             SUBSTRING(m.FECH FROM 5 FOR 2) || '-' || 
@@ -46,14 +48,21 @@ namespace LexDoctor.AlertasApi.Repositories
                     WHERE m.HECH = 'P'
                 ) ";
 
-                    // TOTAL de registros
-                    string sqlCount = cteBase + @"
+            // contador para el paginado
+            string sqlCount = cteBase + @"
                 SELECT COUNT(p.PROC)
                 FROM PROC p
-                INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC;";
+                INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
+                WHERE NOT EXISTS (
+                    SELECT 1 
+                    FROM MOVI ms 
+                    WHERE ms.PROC = p.PROC 
+                      AND ms.HECH IN ('P', 'N') 
+                      AND ms.DSCR CONTAINING 'SENTENCIA'
+                );";
 
-                    // Consulta 2: Obtener la PÁGINA ESPECÍFICA de datos usando ROWS de Firebird
-                    string sqlData = cteBase + @"
+            // Cantidad de datos de rows
+            string sqlData = cteBase + @"
                 SELECT 
                     p.PROC AS IdExpediente,
                     p.ACTO AS ACTO, 
@@ -65,8 +74,15 @@ namespace LexDoctor.AlertasApi.Repositories
                     DATEDIFF(MONTH FROM dum.FechaReal TO CURRENT_DATE) AS MesesInactivo
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
+                WHERE NOT EXISTS (
+                    SELECT 1 
+                    FROM MOVI ms 
+                    WHERE ms.PROC = p.PROC 
+                      AND ms.HECH IN ('P', 'N') 
+                      AND ms.DSCR CONTAINING 'SENTENCIA'
+                )
                 ORDER BY DiasInactivo DESC
-                ROWS @StartRow TO @EndRow;"; // <-- paginación 
+                ROWS @StartRow TO @EndRow;";
 
             await using var connection = new FbConnection(_connectionString);
 
@@ -74,7 +90,7 @@ namespace LexDoctor.AlertasApi.Repositories
             {
                 await connection.OpenAsync();
 
-                // Ejecutamos ambas consultas
+                // Ejecutamos ambas consultas en la misma conexión abierta
                 var total = await connection.ExecuteScalarAsync<int>(sqlCount);
                 var datos = await connection.QueryAsync<AlertaCaducidadDto>(sqlData, new { StartRow = startRow, EndRow = endRow });
 
@@ -86,8 +102,14 @@ namespace LexDoctor.AlertasApi.Repositories
             }
             catch (FbException ex)
             {
-                throw new Exception($"Error al conectar o consultar la base de datos Firebird: {ex.Message}", ex);
+                // Somos claros con el error del motor
+                throw new Exception($"Error nativo de Firebird al consultar alertas: {ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                // Atrapamos errores de mapeo de Dapper o de lógica
+                throw new Exception($"Error inesperado en el repositorio de expedientes: {ex.Message}", ex);
             }
         }
     }
-}
+ }
