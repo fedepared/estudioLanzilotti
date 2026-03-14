@@ -1,0 +1,27 @@
+# Visual Studio / .NET / Visual Studio Code (repo scoped)
+
+# Visual Studio folder (in this repo it's under SRC/)
+SRC/.vs/
+
+# Build results for this solution/project
+SRC/LexDoctor.AlertasApi/bin/
+SRC/LexDoctor.AlertasApi/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+# Visual Studio Code
+.vscode/
+.history/
+*.code-workspace
+
+# Common build configuration folders (if they appear anywhere)
+**/Debug/
+**/Release/
+
+# (Optional) NuGet packages (usually restoreable; keep tracked if you intentionally commit them)
+# **/packages/
