@@ -20,14 +20,16 @@ namespace LexDoctor.AlertasApi.Repositories
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize)
         {
-            // limites
+            // límites
             int startRow = ((pageNumber - 1) * pageSize) + 1;
             int endRow = pageNumber * pageSize;
 
-            // CTE Base:  para reutilizarla en ambas consultas y refactorizar
+            // 1. CTE Base
             const string cteBase = @"
                 WITH UltimasMarcasTiempo AS (
-                    SELECT PROC, MAX(FECH || COALESCE(HORA, '0000')) AS MaxMarcaTiempo
+                    SELECT 
+                        PROC, 
+                        MAX(FECH || COALESCE(HORA, '0000') || MOVI) AS LlaveDesempate
                     FROM MOVI
                     WHERE TRIM(FECH) <> '' AND HECH = 'P'
                     GROUP BY PROC
@@ -44,29 +46,27 @@ namespace LexDoctor.AlertasApi.Repositories
                         AS DATE) AS FechaReal
                     FROM MOVI m
                     INNER JOIN UltimasMarcasTiempo umt 
-                        ON m.PROC = umt.PROC AND (m.FECH || COALESCE(m.HORA, '0000')) = umt.MaxMarcaTiempo
-                    WHERE m.HECH = 'P'
+                        ON m.PROC = umt.PROC AND (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI) = umt.LlaveDesempate
                 ) ";
 
-            // contador para el paginado
+            // 2. Conteo: con el filtro de años y excluyendo archivados ('B')
             string sqlCount = cteBase + @"
                 SELECT COUNT(p.PROC)
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
-                WHERE NOT EXISTS (
-                    SELECT 1 
-                    FROM MOVI ms 
-                    WHERE ms.PROC = p.PROC 
-                      AND ms.HECH IN ('P', 'N') 
-                      AND ms.DSCR CONTAINING 'SENTENCIA'
-                );";
+                WHERE EXTRACT(YEAR FROM dum.FechaReal) >= 2016 
+                  AND (p.GRUP IS NULL OR p.GRUP <> 'B');";
 
-            // Cantidad de datos de rows
+            // 3. Datos y paginación
             string sqlData = cteBase + @"
                 SELECT 
                     p.PROC AS IdExpediente,
                     p.ACTO AS ACTO, 
                     p.DEMA AS DEMA,
+                    p.EXP1 AS EXP1,
+                    p.EXP2 AS EXP2,
+                    p.EXP3 AS EXP3,
+                    p.EXP4 AS EXP4,
                     dum.DSCR AS DescripcionUltimoEscrito,
                     dum.FechaReal AS FechaUltimoMovimiento,
                     dum.HECH AS HECHO,
@@ -74,13 +74,8 @@ namespace LexDoctor.AlertasApi.Repositories
                     DATEDIFF(MONTH FROM dum.FechaReal TO CURRENT_DATE) AS MesesInactivo
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
-                WHERE NOT EXISTS (
-                    SELECT 1 
-                    FROM MOVI ms 
-                    WHERE ms.PROC = p.PROC 
-                      AND ms.HECH IN ('P', 'N') 
-                      AND ms.DSCR CONTAINING 'SENTENCIA'
-                )
+                WHERE EXTRACT(YEAR FROM dum.FechaReal) >= 2020 
+                  AND (p.GRUP IS NULL OR p.GRUP <> 'B')
                 ORDER BY DiasInactivo DESC
                 ROWS @StartRow TO @EndRow;";
 
@@ -102,12 +97,10 @@ namespace LexDoctor.AlertasApi.Repositories
             }
             catch (FbException ex)
             {
-                // Somos claros con el error del motor
                 throw new Exception($"Error nativo de Firebird al consultar alertas: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                // Atrapamos errores de mapeo de Dapper o de lógica
                 throw new Exception($"Error inesperado en el repositorio de expedientes: {ex.Message}", ex);
             }
         }
