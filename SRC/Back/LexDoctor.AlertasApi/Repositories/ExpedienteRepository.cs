@@ -2,8 +2,12 @@
 using FirebirdSql.Data.FirebirdClient;
 using LexDoctor.AlertasApi.Config;
 using LexDoctor.AlertasApi.Models;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,37 +17,73 @@ namespace LexDoctor.AlertasApi.Repositories
     {
         private readonly string _connectionString;
         private readonly AlertasCaducidadOptions _alertasOptions;
-        public ExpedienteRepository(IOptions<DatabaseOptions> options,
-            IOptions<AlertasCaducidadOptions> alertasOptions)
+        private readonly IMemoryCache _cache;
+
+        public ExpedienteRepository(
+            IOptions<DatabaseOptions> options,
+            IOptions<AlertasCaducidadOptions> alertasOptions,
+            IMemoryCache cache)
         {
             _connectionString = options?.Value?.ConnectionString
-                ?? throw new System.ArgumentNullException(nameof(options), "La cadena de conexión no puede ser nula.");
+                ?? throw new ArgumentNullException(nameof(options), "La cadena de conexión no puede ser nula.");
+
             _alertasOptions = alertasOptions?.Value
-         ?? throw new ArgumentNullException(nameof(alertasOptions), "La configuración de alertas no puede ser nula.");
+                ?? throw new ArgumentNullException(nameof(alertasOptions), "La configuración de alertas no puede ser nula.");
+
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
             if (_alertasOptions.DiasInicioAmarillo < 0)
                 throw new ArgumentException("DiasInicioAmarillo no puede ser negativo.");
 
             if (_alertasOptions.DiasInicioRojo <= _alertasOptions.DiasInicioAmarillo)
                 throw new ArgumentException("DiasInicioRojo debe ser mayor que DiasInicioAmarillo.");
-
         }
+
+        private string BuildCacheKey(
+            int pageNumber,
+            int pageSize,
+            string texto,
+            string semaforo,
+            string idExpediente)
+        {
+            texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
+            semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
+            idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
+
+            return $"alertas-caducidad-v2:" +
+                   $"page={pageNumber}:" +
+                   $"size={pageSize}:" +
+                   $"texto={texto}:" +
+                   $"semaforo={semaforo}:" +
+                   $"id={idExpediente}:" +
+                   $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
+                   $"diaRo={_alertasOptions.DiasInicioRojo}";
+        }
+
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
-     int pageNumber,
-     int pageSize,
-     string texto = null,
-     string semaforo = null,
-     string idExpediente = null)
+            int pageNumber,
+            int pageSize,
+            string texto = null,
+            string semaforo = null,
+            string idExpediente = null)
         {
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 20;
-
-            int startRow = ((pageNumber - 1) * pageSize) + 1;
-            int endRow = pageNumber * pageSize;
+            if (pageSize > 100) pageSize = 100; // opcional, para evitar páginas gigantes
 
             semaforo = string.IsNullOrWhiteSpace(semaforo)
                 ? null
-                : semaforo.Trim().ToLower();
+                : semaforo.Trim().ToLowerInvariant();
+
+            string cacheKey = BuildCacheKey(pageNumber, pageSize, texto, semaforo, idExpediente);
+
+            if (_cache.TryGetValue(cacheKey, out ResultadoPaginado<AlertaCaducidadDto> resultadoCacheado))
+            {
+                return resultadoCacheado;
+            }
+
+            int startRow = ((pageNumber - 1) * pageSize) + 1;
+            int endRow = pageNumber * pageSize;
 
             const string cteBase = @"
         WITH UltimasMarcasTiempo AS (
@@ -120,13 +160,13 @@ namespace LexDoctor.AlertasApi.Repositories
         )";
 
             var parameters = new DynamicParameters();
-            parameters.Add("StartRow", startRow);
-            parameters.Add("EndRow", endRow);
-            parameters.Add("DiasInicioAmarillo", _alertasOptions.DiasInicioAmarillo);
-            parameters.Add("DiasInicioRojo", _alertasOptions.DiasInicioRojo);
-            parameters.Add("ColorRojo", _alertasOptions.ColorRojo);
-            parameters.Add("ColorAmarillo", _alertasOptions.ColorAmarillo);
-            parameters.Add("ColorVerde", _alertasOptions.ColorVerde);
+            parameters.Add("StartRow", startRow, DbType.Int32);
+            parameters.Add("EndRow", endRow, DbType.Int32);
+            parameters.Add("DiasInicioAmarillo", _alertasOptions.DiasInicioAmarillo, DbType.Int32);
+            parameters.Add("DiasInicioRojo", _alertasOptions.DiasInicioRojo, DbType.Int32);
+            parameters.Add("ColorRojo", _alertasOptions.ColorRojo, DbType.String);
+            parameters.Add("ColorAmarillo", _alertasOptions.ColorAmarillo, DbType.String);
+            parameters.Add("ColorVerde", _alertasOptions.ColorVerde, DbType.String);
 
             var where = new StringBuilder(" WHERE 1 = 1 ");
 
@@ -139,13 +179,13 @@ namespace LexDoctor.AlertasApi.Repositories
                     OR db.Dema CONTAINING @Texto
                     OR db.DescripcionUltimoEscrito CONTAINING @Texto
                 )");
-                parameters.Add("Texto", texto.Trim());
+                parameters.Add("Texto", texto.Trim(), DbType.String);
             }
 
             if (!string.IsNullOrWhiteSpace(idExpediente))
             {
                 where.Append(" AND db.IdExpediente = @IdExpediente ");
-                parameters.Add("IdExpediente", idExpediente.Trim());
+                parameters.Add("IdExpediente", idExpediente.Trim(), DbType.String);
             }
 
             if (!string.IsNullOrWhiteSpace(semaforo))
@@ -153,7 +193,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 if (semaforo == "rojo" || semaforo == "amarillo" || semaforo == "verde")
                 {
                     where.Append(" AND db.EstadoSemaforo = @Semaforo ");
-                    parameters.Add("Semaforo", semaforo);
+                    parameters.Add("Semaforo", semaforo, DbType.String);
                 }
             }
 
@@ -189,13 +229,22 @@ namespace LexDoctor.AlertasApi.Repositories
                 await connection.OpenAsync();
 
                 var total = await connection.ExecuteScalarAsync<int>(sqlCount, parameters);
-                var datos = await connection.QueryAsync<AlertaCaducidadDto>(sqlData, parameters);
+                var datos = (await connection.QueryAsync<AlertaCaducidadDto>(sqlData, parameters)).ToList();
 
-                return new ResultadoPaginado<AlertaCaducidadDto>
+                var resultado = new ResultadoPaginado<AlertaCaducidadDto>
                 {
                     TotalRegistros = total,
                     Datos = datos
                 };
+
+                _cache.Set(cacheKey, resultado, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                    SlidingExpiration = TimeSpan.FromMinutes(2),
+                    Priority = CacheItemPriority.High
+                });
+
+                return resultado;
             }
             catch (FbException ex)
             {
@@ -207,15 +256,11 @@ namespace LexDoctor.AlertasApi.Repositories
             }
         }
 
-
-
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize)
         {
-            // limites
             int startRow = ((pageNumber - 1) * pageSize) + 1;
             int endRow = pageNumber * pageSize;
 
-            // CTE Base:  para reutilizarla en ambas consultas y refactorizar
             const string cteBase = @"
                 WITH UltimasMarcasTiempo AS (
                     SELECT PROC, MAX(FECH || COALESCE(HORA, '0000')) AS MaxMarcaTiempo
@@ -239,7 +284,6 @@ namespace LexDoctor.AlertasApi.Repositories
                     WHERE m.HECH = 'P'
                 ) ";
 
-            // contador para el paginado
             string sqlCount = cteBase + @"
                 SELECT COUNT(p.PROC)
                 FROM PROC p
@@ -252,7 +296,6 @@ namespace LexDoctor.AlertasApi.Repositories
                       AND ms.DSCR CONTAINING 'SENTENCIA'
                 );";
 
-            // Cantidad de datos de rows
             string sqlData = cteBase + @"
                 SELECT 
                     p.PROC AS IdExpediente,
@@ -281,7 +324,6 @@ namespace LexDoctor.AlertasApi.Repositories
             {
                 await connection.OpenAsync();
 
-                // Ejecutamos ambas consultas en la misma conexión abierta
                 var total = await connection.ExecuteScalarAsync<int>(sqlCount);
                 var datos = await connection.QueryAsync<AlertaCaducidadDto>(sqlData, new { StartRow = startRow, EndRow = endRow });
 
@@ -293,14 +335,12 @@ namespace LexDoctor.AlertasApi.Repositories
             }
             catch (FbException ex)
             {
-                // Somos claros con el error del motor
                 throw new Exception($"Error nativo de Firebird al consultar alertas: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                // Atrapamos errores de mapeo de Dapper o de lógica
                 throw new Exception($"Error inesperado en el repositorio de expedientes: {ex.Message}", ex);
             }
         }
     }
- }
+}
