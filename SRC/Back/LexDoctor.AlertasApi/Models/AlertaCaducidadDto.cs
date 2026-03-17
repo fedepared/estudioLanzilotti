@@ -10,5 +10,10 @@
         public DateTime FechaUltimoMovimiento { get; set; }
         public int DiasInactivo { get; set; }
         public int MesesInactivo { get; set; }
+
+        // semáforo
+        public string EstadoSemaforo { get; set; }      
+        public string ColorSemaforo { get; set; }       
+        public int PrioridadSemaforo { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 # Visual Studio / .NET / Visual Studio Code (repo scoped)
-
+.vs/
+**/.vs/
 # Visual Studio folder (in this repo it's under SRC/)
 SRC/.vs/
 
