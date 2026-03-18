@@ -92,7 +92,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 WITH UltimasMarcasTiempo AS (
                     SELECT
                         m.PROC,
-                        MAX(m.FECH || COALESCE(m.HORA, '0000')) AS MaxMarcaTiempo
+                        MAX(m.FECH || COALESCE(m.HORA, '0000') || MOVI) AS MaxMarcaTiempo
                     FROM MOVI m
                     WHERE TRIM(COALESCE(m.FECH, '')) <> ''
                       AND m.HECH = 'P'
@@ -103,17 +103,19 @@ namespace LexDoctor.AlertasApi.Repositories
                         m.PROC,
                         COALESCE(m.DSCR, '') AS DSCR,
                         m.HECH,
-                        CAST(
-                            SUBSTRING(m.FECH FROM 1 FOR 4) || '-' ||
-                            SUBSTRING(m.FECH FROM 5 FOR 2) || '-' ||
-                            SUBSTRING(m.FECH FROM 7 FOR 2)
-                            AS DATE
-                        ) AS FechaReal
+                        CASE 
+                            WHEN TRIM(COALESCE(m.FECH, '')) = '' THEN NULL
+                            ELSE CAST(
+                                SUBSTRING(m.FECH FROM 1 FOR 4) || '-' || 
+                                SUBSTRING(m.FECH FROM 5 FOR 2) || '-' || 
+                                SUBSTRING(m.FECH FROM 7 FOR 2) 
+                            AS DATE)
+                        END AS FechaReal
                     FROM MOVI m
                     INNER JOIN UltimasMarcasTiempo umt
                         ON umt.PROC = m.PROC
-                       AND umt.MaxMarcaTiempo = (m.FECH || COALESCE(m.HORA, '0000'))
-                    WHERE m.HECH = 'P'
+                       AND umt.MaxMarcaTiempo = (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI)
+                    WHERE m.HECH = 'P' AND TRIM(COALESCE(m.FECH, '')) <> ''
                 ),
                 DatosCalculados AS (
                     SELECT
@@ -127,13 +129,7 @@ namespace LexDoctor.AlertasApi.Repositories
                     FROM PROC p
                     INNER JOIN DetalleUltimoMovimiento dum
                         ON dum.PROC = p.PROC
-                    WHERE NOT EXISTS (
-                        SELECT 1
-                        FROM MOVI ms
-                        WHERE ms.PROC = p.PROC
-                          AND ms.HECH IN ('P', 'N')
-                          AND ms.DSCR CONTAINING 'SENTENCIA'
-                    )
+                    WHERE (p.GRUP IS NULL OR p.GRUP <> 'B') AND EXTRACT(YEAR FROM dum.FechaReal) >= 2020
                 ),
                 DatosBase AS (
                     SELECT
@@ -288,7 +284,7 @@ namespace LexDoctor.AlertasApi.Repositories
 
             const string cteBase = @"
                 WITH UltimasMarcasTiempo AS (
-                    SELECT PROC, MAX(FECH || COALESCE(HORA, '0000')) AS MaxMarcaTiempo
+                    SELECT PROC, MAX(FECH || COALESCE(HORA, '0000') || MOVI) AS MaxMarcaTiempo
                     FROM MOVI
                     WHERE TRIM(FECH) <> '' AND HECH = 'P'
                     GROUP BY PROC
@@ -305,7 +301,7 @@ namespace LexDoctor.AlertasApi.Repositories
                         AS DATE) AS FechaReal
                     FROM MOVI m
                     INNER JOIN UltimasMarcasTiempo umt 
-                        ON m.PROC = umt.PROC AND (m.FECH || COALESCE(m.HORA, '0000')) = umt.MaxMarcaTiempo
+                        ON m.PROC = umt.PROC AND (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI) = umt.MaxMarcaTiempo
                     WHERE m.HECH = 'P'
                 ) ";
 
@@ -313,13 +309,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 SELECT COUNT(p.PROC)
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
-                WHERE NOT EXISTS (
-                    SELECT 1 
-                    FROM MOVI ms 
-                    WHERE ms.PROC = p.PROC 
-                      AND ms.HECH IN ('P', 'N') 
-                      AND ms.DSCR CONTAINING 'SENTENCIA'
-                );";
+                WHERE EXTRACT(YEAR FROM dum.FechaReal) >= 2020 AND (p.GRUP IS NULL OR p.GRUP <> 'B');";
 
             string sqlData = cteBase + @"
                 SELECT 
