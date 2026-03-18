@@ -1,0 +1,237 @@
+<div class="dashboard-root">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <div class="firm-logo">
+        <span class="logo-icon">⚖</span>
+      </div>
+      <div class="firm-info">
+        <span class="firm-name">Gestión de Expedientes</span>
+        <span class="firm-subtitle">Sistema de seguimiento procesal</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <span class="stat-value">{{ totalExpedientes }}</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="header-stat critical">
+        <span class="stat-value">{{ expedientesCriticos }}</span>
+        <span class="stat-label">Críticos</span>
+      </div>
+      <div class="header-stat warning">
+        <span class="stat-value">{{ expedientesAdvertencia }}</span>
+        <span class="stat-label">Advertencia</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="section-title">Expedientes activos</span>
+      <span class="section-divider">|</span>
+      <span class="section-date">{{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }}</span>
+    </div>
+    <div class="toolbar-right">
+      <div class="search-wrapper">
+        <i class="pi pi-search search-icon"></i>
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="filtroGlobal"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar expediente, acto, demandado..."
+          class="search-input"
+        />
+      </div>
+      <p-button
+        icon="pi pi-download"
+        label="Exportar"
+        severity="secondary"
+        [outlined]="true"
+        size="small"
+        styleClass="export-btn"
+      />
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend-bar">
+    <div class="legend-item">
+      <span class="legend-dot red"></span>
+      <span>Inactividad crítica (más de 60 días)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot yellow"></span>
+      <span>Inactividad moderada (30–60 días)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot green"></span>
+      <span>Al día</span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <p-table
+      #dt
+      [value]="expedientes"
+      [paginator]="true"
+      [rows]="15"
+      [rowsPerPageOptions]="[10, 15, 25, 50]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} expedientes"
+      [sortField]="'prioridadSemaforo'"
+      [sortOrder]="1"
+      [globalFilterFields]="[
+        'idExpediente',
+        'acto',
+        'dema',
+        'descripcionUltimoEscrito',
+        'estadoSemaforo',
+      ]"
+      styleClass="p-datatable-sm expedientes-table"
+      
+      dataKey="idExpediente"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="estadoSemaforo" class="col-semaforo">
+            Estado <p-sortIcon field="estadoSemaforo" />
+          </th>
+          <th pSortableColumn="idExpediente" class="col-id">
+            N° Expediente <p-sortIcon field="idExpediente" />
+          </th>
+          <th pSortableColumn="acto" class="col-acto">Acto <p-sortIcon field="acto" /></th>
+          <th pSortableColumn="dema" class="col-dema">Demandado <p-sortIcon field="dema" /></th>
+          <th class="col-descripcion">Último escrito</th>
+          <th pSortableColumn="fechaUltimoMovimiento" class="col-fecha">
+            Último movimiento <p-sortIcon field="fechaUltimoMovimiento" />
+          </th>
+          <th pSortableColumn="diasInactivo" class="col-inactividad">
+            Inactividad <p-sortIcon field="diasInactivo" />
+          </th>
+          <th class="col-acciones">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-exp let-rowIndex="rowIndex">
+        <tr [ngClass]="getRowClass(exp)">
+          <!-- Semáforo -->
+          <td class="col-semaforo">
+            <div class="semaforo-cell">
+              <span
+                class="semaforo-dot"
+                [ngClass]="{
+                  'semaforo-red': exp.colorSemaforo === 'red' || exp.colorSemaforo === 'rojo',
+                  'semaforo-yellow':
+                    exp.colorSemaforo === 'yellow' || exp.colorSemaforo === 'amarillo',
+                  'semaforo-green': exp.colorSemaforo === 'green' || exp.colorSemaforo === 'verde',
+                }"
+              ></span>
+              <span class="semaforo-label">{{ exp.estadoSemaforo }}</span>
+            </div>
+          </td>
+
+          <!-- ID Expediente -->
+          <td class="col-id">
+            <span class="expediente-id">{{ exp.idExpediente }}</span>
+          </td>
+
+          <!-- Acto -->
+          <td class="col-acto">
+            <span class="acto-badge">{{ exp.acto }}</span>
+          </td>
+
+          <!-- Demandado -->
+          <td class="col-dema">
+            <div class="dema-cell">
+              <span class="dema-initials">{{ getInitials(exp.dema) }}</span>
+              <span class="dema-name">{{ exp.dema }}</span>
+            </div>
+          </td>
+
+          <!-- Último Escrito -->
+          <td class="col-descripcion">
+            <span
+              class="descripcion-text"
+              [pTooltip]="exp.descripcionUltimoEscrito"
+              tooltipPosition="top"
+            >
+              {{ exp.descripcionUltimoEscrito }}
+            </span>
+          </td>
+
+          <!-- Fecha -->
+          <td class="col-fecha">
+            <span class="fecha-text">{{ exp.fechaUltimoMovimiento | date: 'dd/MM/yyyy' }}</span>
+          </td>
+
+          <!-- Inactividad -->
+          <td class="col-inactividad">
+            <div class="inactividad-cell">
+              <span
+                class="dias-badge"
+                [ngClass]="{
+                  'dias-red': exp.colorSemaforo === 'red' || exp.colorSemaforo === 'rojo',
+                  'dias-yellow': exp.colorSemaforo === 'yellow' || exp.colorSemaforo === 'amarillo',
+                  'dias-green': exp.colorSemaforo === 'green' || exp.colorSemaforo === 'verde',
+                }"
+              >
+                {{ exp.diasInactivo ?? 0 }}d
+              </span>
+              <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0">
+                ({{ exp.mesesInactivo }} mes{{ exp.mesesInactivo !== 1 ? 'es' : '' }})
+              </span>
+            </div>
+          </td>
+
+          <!-- Acciones -->
+          <td class="col-acciones">
+            <div class="acciones-cell">
+              <p-button
+                icon="pi pi-eye"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                size="small"
+                pTooltip="Ver expediente"
+                tooltipPosition="top"
+              />
+              <p-button
+                icon="pi pi-file-edit"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                size="small"
+                pTooltip="Cargar escrito"
+                tooltipPosition="top"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="empty-state">
+            <div class="empty-content">
+              <i class="pi pi-folder-open empty-icon"></i>
+              <p class="empty-title">No hay expedientes disponibles</p>
+              <p class="empty-subtitle">
+                Los expedientes aparecerán aquí una vez conectado al servidor.
+              </p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="paginatorleft">
+        <div class="paginator-info">
+          <i class="pi pi-list"></i>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
