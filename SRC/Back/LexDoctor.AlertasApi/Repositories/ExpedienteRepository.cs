@@ -61,15 +61,15 @@ namespace LexDoctor.AlertasApi.Repositories
         }
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
-            int pageNumber,
-            int pageSize,
-            string texto = null,
-            string semaforo = null,
-            string idExpediente = null)
+    int pageNumber,
+    int pageSize,
+    string texto = null,
+    string semaforo = null,
+    string idExpediente = null)
         {
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 20;
-            if (pageSize > 100) pageSize = 100; // opcional, para evitar páginas gigantes
+            if (pageSize > 100) pageSize = 100;
 
             semaforo = string.IsNullOrWhiteSpace(semaforo)
                 ? null
@@ -82,82 +82,85 @@ namespace LexDoctor.AlertasApi.Repositories
                 return resultadoCacheado;
             }
 
+            string cacheKeyResumenGlobal =
+                $"alertas-caducidad-v2:resumen-global:diaAm={_alertasOptions.DiasInicioAmarillo}:diaRo={_alertasOptions.DiasInicioRojo}";
+
             int startRow = ((pageNumber - 1) * pageSize) + 1;
             int endRow = pageNumber * pageSize;
 
             const string cteBase = @"
-        WITH UltimasMarcasTiempo AS (
-            SELECT
-                m.PROC,
-                MAX(m.FECH || COALESCE(m.HORA, '0000')) AS MaxMarcaTiempo
-            FROM MOVI m
-            WHERE TRIM(COALESCE(m.FECH, '')) <> ''
-              AND m.HECH = 'P'
-            GROUP BY m.PROC
-        ),
-        DetalleUltimoMovimiento AS (
-            SELECT
-                m.PROC,
-                COALESCE(m.DSCR, '') AS DSCR,
-                m.HECH,
-                CAST(
-                    SUBSTRING(m.FECH FROM 1 FOR 4) || '-' ||
-                    SUBSTRING(m.FECH FROM 5 FOR 2) || '-' ||
-                    SUBSTRING(m.FECH FROM 7 FOR 2)
-                    AS DATE
-                ) AS FechaReal
-            FROM MOVI m
-            INNER JOIN UltimasMarcasTiempo umt
-                ON umt.PROC = m.PROC
-               AND umt.MaxMarcaTiempo = (m.FECH || COALESCE(m.HORA, '0000'))
-            WHERE m.HECH = 'P'
-        ),
-        DatosCalculados AS (
-            SELECT
-                p.PROC AS IdExpediente,
-                COALESCE(p.ACTO, '') AS Acto,
-                COALESCE(p.DEMA, '') AS Dema,
-                dum.DSCR AS DescripcionUltimoEscrito,
-                dum.FechaReal AS FechaUltimoMovimiento,
-                DATEDIFF(DAY FROM dum.FechaReal TO CURRENT_DATE) AS DiasInactivo,
-                DATEDIFF(MONTH FROM dum.FechaReal TO CURRENT_DATE) AS MesesInactivo
-            FROM PROC p
-            INNER JOIN DetalleUltimoMovimiento dum
-                ON dum.PROC = p.PROC
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM MOVI ms
-                WHERE ms.PROC = p.PROC
-                  AND ms.HECH IN ('P', 'N')
-                  AND ms.DSCR CONTAINING 'SENTENCIA'
-            )
-        ),
-        DatosBase AS (
-            SELECT
-                dc.IdExpediente,
-                dc.Acto,
-                dc.Dema,
-                dc.DescripcionUltimoEscrito,
-                dc.FechaUltimoMovimiento,
-                dc.DiasInactivo,
-                dc.MesesInactivo,
-                CASE
-                    WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 'rojo'
-                    WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 'amarillo'
-                    ELSE 'verde'
-                END AS EstadoSemaforo,
-                CASE
-                    WHEN dc.DiasInactivo >= @DiasInicioRojo THEN CAST(@ColorRojo AS VARCHAR(20))
-                    WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN CAST(@ColorAmarillo AS VARCHAR(20))
-                    ELSE CAST(@ColorVerde AS VARCHAR(20))
-                END AS ColorSemaforo,
-                CASE
-                    WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 1
-                    WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 2
-                    ELSE 3
-                END AS PrioridadSemaforo
-            FROM DatosCalculados dc
-        )";
+WITH UltimasMarcasTiempo AS (
+    SELECT
+        m.PROC,
+        MAX(m.FECH || COALESCE(m.HORA, '0000')) AS MaxMarcaTiempo
+    FROM MOVI m
+    WHERE TRIM(COALESCE(m.FECH, '')) <> ''
+      AND m.HECH = 'P'
+    GROUP BY m.PROC
+),
+DetalleUltimoMovimiento AS (
+    SELECT
+        m.PROC,
+        COALESCE(m.DSCR, '') AS DSCR,
+        m.HECH,
+        CAST(
+            SUBSTRING(m.FECH FROM 1 FOR 4) || '-' ||
+            SUBSTRING(m.FECH FROM 5 FOR 2) || '-' ||
+            SUBSTRING(m.FECH FROM 7 FOR 2)
+            AS DATE
+        ) AS FechaReal
+    FROM MOVI m
+    INNER JOIN UltimasMarcasTiempo umt
+        ON umt.PROC = m.PROC
+       AND umt.MaxMarcaTiempo = (m.FECH || COALESCE(m.HORA, '0000'))
+    WHERE m.HECH = 'P'
+),
+DatosCalculados AS (
+    SELECT
+        p.PROC AS IdExpediente,
+        COALESCE(p.ACTO, '') AS Acto,
+        COALESCE(p.DEMA, '') AS Dema,
+        dum.DSCR AS DescripcionUltimoEscrito,
+        dum.FechaReal AS FechaUltimoMovimiento,
+        DATEDIFF(DAY FROM dum.FechaReal TO CURRENT_DATE) AS DiasInactivo,
+        DATEDIFF(MONTH FROM dum.FechaReal TO CURRENT_DATE) AS MesesInactivo
+    FROM PROC p
+    INNER JOIN DetalleUltimoMovimiento dum
+        ON dum.PROC = p.PROC
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM MOVI ms
+        WHERE ms.PROC = p.PROC
+          AND ms.HECH IN ('P', 'N')
+          AND ms.DSCR CONTAINING 'SENTENCIA'
+    )
+),
+DatosBase AS (
+    SELECT
+        dc.IdExpediente,
+        dc.Acto,
+        dc.Dema,
+        dc.DescripcionUltimoEscrito,
+        dc.FechaUltimoMovimiento,
+        dc.DiasInactivo,
+        dc.MesesInactivo,
+        CASE
+            WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 'rojo'
+            WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 'amarillo'
+            ELSE 'verde'
+        END AS EstadoSemaforo,
+        CASE
+            WHEN dc.DiasInactivo >= @DiasInicioRojo THEN CAST(@ColorRojo AS VARCHAR(20))
+            WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN CAST(@ColorAmarillo AS VARCHAR(20))
+            ELSE CAST(@ColorVerde AS VARCHAR(20))
+        END AS ColorSemaforo,
+        CASE
+            WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 1
+            WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 2
+            ELSE 3
+        END AS PrioridadSemaforo
+    FROM DatosCalculados dc
+)";
 
             var parameters = new DynamicParameters();
             parameters.Add("StartRow", startRow, DbType.Int32);
@@ -173,12 +176,12 @@ namespace LexDoctor.AlertasApi.Repositories
             if (!string.IsNullOrWhiteSpace(texto))
             {
                 where.Append(@"
-                AND (
-                       db.IdExpediente CONTAINING @Texto
-                    OR db.Acto CONTAINING @Texto
-                    OR db.Dema CONTAINING @Texto
-                    OR db.DescripcionUltimoEscrito CONTAINING @Texto
-                )");
+        AND (
+               db.IdExpediente CONTAINING @Texto
+            OR db.Acto CONTAINING @Texto
+            OR db.Dema CONTAINING @Texto
+            OR db.DescripcionUltimoEscrito CONTAINING @Texto
+        )");
                 parameters.Add("Texto", texto.Trim(), DbType.String);
             }
 
@@ -198,29 +201,36 @@ namespace LexDoctor.AlertasApi.Repositories
             }
 
             string sqlCount = cteBase + @"
-            SELECT COUNT(*)
-            FROM DatosBase db
-            " + where;
+    SELECT COUNT(*)
+    FROM DatosBase db
+    " + where;
 
             string sqlData = cteBase + @"
-            SELECT
-                db.IdExpediente,
-                db.Acto,
-                db.Dema,
-                db.DescripcionUltimoEscrito,
-                db.FechaUltimoMovimiento,
-                db.DiasInactivo,
-                db.MesesInactivo,
-                db.EstadoSemaforo,
-                db.ColorSemaforo,
-                db.PrioridadSemaforo
-            FROM DatosBase db
-            " + where + @"
-            ORDER BY
-                db.PrioridadSemaforo ASC,
-                db.DiasInactivo DESC,
-                db.FechaUltimoMovimiento ASC
-            ROWS @StartRow TO @EndRow;";
+    SELECT
+        db.IdExpediente,
+        db.Acto,
+        db.Dema,
+        db.DescripcionUltimoEscrito,
+        db.FechaUltimoMovimiento,
+        db.DiasInactivo,
+        db.MesesInactivo,
+        db.EstadoSemaforo,
+        db.ColorSemaforo,
+        db.PrioridadSemaforo
+    FROM DatosBase db
+    " + where + @"
+    ORDER BY
+        db.PrioridadSemaforo ASC,
+        db.DiasInactivo DESC,
+        db.FechaUltimoMovimiento ASC
+    ROWS @StartRow TO @EndRow;";
+
+            string sqlResumenGlobal = cteBase + @"
+    SELECT
+        COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'rojo' THEN 1 ELSE 0 END), 0) AS Rojos,
+        COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'amarillo' THEN 1 ELSE 0 END), 0) AS Amarillos,
+        COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'verde' THEN 1 ELSE 0 END), 0) AS Verdes
+    FROM DatosBase db;";
 
             await using var connection = new FbConnection(_connectionString);
 
@@ -231,17 +241,33 @@ namespace LexDoctor.AlertasApi.Repositories
                 var total = await connection.ExecuteScalarAsync<int>(sqlCount, parameters);
                 var datos = (await connection.QueryAsync<AlertaCaducidadDto>(sqlData, parameters)).ToList();
 
+                ResumenSemaforosDto resumenGlobal;
+
+                if (!_cache.TryGetValue(cacheKeyResumenGlobal, out resumenGlobal))
+                {
+                    resumenGlobal = await connection.QueryFirstOrDefaultAsync<ResumenSemaforosDto>(sqlResumenGlobal, parameters)
+                                    ?? new ResumenSemaforosDto();
+
+                    var proximaMedianocheResumen = new DateTimeOffset(DateTime.Today.AddDays(1));
+
+                    _cache.Set(cacheKeyResumenGlobal, resumenGlobal, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpiration = proximaMedianocheResumen
+                    });
+                }
+
                 var resultado = new ResultadoPaginado<AlertaCaducidadDto>
                 {
                     TotalRegistros = total,
-                    Datos = datos
+                    Datos = datos,
+                    ResumenSemaforos = resumenGlobal
                 };
+
+                var proximaMedianoche = new DateTimeOffset(DateTime.Today.AddDays(1));
 
                 _cache.Set(cacheKey, resultado, new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
-                    SlidingExpiration = TimeSpan.FromMinutes(2),
-                    Priority = CacheItemPriority.High
+                    AbsoluteExpiration = proximaMedianoche
                 });
 
                 return resultado;
@@ -255,7 +281,6 @@ namespace LexDoctor.AlertasApi.Repositories
                 throw new Exception($"Error inesperado en el repositorio de expedientes: {ex.Message}", ex);
             }
         }
-
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize)
         {
             int startRow = ((pageNumber - 1) * pageSize) + 1;
