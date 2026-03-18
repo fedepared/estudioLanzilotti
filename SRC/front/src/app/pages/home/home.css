@@ -1,0 +1,532 @@
+/* ============================================================
+   VARIABLES & BASE
+   ============================================================ */
+:host {
+  display: block;
+  font-family: 'EB Garamond', 'Georgia', serif;
+}
+
+.dashboard-root {
+  min-height: 100vh;
+  background: #f5f3ef;
+  background-image:
+    radial-gradient(ellipse at 80% 0%, rgba(180,160,120,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 90%, rgba(100,80,60,0.06) 0%, transparent 50%);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.dashboard-header {
+  background: #1a1612;
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #8b7355;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.firm-logo {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #8b7355 0%, #c9a96e 100%);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.firm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.firm-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e8dcc8;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.firm-subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  color: #8b7355;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header-right {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.header-stat {
+  text-align: center;
+  padding: 0.4rem 1rem;
+  border-left: 1px solid #2d2620;
+}
+
+.header-stat .stat-value {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e8dcc8;
+  line-height: 1;
+}
+
+.header-stat .stat-label {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  color: #8b7355;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.header-stat.critical .stat-value { color: #e05555; }
+.header-stat.warning .stat-value { color: #d4a017; }
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+.toolbar {
+  background: #ffffff;
+  padding: 0.9rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd5c4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.section-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1612;
+  letter-spacing: 0.02em;
+}
+
+.section-divider {
+  color: #c9a96e;
+  font-size: 1.1rem;
+}
+
+.section-date {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  color: #8b7355;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #8b7355;
+  font-size: 0.85rem;
+  z-index: 1;
+}
+
+.search-input {
+  padding-left: 2.2rem !important;
+  width: 320px;
+  font-family: 'Lato', sans-serif !important;
+  font-size: 0.82rem !important;
+  border: 1px solid #ddd5c4 !important;
+  border-radius: 3px !important;
+  background: #faf8f5 !important;
+  color: #1a1612 !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: #8b7355 !important;
+  box-shadow: 0 0 0 2px rgba(139,115,85,0.15) !important;
+}
+
+.search-input::placeholder {
+  color: #b8a89a !important;
+}
+
+/* ============================================================
+   LEGEND
+   ============================================================ */
+.legend-bar {
+  background: #faf8f5;
+  padding: 0.55rem 2.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  border-bottom: 1px solid #ede7db;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  color: #6b5e52;
+  letter-spacing: 0.02em;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.red    { background: #e05555; box-shadow: 0 0 4px rgba(224,85,85,0.4); }
+.legend-dot.yellow { background: #d4a017; box-shadow: 0 0 4px rgba(212,160,23,0.4); }
+.legend-dot.green  { background: #4caf7d; box-shadow: 0 0 4px rgba(76,175,125,0.4); }
+
+/* ============================================================
+   TABLE WRAPPER
+   ============================================================ */
+.table-wrapper {
+  padding: 1.5rem 2.5rem 3rem;
+}
+
+/* ============================================================
+   TABLE OVERRIDES (PrimeNG)
+   ============================================================ */
+::ng-deep .expedientes-table {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(26,22,18,0.08), 0 1px 4px rgba(26,22,18,0.05);
+  border: 1px solid #ddd5c4;
+  font-family: 'Lato', sans-serif;
+}
+
+::ng-deep .expedientes-table .p-datatable-thead > tr > th {
+  background: #1a1612 !important;
+  color: #c9a96e !important;
+  font-family: 'Lato', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 0.85rem 1rem !important;
+  border: none !important;
+  border-right: 1px solid #2d2620 !important;
+  white-space: nowrap;
+}
+
+::ng-deep .expedientes-table .p-datatable-thead > tr > th:last-child {
+  border-right: none !important;
+}
+
+::ng-deep .expedientes-table .p-sortable-column:hover {
+  background: #261f19 !important;
+  color: #e8dcc8 !important;
+}
+
+::ng-deep .expedientes-table .p-sortable-column.p-highlight {
+  background: #2d2620 !important;
+  color: #e8dcc8 !important;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid #ede7db !important;
+  border-right: none !important;
+  font-size: 0.83rem;
+  vertical-align: middle;
+}
+
+/* ROW COLORS */
+::ng-deep .expedientes-table .p-datatable-tbody > tr {
+  background: #ffffff;
+  transition: filter 0.15s;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr:hover {
+  filter: brightness(0.97);
+  cursor: default;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr.row-red {
+  background: #fff5f5 !important;
+  border-left: 3px solid #e05555;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr.row-red:hover {
+  background: #ffeeee !important;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr.row-yellow {
+  background: #fffcf0 !important;
+  border-left: 3px solid #d4a017;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr.row-yellow:hover {
+  background: #fff8e0 !important;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody > tr.row-green {
+  background: #f5fbf8 !important;
+  border-left: 3px solid #4caf7d;
+}
+
+/* PAGINATOR */
+::ng-deep .expedientes-table .p-paginator {
+  background: #f5f3ef !important;
+  border-top: 1px solid #ddd5c4 !important;
+  padding: 0.6rem 1rem !important;
+  font-family: 'Lato', sans-serif !important;
+  font-size: 0.78rem !important;
+}
+
+::ng-deep .expedientes-table .p-paginator .p-paginator-current {
+  color: #6b5e52 !important;
+  font-size: 0.75rem !important;
+}
+
+::ng-deep .expedientes-table .p-paginator .p-paginator-page.p-highlight {
+  background: #1a1612 !important;
+  color: #c9a96e !important;
+  border-radius: 3px !important;
+}
+
+/* ============================================================
+   COLUMNS
+   ============================================================ */
+.col-semaforo { width: 130px; }
+.col-id       { width: 140px; }
+.col-acto     { width: 160px; }
+.col-dema     { width: 200px; }
+.col-descripcion { min-width: 220px; }
+.col-fecha    { width: 140px; }
+.col-inactividad { width: 120px; }
+.col-acciones { width: 90px; }
+
+/* ============================================================
+   CELL COMPONENTS
+   ============================================================ */
+
+/* Semáforo */
+.semaforo-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.semaforo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 5px currentColor;
+}
+
+.semaforo-dot.semaforo-red    { background: #e05555; color: #e05555; }
+.semaforo-dot.semaforo-yellow { background: #d4a017; color: #d4a017; }
+.semaforo-dot.semaforo-green  { background: #4caf7d; color: #4caf7d; }
+
+.semaforo-label {
+  font-size: 0.78rem;
+  color: #4a3f35;
+  font-style: italic;
+}
+
+/* ID */
+.expediente-id {
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1a1612;
+  letter-spacing: 0.04em;
+}
+
+/* Acto */
+.acto-badge {
+  display: inline-block;
+  background: #f0ebe2;
+  color: #4a3f35;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+  border: 1px solid #ddd5c4;
+}
+
+/* Demandado */
+.dema-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dema-initials {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #1a1612;
+  color: #c9a96e;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.dema-name {
+  font-size: 0.83rem;
+  color: #1a1612;
+  font-weight: 500;
+}
+
+/* Descripción */
+.descripcion-text {
+  font-size: 0.8rem;
+  color: #5a5048;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+  cursor: help;
+}
+
+/* Fecha */
+.fecha-text {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.8rem;
+  color: #4a3f35;
+  white-space: nowrap;
+}
+
+/* Inactividad */
+.inactividad-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.dias-badge {
+  display: inline-block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  width: fit-content;
+}
+
+.dias-badge.dias-red    { background: #fde8e8; color: #c0392b; border: 1px solid #f5c6c6; }
+.dias-badge.dias-yellow { background: #fef9e7; color: #a07800; border: 1px solid #f5e79e; }
+.dias-badge.dias-green  { background: #eafaf1; color: #1e8449; border: 1px solid #b7e8cc; }
+
+.meses-text {
+  font-size: 0.68rem;
+  color: #8b7355;
+  font-style: italic;
+}
+
+/* Acciones */
+.acciones-cell {
+  display: flex;
+  gap: 0.1rem;
+  justify-content: center;
+}
+
+::ng-deep .acciones-cell .p-button {
+  color: #8b7355 !important;
+  transition: color 0.15s, background 0.15s;
+}
+
+::ng-deep .acciones-cell .p-button:hover {
+  color: #1a1612 !important;
+  background: rgba(139,115,85,0.1) !important;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  padding: 4rem 2rem !important;
+  text-align: center;
+  border: none !important;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  color: #c9b8a2;
+}
+
+.empty-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.15rem;
+  color: #1a1612;
+  margin: 0;
+  font-weight: 600;
+}
+
+.empty-subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.82rem;
+  color: #8b7355;
+  margin: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .table-wrapper { padding: 1rem; }
+  .toolbar { padding: 0.75rem 1rem; }
+  .legend-bar { padding: 0.5rem 1rem; flex-wrap: wrap; gap: 0.75rem; }
+  .dashboard-header { padding: 1rem; }
+  .search-input { width: 220px; }
+  .col-descripcion { display: none; }
+}
