@@ -1,0 +1,905 @@
+{
+  "datos": [
+    {
+      "idExpediente": "1P8PW3vdnx",
+      "acto": "ARAYA CARLOS SANTIAGO",
+      "dema": "MAPFRE ARGENTINA  ART SA",
+      "descripcionUltimoEscrito": "RESORTEO URGENTE C/ provincia el 4/4/16 /// prescribe: 30/4/16",
+      "fechaUltimoMovimiento": "2016-01-22T00:00:00",
+      "diasInactivo": 3707,
+      "mesesInactivo": 122
+    },
+    {
+      "idExpediente": "1P8PW24DVs",
+      "acto": "TRABA MARCELO ALFREDO",
+      "dema": "LA CAJA ART SA",
+      "descripcionUltimoEscrito": "NO NEGOCIAR ES DE LA CUEVA",
+      "fechaUltimoMovimiento": "2016-02-02T00:00:00",
+      "diasInactivo": 3696,
+      "mesesInactivo": 121
+    },
+    {
+      "idExpediente": "1P8PW4sRqM",
+      "acto": "ALFARO JUAN FRANCISCO",
+      "dema": "ASOCIART S.A. A.R.T.",
+      "descripcionUltimoEscrito": "NO LO ENCUENTRO",
+      "fechaUltimoMovimiento": "2016-02-11T00:00:00",
+      "diasInactivo": 3687,
+      "mesesInactivo": 121
+    },
+    {
+      "idExpediente": "1P8PW0u2hs",
+      "acto": "CELLIO GABRIELA GISELE",
+      "dema": "SWISS MEDICAL ART SA",
+      "descripcionUltimoEscrito": "PASE NUMERO DE EXP ( IVAN)",
+      "fechaUltimoMovimiento": "2016-02-11T00:00:00",
+      "diasInactivo": 3687,
+      "mesesInactivo": 121
+    },
+    {
+      "idExpediente": "1P8PW16Xyf",
+      "acto": "CUENCA MATIAS ANTONIO",
+      "dema": "EXPERTA ART SA",
+      "descripcionUltimoEscrito": "Necesitamos testigos, la ART le rechazo el accidente in itinere en tiempo y forma!!",
+      "fechaUltimoMovimiento": "2016-02-17T00:00:00",
+      "diasInactivo": 3681,
+      "mesesInactivo": 121
+    },
+    {
+      "idExpediente": "1P8PW2wCjh",
+      "acto": "ECHEVARRIA NORMA NOEMI",
+      "dema": "SWISS MEDICAL ART SA",
+      "descripcionUltimoEscrito": "revoco poder",
+      "fechaUltimoMovimiento": "2016-03-01T00:00:00",
+      "diasInactivo": 3668,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW15&if",
+      "acto": "LUNA ESTEBAN ARTURO",
+      "dema": "PREVENCION ART SA",
+      "descripcionUltimoEscrito": "15-67076250 sra romina",
+      "fechaUltimoMovimiento": "2016-03-02T00:00:00",
+      "diasInactivo": 3667,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW3MT&h",
+      "acto": "JUAREZ GABRIEL ANIBAL",
+      "dema": "CONSOLIDAR ASEGURADORA DE RIESGOS DEL TRABAJO  S.A.",
+      "descripcionUltimoEscrito": "20683521",
+      "fechaUltimoMovimiento": "2016-03-03T00:00:00",
+      "diasInactivo": 3666,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW5BeV3",
+      "acto": "ROBLES JONATHAN EZEQUIEL",
+      "dema": "QBE ARGENTINA  ART SA",
+      "descripcionUltimoEscrito": "Celular: 113196-3580",
+      "fechaUltimoMovimiento": "2016-03-15T00:00:00",
+      "diasInactivo": 3654,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW21rvi",
+      "acto": "ACUÑA JIMENEZ NESTOR DANIEL",
+      "dema": "LIBERTY",
+      "descripcionUltimoEscrito": "ojo, PMO dice \"el T puso en evidencia una patología que se hallaba oculta en el actor, (4%) psico (10) todo del T CC",
+      "fechaUltimoMovimiento": "2016-03-16T00:00:00",
+      "diasInactivo": 3653,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW3o@y2",
+      "acto": "BENITEZ JUAN LEONARDO",
+      "dema": "FEDERACION PATRONAL SEGUROS S.A.",
+      "descripcionUltimoEscrito": "TIENE QUE TRAER ESTUDIOS DE  OIDO, HEMORR Y VARICES PARA INICIAR, sabe por la Sra",
+      "fechaUltimoMovimiento": "2016-03-18T00:00:00",
+      "diasInactivo": 3651,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW0oOrC",
+      "acto": "ALVAREZ ARIEL ALEJANDRO",
+      "dema": "PREVENCION ART SA",
+      "descripcionUltimoEscrito": "VIVE EN COMODORO RIVADAVIA",
+      "fechaUltimoMovimiento": "2016-03-22T00:00:00",
+      "diasInactivo": 3647,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW0tUmN",
+      "acto": "FORESTALE FRANCISCO",
+      "dema": "ART INTERACCION SA",
+      "descripcionUltimoEscrito": "se va a vivir a Cordoba",
+      "fechaUltimoMovimiento": "2016-03-28T00:00:00",
+      "diasInactivo": 3641,
+      "mesesInactivo": 120
+    },
+    {
+      "idExpediente": "1P8PW0nRSO",
+      "acto": "ORTIZ NICOLAS EDUARDO",
+      "dema": "PROVINCIA ART S.A.",
+      "descripcionUltimoEscrito": "le digo que la art va a impugnar",
+      "fechaUltimoMovimiento": "2016-04-07T00:00:00",
+      "diasInactivo": 3631,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW4zc6c",
+      "acto": "PUEBLA JONATAN ALEJANDRO",
+      "dema": "LA SEGUNDA ART S.A.",
+      "descripcionUltimoEscrito": "MANDO CARTA PARA UBICARLO, LAU",
+      "fechaUltimoMovimiento": "2016-04-11T00:00:00",
+      "diasInactivo": 3627,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW1O66K",
+      "acto": "JIMENEZ ANSELMO RENE",
+      "dema": "ASOCIART S.A. ASEGURADORA DE RIESGOS DEL TRABAJO",
+      "descripcionUltimoEscrito": "1526802118",
+      "fechaUltimoMovimiento": "2016-04-11T00:00:00",
+      "diasInactivo": 3627,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW2HuNH",
+      "acto": "ROJAS MANUEL ALEJANDRO",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "0237-4817980 llamar ahi, dejar dicho",
+      "fechaUltimoMovimiento": "2016-04-12T00:00:00",
+      "diasInactivo": 3626,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW58NTY",
+      "acto": "OCAMPO HERNAN MARCELO",
+      "dema": "QBE ARGENTINA ART SA",
+      "descripcionUltimoEscrito": "LE DIGE QUE PASO A CAMARA, LAU ( por suete no pregunto por que )",
+      "fechaUltimoMovimiento": "2016-04-13T00:00:00",
+      "diasInactivo": 3625,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW5jmH3",
+      "acto": "ROJAS ESTANISLAO",
+      "dema": "QBE ART SA",
+      "descripcionUltimoEscrito": "LO ESTOY BUSCANDO",
+      "fechaUltimoMovimiento": "2016-04-14T00:00:00",
+      "diasInactivo": 3624,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW5G9aT",
+      "acto": "ZAMBRANO DEBORA VICTORIA",
+      "dema": "LA HOLANDO SUDAMERICANA CIA. DE SEGUROS SA",
+      "descripcionUltimoEscrito": "1523514359",
+      "fechaUltimoMovimiento": "2016-04-14T00:00:00",
+      "diasInactivo": 3624,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW5O2l3",
+      "acto": "RODRIGUEZ DANIEL CESAR",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "psico con la hija del perito. LO HACE Y SE LO DA  A SU PAPAL",
+      "fechaUltimoMovimiento": "2016-04-26T00:00:00",
+      "diasInactivo": 3612,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW0Puhk",
+      "acto": "PEREZ HECTOR LUIS",
+      "dema": "GALENO  A.R.T. S.A.",
+      "descripcionUltimoEscrito": "parece que hay 3 testigos y falta que se provea esa prueba",
+      "fechaUltimoMovimiento": "2016-04-26T00:00:00",
+      "diasInactivo": 3612,
+      "mesesInactivo": 119
+    },
+    {
+      "idExpediente": "1P8PW1aXjA",
+      "acto": "MANAGO ANDRES ANIBAL",
+      "dema": "LIBERTY A.R.T. S.A.",
+      "descripcionUltimoEscrito": "SABE DE LA  AUDIENCIA DE TESTIGOS, RECORDARSELAS MAS CERCANA LA FECHA.",
+      "fechaUltimoMovimiento": "2016-05-09T00:00:00",
+      "diasInactivo": 3599,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW3PYsg",
+      "acto": "TORRES AGRIPINO",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "PM 09/08/2016 a las 19:00 horas NOTIFICADO EN DOMICILIO AL ACTOR, LE DIGO QUE NO VAYA HASTA QUE LE CONFIRMEMOS, LAU",
+      "fechaUltimoMovimiento": "2016-05-12T00:00:00",
+      "diasInactivo": 3596,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW5WYd3",
+      "acto": "BASUALDO EDUARDO MARTIN",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "tiene que hacer nuevo poder ( DIRECC ART ESTA MAL Y DNI CTOR )",
+      "fechaUltimoMovimiento": "2016-05-13T00:00:00",
+      "diasInactivo": 3595,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW4xOJf",
+      "acto": "GENTILE LEONARDO HECTOR",
+      "dema": "GALENO  ART S.A.",
+      "descripcionUltimoEscrito": "DARLE DEMANDA  CON TARJETA DEL ESTUDIO. DECIRLE DONDE TIENE QUE IR Y QUE LLAME A FER O A IVAN. ES PSICO",
+      "fechaUltimoMovimiento": "2016-05-13T00:00:00",
+      "diasInactivo": 3595,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW4hF8P",
+      "acto": "IANNANTUONO DANIEL ALEJANDRO",
+      "dema": "LA CAJA  ART SA",
+      "descripcionUltimoEscrito": "ES DE CHARCAS NO NEGOCIAR",
+      "fechaUltimoMovimiento": "2016-05-25T00:00:00",
+      "diasInactivo": 3583,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW075Yb",
+      "acto": "CORDOBA RUBEN OSVALDO",
+      "dema": "FEDERACION PATRONAL SEGUROS S.A.",
+      "descripcionUltimoEscrito": "no fue a la pericia, salio de la casa y nunca llego, desaparecio, perito al tanto",
+      "fechaUltimoMovimiento": "2016-05-27T00:00:00",
+      "diasInactivo": 3581,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW1rDMa",
+      "acto": "CORTEZ GLADYS ESTHER",
+      "dema": "SWISS MEDICAL ART SA",
+      "descripcionUltimoEscrito": "1534495030",
+      "fechaUltimoMovimiento": "2016-05-30T00:00:00",
+      "diasInactivo": 3578,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW1@yBY",
+      "acto": "ROTUNDO VICTOR HUGO",
+      "dema": "CONSOLIDAR ART S.A.",
+      "descripcionUltimoEscrito": "lo estamos intebntando ubicar, hay ordenes para que retire",
+      "fechaUltimoMovimiento": "2016-05-30T00:00:00",
+      "diasInactivo": 3578,
+      "mesesInactivo": 118
+    },
+    {
+      "idExpediente": "1P8PW45dHB",
+      "acto": "GIOVANNINI RITA ALEJANDRA",
+      "dema": "ASOCIART SA  ART",
+      "descripcionUltimoEscrito": "1556468294",
+      "fechaUltimoMovimiento": "2016-06-01T00:00:00",
+      "diasInactivo": 3576,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW2JUku",
+      "acto": "FINOCCHIETTI GABRIEL CARLOS",
+      "dema": "PROVINCIA  ART SA",
+      "descripcionUltimoEscrito": "SORTEO SECLO CONTRA SWISS 15/6/16",
+      "fechaUltimoMovimiento": "2016-06-01T00:00:00",
+      "diasInactivo": 3576,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW2hIUm",
+      "acto": "OJEDA CLAUDIO MARCELO",
+      "dema": "ASEGURADORA DE RIESGOS DEL TRABAJO INTERACCION S.A.",
+      "descripcionUltimoEscrito": "avisar a lean cuando cobra para pedir intereses",
+      "fechaUltimoMovimiento": "2016-06-02T00:00:00",
+      "diasInactivo": 3575,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW4aEA1",
+      "acto": "GARCIA DAMIAN  ALBERTO",
+      "dema": "FEDERACION PATRONAL SEGUROS SA",
+      "descripcionUltimoEscrito": "CASO SOLO PSICOLOGICO PERICIA 28% CON RELACION AL ACC",
+      "fechaUltimoMovimiento": "2016-06-03T00:00:00",
+      "diasInactivo": 3574,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW4X@Y2",
+      "acto": "FERNANDEZ RODRIGO GABRIEL",
+      "dema": "PROVINCIA  ART SA",
+      "descripcionUltimoEscrito": "IBM ES MAYOR... ACTOR TRAE RECIBOS",
+      "fechaUltimoMovimiento": "2016-06-06T00:00:00",
+      "diasInactivo": 3571,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW0xYjt",
+      "acto": "MARIN ALEJANDRO DAVID",
+      "dema": "PREVENCION ASEGURADORA DE RIESGOS DEL TRABAJO S.A.",
+      "descripcionUltimoEscrito": "hablado el tema de honorarios mas estudios",
+      "fechaUltimoMovimiento": "2016-06-07T00:00:00",
+      "diasInactivo": 3570,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW3laP1",
+      "acto": "AGUIRRE JORGE EDUARDO",
+      "dema": "MAPFRE ARGENTINA  ART S.A.",
+      "descripcionUltimoEscrito": "AVISARLE AL DR KVITKO CUANDO HAYA SALDO SI O SI",
+      "fechaUltimoMovimiento": "2016-06-08T00:00:00",
+      "diasInactivo": 3569,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW0uEfg",
+      "acto": "CARTAVIO MIGUEL ALEJANDRO",
+      "dema": "PROVINCIA ART SA",
+      "descripcionUltimoEscrito": "1534668943( LLAMAR SINO MANDAR MSJ DE TEXTO)",
+      "fechaUltimoMovimiento": "2016-06-08T00:00:00",
+      "diasInactivo": 3569,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW2cuwK",
+      "acto": "CABRAL JUAN BAUTISTA",
+      "dema": "FEDERACION PATRONAL SEGUROS S.A.",
+      "descripcionUltimoEscrito": "perito 1562566526",
+      "fechaUltimoMovimiento": "2016-06-10T00:00:00",
+      "diasInactivo": 3567,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW2&Krv",
+      "acto": "MANSILLA HECTOR VICENTE",
+      "dema": "LA CAJA ART SA",
+      "descripcionUltimoEscrito": "ESTA EMBARCADO VUELVE EL 19/6/16,   0297155144133 Recibe mens de texto",
+      "fechaUltimoMovimiento": "2016-06-13T00:00:00",
+      "diasInactivo": 3564,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW0bexH",
+      "acto": "AGUIRRE SERGIO ALBERTO ANTONIO",
+      "dema": "PROVINCIA  ART SA",
+      "descripcionUltimoEscrito": "1124958606 ( estela madre ) llamar a este numero,el suyo no lo tiene mas",
+      "fechaUltimoMovimiento": "2016-06-21T00:00:00",
+      "diasInactivo": 3556,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW2LvqI",
+      "acto": "RIVAS BRACAMONTE EDUARDO",
+      "dema": "EQUIPOS & SERVICIOS PARA CORRUGADO S.R.L. Y OTRO",
+      "descripcionUltimoEscrito": "49186459",
+      "fechaUltimoMovimiento": "2016-06-23T00:00:00",
+      "diasInactivo": 3554,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW1YCDX",
+      "acto": "LUDUEÑA HECTOR ANIBAL",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "21/12/15 Previo a todo trámite, intimase a la demandada ,  acompañe  a autos las  STRUMENTALES\r\nHISTORIAL DE CONTRATOS",
+      "fechaUltimoMovimiento": "2016-06-23T00:00:00",
+      "diasInactivo": 3554,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW1W3lI",
+      "acto": "FACAL JULIO CESAR",
+      "dema": "FEDERACION PATRONAL SEGUROS SA",
+      "descripcionUltimoEscrito": "perito conocida de fer, no tiene mucho sentido negociarlo antes",
+      "fechaUltimoMovimiento": "2016-06-23T00:00:00",
+      "diasInactivo": 3554,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW1Owxl",
+      "acto": "SANCHEZ NORMA NOEMI",
+      "dema": "QBE ARGENTINA  ART SA",
+      "descripcionUltimoEscrito": "IGUALMENTE TRATAR DE NEGOCIARLO",
+      "fechaUltimoMovimiento": "2016-06-23T00:00:00",
+      "diasInactivo": 3554,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW0oYtT",
+      "acto": "BENITEZ MARIA LAURA",
+      "dema": "LA CAJA  ART SA",
+      "descripcionUltimoEscrito": "Reconocen el IBM denunciado",
+      "fechaUltimoMovimiento": "2016-06-23T00:00:00",
+      "diasInactivo": 3554,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW5el1a",
+      "acto": "TIZZANO NORA CECILIA",
+      "dema": " ",
+      "descripcionUltimoEscrito": "TIENE QUE VENIR A HABLAR CON CHRIS O IVAN, VIQUI SE CANSO DE LLAMARLA PARA QUE VEA A FER NUNCA CONTESTO",
+      "fechaUltimoMovimiento": "2016-06-27T00:00:00",
+      "diasInactivo": 3550,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW5l766",
+      "acto": "CENTURION MORENO NANCY FLORENTINA",
+      "dema": "PREVENCION ART SA",
+      "descripcionUltimoEscrito": "OFICIO A SRT, NO RECONOCEN LA PATOLOGIA LUMBAR DEL ACCIDENTE.",
+      "fechaUltimoMovimiento": "2016-06-27T00:00:00",
+      "diasInactivo": 3550,
+      "mesesInactivo": 117
+    },
+    {
+      "idExpediente": "1P8PW0igSK",
+      "acto": "BELLONI ARIEL EDUARDO",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "el actor dice que lo cerraria en OCHENTA Y PICO LIMPIOS PARA EL( IVAN)",
+      "fechaUltimoMovimiento": "2016-07-05T00:00:00",
+      "diasInactivo": 3542,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW20ebh",
+      "acto": "KATIB DAVID OSCAR",
+      "dema": "PREVENCION ART  SA",
+      "descripcionUltimoEscrito": "es la otra causa CC",
+      "fechaUltimoMovimiento": "2016-07-06T00:00:00",
+      "diasInactivo": 3541,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW3Sru6",
+      "acto": "VILABRILLE VANINA FLAVIA ELIZABETH",
+      "dema": "OMINT  ART SA",
+      "descripcionUltimoEscrito": "seguimos por cervical y lumbar, cobro por otra cosa. falta sorteo de seclo",
+      "fechaUltimoMovimiento": "2016-07-15T00:00:00",
+      "diasInactivo": 3532,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW0ol62",
+      "acto": "BRIZZI ROBERTO ORESTE",
+      "dema": "FEDERACION PATRONAL SEGUROS S.A.",
+      "descripcionUltimoEscrito": "viene a buscar los estudios antes, se los lleva a la perito y los tiene que traer , van al expediente a pedido del juzga",
+      "fechaUltimoMovimiento": "2016-07-21T00:00:00",
+      "diasInactivo": 3526,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW0pT9c",
+      "acto": "CORDOBA RODOLFO GUILLERMO",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "1536401879",
+      "fechaUltimoMovimiento": "2016-07-27T00:00:00",
+      "diasInactivo": 3520,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW49V1g",
+      "acto": "PEREZ MARTINEZ ANICIO RAMON",
+      "dema": "EXPERTA  ASEGURADORA DE RIESGOS DEL TRABAJO SA",
+      "descripcionUltimoEscrito": "le dejo un email a APRILE para que se comunique con el actor para pedir testigos, Lau",
+      "fechaUltimoMovimiento": "2016-07-28T00:00:00",
+      "diasInactivo": 3519,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW1X8QZ",
+      "acto": "ARGENTA ESTELA  ALEJANDRA",
+      "dema": "PREVENCION ART  SA",
+      "descripcionUltimoEscrito": "RESORTEO CONC SE EXCUSO",
+      "fechaUltimoMovimiento": "2016-07-28T00:00:00",
+      "diasInactivo": 3519,
+      "mesesInactivo": 116
+    },
+    {
+      "idExpediente": "1P8PW2A&Og",
+      "acto": "BOYER HORACIO GUSTAVO ADRIAN",
+      "dema": "ASEGURADORA DE RIESGOS DE TRABAJO INTERACCION S.A.",
+      "descripcionUltimoEscrito": "TIENE QUE HACER NUEVO PODER,, TIENE DEL 2013 NO SIRVE",
+      "fechaUltimoMovimiento": "2016-08-02T00:00:00",
+      "diasInactivo": 3514,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW1Mkue",
+      "acto": "FERREYRA JULIO CESAR C BERKLEY INTERNTIONAL ART SA",
+      "dema": " ",
+      "descripcionUltimoEscrito": "TIENE QUE PASAR TESTIGOS, INUBICABLE.  LE DIGO A SIRACUSANO LAU",
+      "fechaUltimoMovimiento": "2016-08-02T00:00:00",
+      "diasInactivo": 3514,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW5N7En",
+      "acto": "FURIO LUIS VICTOR",
+      "dema": "SWISS MEDICAL S.A.",
+      "descripcionUltimoEscrito": "CERVICAL NO PEDIMOS EN  LIQUIDACION EN LA DEMANDA, SI EN HECHOS",
+      "fechaUltimoMovimiento": "2016-08-04T00:00:00",
+      "diasInactivo": 3512,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW17uUY",
+      "acto": "BURGOS WALTER FEDERICO",
+      "dema": "COMPAÑIA ARGENTINA DE SEGUROS VICTORIA S.A.",
+      "descripcionUltimoEscrito": "OJO QUE EL JUZGADO NO QUERIA RECONOCER LOS FACTORES DE PONDERACION QUE DAN 5,5 O SEA INCAPACIDAD TOTAL 30,5",
+      "fechaUltimoMovimiento": "2016-08-09T00:00:00",
+      "diasInactivo": 3507,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW2zwwL",
+      "acto": "BATALLA ORLANDO GERMAN",
+      "dema": "EDITORIAL DISTAL S.A.",
+      "descripcionUltimoEscrito": "actor sabe. es solo uno nuestro, los demas no fueron( cedula la hace el juzgado)",
+      "fechaUltimoMovimiento": "2016-08-11T00:00:00",
+      "diasInactivo": 3505,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW0&FBa",
+      "acto": "PEIANOVICH NICOLAS",
+      "dema": "LA CAJA  ART SA",
+      "descripcionUltimoEscrito": "ES AMIGO MIO( IVAN)",
+      "fechaUltimoMovimiento": "2016-08-11T00:00:00",
+      "diasInactivo": 3505,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW4c65y",
+      "acto": "GAUTO HECTOR DAMIAN",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "RESORTEO: 1º aud seclo 6/9/16 17hs Parana 736 2 1 conc Ortega  4814-3310",
+      "fechaUltimoMovimiento": "2016-08-12T00:00:00",
+      "diasInactivo": 3504,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW52NhB",
+      "acto": "CAÑETE LUIS",
+      "dema": "PROVINCIA ART SA",
+      "descripcionUltimoEscrito": "NO LO UBICO",
+      "fechaUltimoMovimiento": "2016-08-18T00:00:00",
+      "diasInactivo": 3498,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW35GA0",
+      "acto": "MENDIETA DARIO OMAR",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "PEDIR MAS TESTIGOS. SOLO OFRECIO 2",
+      "fechaUltimoMovimiento": "2016-08-19T00:00:00",
+      "diasInactivo": 3497,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW03kYj",
+      "acto": "QUISPE CHOQUE JULIETA",
+      "dema": "LA CAJA  ASEGURADORA DE RIESGOS DEL TRABAJO ART SA",
+      "descripcionUltimoEscrito": "PONER ESTUDIOS EN JUZGADO QUE NOS ESTAN CORRIENDO",
+      "fechaUltimoMovimiento": "2016-08-22T00:00:00",
+      "diasInactivo": 3494,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW2e1CI",
+      "acto": "JARA JULIAN",
+      "dema": "LA CAJA  ART S.A.",
+      "descripcionUltimoEscrito": "Se presentó el acuerdo y esperamos directamente la homologación, el 70 no pide en ppio ratificacion CC",
+      "fechaUltimoMovimiento": "2016-08-30T00:00:00",
+      "diasInactivo": 3486,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW4WXi&",
+      "acto": "ROMERO AMBROSIO ANGEL",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "actor le conto a Dubier del acuerdo, hay que darle algo",
+      "fechaUltimoMovimiento": "2016-08-31T00:00:00",
+      "diasInactivo": 3485,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW1mGsE",
+      "acto": "CORO MARVIN EDSON",
+      "dema": "QBE ARGENTINA  A.R.T. S.A.",
+      "descripcionUltimoEscrito": "avisarle al dr perez davila si apelamos o no",
+      "fechaUltimoMovimiento": "2016-08-31T00:00:00",
+      "diasInactivo": 3485,
+      "mesesInactivo": 115
+    },
+    {
+      "idExpediente": "1P8PW3Dl6M",
+      "acto": "REYES CARINA BEATRIZ",
+      "dema": "ASOCIART SA  ART",
+      "descripcionUltimoEscrito": "no me contestta llamados. deje msj. si llama pasarle audiencias de testigos y avisarle a vic o ivan",
+      "fechaUltimoMovimiento": "2016-09-02T00:00:00",
+      "diasInactivo": 3483,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW5nVge",
+      "acto": "GARCIA JUAN RAMON",
+      "dema": "GALENO ASEGURADORA DE RIESGOS DEL TRABAJO S.A.",
+      "descripcionUltimoEscrito": "AUDIENCIA 07/12 A LAS 11 HS. sabe. RECORDARLE MAS ADELANTE DE LA AUDIENCIA POR LAS DUDAS",
+      "fechaUltimoMovimiento": "2016-09-06T00:00:00",
+      "diasInactivo": 3479,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW3qs1P",
+      "acto": "HEREDIA ANGEL EDUARDO",
+      "dema": "ART INTERACCION SA",
+      "descripcionUltimoEscrito": "5.3  CONTESTA TRASLADO. PETICIONA......ADJUNTO REVOCA PODER",
+      "fechaUltimoMovimiento": "2016-09-07T00:00:00",
+      "diasInactivo": 3478,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW3acZy",
+      "acto": "ESPINOZA CARDENAS ADRIAN EZEQUIEL",
+      "dema": "LA CAJA ART SA",
+      "descripcionUltimoEscrito": "AVISAR A IVAN CUANDO HAYA SALDO, LO PIDE LA PERITO",
+      "fechaUltimoMovimiento": "2016-09-07T00:00:00",
+      "diasInactivo": 3478,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW5LPow",
+      "acto": "FUENTES AVILA JAIME",
+      "dema": "QBE ARGENTINA  ART SA",
+      "descripcionUltimoEscrito": "No contesta ninguno de los dos telefonos para corroborar datos. Nahir",
+      "fechaUltimoMovimiento": "2016-09-09T00:00:00",
+      "diasInactivo": 3476,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW2LjV7",
+      "acto": "IGARZA ROBERTO CARLOS",
+      "dema": "PREVENCION ART SA",
+      "descripcionUltimoEscrito": "NO PASA TESTIGOS. OFICIO AFIP, AMPLI PCIA. CONTABLE E INFORMATIVA EN SUBSIDIO A EMPLEADORA.",
+      "fechaUltimoMovimiento": "2016-09-19T00:00:00",
+      "diasInactivo": 3466,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW1wQ2W",
+      "acto": "BARRETO MARCELO GABRIEL",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "CONTROLAR HASTA 24 DE NOV, AVISAR A CHARCAS QUE PRESENTEN PERICIA",
+      "fechaUltimoMovimiento": "2016-09-19T00:00:00",
+      "diasInactivo": 3466,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW20KYI",
+      "acto": "HUCK ROBERTO ABELARDO",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "PERICIA FISICA  16,5 CON RELACION",
+      "fechaUltimoMovimiento": "2016-09-20T00:00:00",
+      "diasInactivo": 3465,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW0y5KZ",
+      "acto": "CURE JORGE ALBERTO",
+      "dema": "PROVINCIA  ART SA",
+      "descripcionUltimoEscrito": "Al contestar traslado x testigos, pedir PM como de previo, a ver si así lo puede pasar a  la esposa CC",
+      "fechaUltimoMovimiento": "2016-09-26T00:00:00",
+      "diasInactivo": 3459,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW1vu9z",
+      "acto": "HERRERA JUAN CARLOS",
+      "dema": "QBE ARGENTINA ART SA",
+      "descripcionUltimoEscrito": "15-53895162",
+      "fechaUltimoMovimiento": "2016-09-29T00:00:00",
+      "diasInactivo": 3456,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW0ubQl",
+      "acto": "FIGUEREDO JOSE LUIS",
+      "dema": "GALENO ART SA",
+      "descripcionUltimoEscrito": "se quedo con la otra abogada porque acumularon los juicios.",
+      "fechaUltimoMovimiento": "2016-09-29T00:00:00",
+      "diasInactivo": 3456,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW0mxB4",
+      "acto": "MAIOLO JORGE",
+      "dema": "EXPERTA  ART SA",
+      "descripcionUltimoEscrito": "1º aud de seclo con EXPERTA 25/10/16 9hs R. Peña 431 pb N conc Torre Nelida 4371-5009",
+      "fechaUltimoMovimiento": "2016-09-30T00:00:00",
+      "diasInactivo": 3455,
+      "mesesInactivo": 114
+    },
+    {
+      "idExpediente": "1P8PW4swWn",
+      "acto": "ZUMBO DIEGO EDUARDO",
+      "dema": "FEDERACION PATRONAL SEGUROS S.A.",
+      "descripcionUltimoEscrito": "sabe que todo es el 30 %, 5 % para dr perez davila + estudios",
+      "fechaUltimoMovimiento": "2016-10-04T00:00:00",
+      "diasInactivo": 3451,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW4NsaP",
+      "acto": "MOSCATO NORBERTO GABRIEL",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "SABE QUE AL FINAL TIENE QUE ABONAR 5000 POR HONORARIOS DEL P + 25% + ESTUDIOS",
+      "fechaUltimoMovimiento": "2016-10-04T00:00:00",
+      "diasInactivo": 3451,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW22jyJ",
+      "acto": "MARCUCCI JORGE MARCELO",
+      "dema": "CONSOLIDAR ART S.A.",
+      "descripcionUltimoEscrito": "VIENE A VER A FER EL 17/10 PARA LA PERICIA",
+      "fechaUltimoMovimiento": "2016-10-04T00:00:00",
+      "diasInactivo": 3451,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW4EQyy",
+      "acto": "GARCIA RAFAEL",
+      "dema": "CONSOLIDAR A.R.T. S.A.",
+      "descripcionUltimoEscrito": "OJO HAY PACTO",
+      "fechaUltimoMovimiento": "2016-10-13T00:00:00",
+      "diasInactivo": 3442,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW1D4Y2",
+      "acto": "RAMIREZ RODOLFO AURELIO",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "el actor fallecio sin hacerse la pericia, cuando llame decir que esta complicado el juicio. eso me dijo ivan, adri",
+      "fechaUltimoMovimiento": "2016-10-13T00:00:00",
+      "diasInactivo": 3442,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW0NepK",
+      "acto": "APONTE POLO RENATO FELIX",
+      "dema": "ZHANG PEILAN",
+      "descripcionUltimoEscrito": "le vuelvo a decir lo mismo.",
+      "fechaUltimoMovimiento": "2016-10-13T00:00:00",
+      "diasInactivo": 3442,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW4OEeG",
+      "acto": "RODRIGUEZ RUBEN ESTEBAN",
+      "dema": "LA CAJA  ART SA",
+      "descripcionUltimoEscrito": "En el caso de hacerse estudios: Rnm abierto,es claustrofobico.",
+      "fechaUltimoMovimiento": "2016-10-17T00:00:00",
+      "diasInactivo": 3438,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW4s0K&",
+      "acto": "GONZALEZ ROBERTO CARLOS",
+      "dema": "ASOCIART S.A. ASEGURADORA DE RIESGOS DEL TRABAJO",
+      "descripcionUltimoEscrito": "le dije al actor que con todos los intereses seria $125 pero que seria dificil que ofrezcan eso.",
+      "fechaUltimoMovimiento": "2016-10-20T00:00:00",
+      "diasInactivo": 3435,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW3DIcI",
+      "acto": "ALVAREZ JUAN FAUSTINO",
+      "dema": "ASEGURADORA DE RIESGOS DEL TRABAJO INTERACCION S.A.",
+      "descripcionUltimoEscrito": "viene a iniciar c/ ASOCIART. AVISADO. documentacion el lavalle",
+      "fechaUltimoMovimiento": "2016-10-20T00:00:00",
+      "diasInactivo": 3435,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW2PvDg",
+      "acto": "JIMENEZ ANGEL GABRIEL",
+      "dema": "SWISS MEDICAL  ART SA",
+      "descripcionUltimoEscrito": "ANULADO. SE HACE C/ INTERACCION",
+      "fechaUltimoMovimiento": "2016-10-21T00:00:00",
+      "diasInactivo": 3434,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW1R5nh",
+      "acto": "PAIVA VICENTE HUMBERTO",
+      "dema": "ASOCIART SA  ART",
+      "descripcionUltimoEscrito": "le adelantamos( papal) al hermano 2000 para viajar, cobrarselo el",
+      "fechaUltimoMovimiento": "2016-10-21T00:00:00",
+      "diasInactivo": 3434,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW2EOJz",
+      "acto": "TULA ALAN DIEGO",
+      "dema": "LA HOLANDO SUDAMERICANA COMPAÑIA DE SEGUROS  SA",
+      "descripcionUltimoEscrito": "si llama pedir TELEFONO, NO HAY EN PLANILLA",
+      "fechaUltimoMovimiento": "2016-10-25T00:00:00",
+      "diasInactivo": 3430,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW4IadH",
+      "acto": "GONZALEZ DANIEL JOSE",
+      "dema": "FEDERACION PATRONAL SEGUROS  SA",
+      "descripcionUltimoEscrito": "VA A INICIAR CAUSA NUEVA POR CERVICAL, VARICES Y OIDO POR ENF.",
+      "fechaUltimoMovimiento": "2016-10-26T00:00:00",
+      "diasInactivo": 3429,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW176wb",
+      "acto": "TACCHINI SUSANA ALICIA",
+      "dema": "GALENO ART S.A.",
+      "descripcionUltimoEscrito": "le dije que esta en camara para decidir si tiene que contestar las impugnaciones el medico o las tienen por contestadas",
+      "fechaUltimoMovimiento": "2016-10-27T00:00:00",
+      "diasInactivo": 3428,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW5xiWY",
+      "acto": "SEGURA ULLOA RONAL ALEXANDER",
+      "dema": "ASOCIART  SA  ART",
+      "descripcionUltimoEscrito": "DEJE MSJ EN FACEBOOK. TIENE QUE VENIR UN LUNES A VER A FER",
+      "fechaUltimoMovimiento": "2016-10-31T00:00:00",
+      "diasInactivo": 3424,
+      "mesesInactivo": 113
+    },
+    {
+      "idExpediente": "1P8PW1pxKz",
+      "acto": "COSTA JULIO ARGENTINO",
+      "dema": "PROVINCIA  ART  SA",
+      "descripcionUltimoEscrito": "EXCUSO. conc  del Valle MORENO en URUGUAY 292 14 a , TE 43734838  23/11/2016 a las 12:00 p.m",
+      "fechaUltimoMovimiento": "2016-11-02T00:00:00",
+      "diasInactivo": 3422,
+      "mesesInactivo": 112
+    },
+    {
+      "idExpediente": "1P8PW25PAX",
+      "acto": "GOMEZ GUSTAVO ADOLFO",
+      "dema": "FEDERACION PATRONAL SEGUROS SA",
+      "descripcionUltimoEscrito": "sabe que tiene que pagar 5% mas para el p",
+      "fechaUltimoMovimiento": "2016-11-07T00:00:00",
+      "diasInactivo": 3417,
+      "mesesInactivo": 112
+    },
+    {
+      "idExpediente": "1P8PW1E&2M",
+      "acto": "ARAN JULIO CESAR",
+      "dema": "FEDERACION PATRONAL SEGUROS SA",
+      "descripcionUltimoEscrito": "decirle que no se puede hacer causa por que no tiene nada...",
+      "fechaUltimoMovimiento": "2016-11-07T00:00:00",
+      "diasInactivo": 3417,
+      "mesesInactivo": 112
+    },
+    {
+      "idExpediente": "1P8PW289ls",
+      "acto": "SZELSKE PABLO ANDRES",
+      "dema": "PREVENCION ART SA",
+      "descripcionUltimoEscrito": "ver si sabe de la audiencia de testigos nueva",
+      "fechaUltimoMovimiento": "2016-11-08T00:00:00",
+      "diasInactivo": 3416,
+      "mesesInactivo": 112
+    },
+    {
+      "idExpediente": "1P8PW30tDD",
+      "acto": "AGOSTO EMANUEL ANDRES",
+      "dema": "BERKLEY INTERNACIONAL ART SA",
+      "descripcionUltimoEscrito": "FALTA LO PSICO",
+      "fechaUltimoMovimiento": "2016-11-09T00:00:00",
+      "diasInactivo": 3415,
+      "mesesInactivo": 112
+    }
+  ],
+  "totalRegistros": 13582
+}

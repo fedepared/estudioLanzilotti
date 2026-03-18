@@ -6,8 +6,8 @@
         <span class="logo-icon">⚖</span>
       </div>
       <div class="firm-info">
-        <span class="firm-name">Gestión de Expedientes</span>
-        <span class="firm-subtitle">Sistema de seguimiento procesal</span>
+        <span class="firm-name">ESTUDIO LANZILOTTI</span>
+        <span class="firm-subtitle">Sistema de seguimiento</span>
       </div>
     </div>
     <div class="header-right">
@@ -47,7 +47,7 @@
       </div>
       <p-button
         icon="pi pi-download"
-        label="Exportar"
+        label="Buscar"
         severity="secondary"
         [outlined]="true"
         size="small"
@@ -112,7 +112,7 @@
           <th pSortableColumn="diasInactivo" class="col-inactividad">
             Inactividad <p-sortIcon field="diasInactivo" />
           </th>
-          <th class="col-acciones">Acciones</th>
+          
         </tr>
       </ng-template>
 
@@ -187,29 +187,6 @@
             </div>
           </td>
 
-          <!-- Acciones -->
-          <td class="col-acciones">
-            <div class="acciones-cell">
-              <p-button
-                icon="pi pi-eye"
-                [rounded]="true"
-                [text]="true"
-                severity="secondary"
-                size="small"
-                pTooltip="Ver expediente"
-                tooltipPosition="top"
-              />
-              <p-button
-                icon="pi pi-file-edit"
-                [rounded]="true"
-                [text]="true"
-                severity="secondary"
-                size="small"
-                pTooltip="Cargar escrito"
-                tooltipPosition="top"
-              />
-            </div>
-          </td>
         </tr>
       </ng-template>
 
