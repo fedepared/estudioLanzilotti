@@ -4,5 +4,7 @@
     {
         public IEnumerable<T> Datos { get; set; }
         public int TotalRegistros { get; set; }
+
+        public ResumenSemaforosDto ResumenSemaforos { get; set; }
     }
 }
