@@ -1,17 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "XScb33hGdSc=",
+  "dgSpecHash": "QU/3C4dODoM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ABRIL\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+  "projectFilePath": "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ABRIL\\.nuget\\packages\\dapper\\2.1.72\\dapper.2.1.72.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\firebirdsql.data.firebirdclient\\10.3.4\\firebirdsql.data.firebirdclient.10.3.4.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\microsoft.openapi\\1.6.14\\microsoft.openapi.1.6.14.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\swashbuckle.aspnetcore\\6.6.2\\swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.6.2\\swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.6.2\\swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
-    "C:\\Users\\ABRIL\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.6.2\\swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+    "C:\\Users\\agusf\\.nuget\\packages\\dapper\\2.1.72\\dapper.2.1.72.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\firebirdsql.data.firebirdclient\\10.3.4\\firebirdsql.data.firebirdclient.10.3.4.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\microsoft.openapi\\1.6.14\\microsoft.openapi.1.6.14.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\swashbuckle.aspnetcore\\6.6.2\\swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.6.2\\swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.6.2\\swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
+    "C:\\Users\\agusf\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.6.2\\swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
   ],
   "logs": []
 }
