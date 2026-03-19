@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QJPHe8HqR90=",
+  "dgSpecHash": "3ijpvUnP/wE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Carmen Lucia\\Desktop\\proyecto de abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+  "projectFilePath": "C:\\Users\\Carmen Lucia\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Carmen Lucia\\.nuget\\packages\\dapper\\2.1.72\\dapper.2.1.72.nupkg.sha512",
     "C:\\Users\\Carmen Lucia\\.nuget\\packages\\firebirdsql.data.firebirdclient\\10.3.4\\firebirdsql.data.firebirdclient.10.3.4.nupkg.sha512",
