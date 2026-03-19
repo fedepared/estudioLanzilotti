@@ -364,12 +364,11 @@
 .semaforo-label {
   font-size: 0.78rem;
   color: #4a3f35;
-  font-style: italic;
 }
 
 /* ID */
 .expediente-id {
-  font-family: 'Courier Prime', 'Courier New', monospace;
+ 
   font-size: 0.82rem;
   font-weight: 600;
   color: #1a1612;
@@ -379,7 +378,7 @@
 /* Acto */
 .acto-badge {
   display: inline-block;
-  background: #f0ebe2;
+
   color: #4a3f35;
   font-size: 0.72rem;
   font-weight: 600;
@@ -387,7 +386,6 @@
   text-transform: uppercase;
   padding: 0.2rem 0.55rem;
   border-radius: 2px;
-  border: 1px solid #ddd5c4;
 }
 
 /* Demandado */

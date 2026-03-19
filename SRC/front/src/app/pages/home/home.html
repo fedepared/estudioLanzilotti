@@ -78,8 +78,8 @@
       #dt
       [value]="expedientes"
       [paginator]="true"
-      [rows]="15"
-      [rowsPerPageOptions]="[10, 15, 25, 50]"
+      [rows]="20"
+      [rowsPerPageOptions]="[20, 30, 40, 50]"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} expedientes"
       [sortField]="'prioridadSemaforo'"
@@ -103,8 +103,8 @@
           <th pSortableColumn="idExpediente" class="col-id">
             N° Expediente <p-sortIcon field="idExpediente" />
           </th>
-          <th pSortableColumn="acto" class="col-acto">Acto <p-sortIcon field="acto" /></th>
-          <th pSortableColumn="dema" class="col-dema">Demandado <p-sortIcon field="dema" /></th>
+          <th pSortableColumn="acto" class="col-acto">Acto S/ Demandado <p-sortIcon field="acto" /></th>
+          <!-- <th pSortableColumn="dema" class="col-dema">Demandado <p-sortIcon field="dema" /></th> -->
           <th class="col-descripcion">Último escrito</th>
           <th pSortableColumn="fechaUltimoMovimiento" class="col-fecha">
             Último movimiento <p-sortIcon field="fechaUltimoMovimiento" />
@@ -141,16 +141,16 @@
 
           <!-- Acto -->
           <td class="col-acto">
-            <span class="acto-badge">{{ exp.acto }}</span>
+            <span class="acto-badge">{{ exp.acto +' S/ '+ exp.dema }}</span>
           </td>
 
           <!-- Demandado -->
-          <td class="col-dema">
+          <!-- <td class="col-dema">
             <div class="dema-cell">
-              <span class="dema-initials">{{ getInitials(exp.dema) }}</span>
+              
               <span class="dema-name">{{ exp.dema }}</span>
             </div>
-          </td>
+          </td> -->
 
           <!-- Último Escrito -->
           <td class="col-descripcion">
