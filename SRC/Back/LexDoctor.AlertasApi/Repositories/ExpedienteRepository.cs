@@ -44,11 +44,15 @@ namespace LexDoctor.AlertasApi.Repositories
             int pageSize,
             string texto,
             string semaforo,
-            string idExpediente)
-        {
+            string idExpediente,
+            string exp1,
+            string exp2)
+                {
             texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
             semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
             idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
+            exp1 = string.IsNullOrWhiteSpace(exp1) ? "" : exp1.Trim().ToLowerInvariant();
+            exp2 = string.IsNullOrWhiteSpace(exp2) ? "" : exp2.Trim().ToLowerInvariant();
 
             return $"alertas-caducidad-v2:" +
                    $"page={pageNumber}:" +
@@ -56,16 +60,20 @@ namespace LexDoctor.AlertasApi.Repositories
                    $"texto={texto}:" +
                    $"semaforo={semaforo}:" +
                    $"id={idExpediente}:" +
+                   $"exp1={exp1}:" +
+                   $"exp2={exp2}:" +
                    $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
                    $"diaRo={_alertasOptions.DiasInicioRojo}";
         }
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
-            int pageNumber,
+              int pageNumber,
             int pageSize,
             string texto = null,
             string semaforo = null,
-            string idExpediente = null)
+            string idExpediente = null,
+            string exp1 = null,
+            string exp2 = null)
         {
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 20;
@@ -75,7 +83,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 ? null
                 : semaforo.Trim().ToLowerInvariant();
 
-            string cacheKey = BuildCacheKey(pageNumber, pageSize, texto, semaforo, idExpediente);
+            string cacheKey = BuildCacheKey(pageNumber, pageSize, texto, semaforo, idExpediente, exp1, exp2);
 
             if (_cache.TryGetValue(cacheKey, out ResultadoPaginado<AlertaCaducidadDto> resultadoCacheado))
             {
@@ -122,6 +130,10 @@ namespace LexDoctor.AlertasApi.Repositories
                         p.PROC AS IdExpediente,
                         COALESCE(p.ACTO, '') AS Acto,
                         COALESCE(p.DEMA, '') AS Dema,
+                        COALESCE(p.EXP1, '') AS EXP1,
+                        COALESCE(p.EXP2, '') AS EXP2,
+                        COALESCE(p.EXP3, '') AS EXP3,
+                        COALESCE(p.EXP4, '') AS EXP4,
                         dum.DSCR AS DescripcionUltimoEscrito,
                         dum.FechaReal AS FechaUltimoMovimiento,
                         DATEDIFF(DAY FROM dum.FechaReal TO CURRENT_DATE) AS DiasInactivo,
@@ -129,13 +141,18 @@ namespace LexDoctor.AlertasApi.Repositories
                     FROM PROC p
                     INNER JOIN DetalleUltimoMovimiento dum
                         ON dum.PROC = p.PROC
-                    WHERE (p.GRUP IS NULL OR p.GRUP <> 'B') AND EXTRACT(YEAR FROM dum.FechaReal) >= 2020
+                    WHERE (p.GRUP IS NULL OR p.GRUP <> 'B') 
+                      AND EXTRACT(YEAR FROM dum.FechaReal) >= 2020
                 ),
                 DatosBase AS (
                     SELECT
                         dc.IdExpediente,
                         dc.Acto,
                         dc.Dema,
+                        dc.EXP1,
+                        dc.EXP2,
+                        dc.EXP3,
+                        dc.EXP4,
                         dc.DescripcionUltimoEscrito,
                         dc.FechaUltimoMovimiento,
                         dc.DiasInactivo,
@@ -172,12 +189,16 @@ namespace LexDoctor.AlertasApi.Repositories
             if (!string.IsNullOrWhiteSpace(texto))
             {
                 where.Append(@"
-                AND (
-                       db.IdExpediente CONTAINING @Texto
-                    OR db.Acto CONTAINING @Texto
-                    OR db.Dema CONTAINING @Texto
-                    OR db.DescripcionUltimoEscrito CONTAINING @Texto
-                )");
+                    AND (
+                           db.IdExpediente CONTAINING @Texto
+                        OR db.Acto CONTAINING @Texto
+                        OR db.Dema CONTAINING @Texto
+                        OR db.DescripcionUltimoEscrito CONTAINING @Texto
+                        OR db.EXP1 CONTAINING @Texto
+                        OR db.EXP2 CONTAINING @Texto
+                        OR db.EXP3 CONTAINING @Texto
+                        OR db.EXP4 CONTAINING @Texto
+                    )");
                 parameters.Add("Texto", texto.Trim(), DbType.String);
             }
 
@@ -185,6 +206,18 @@ namespace LexDoctor.AlertasApi.Repositories
             {
                 where.Append(" AND db.IdExpediente = @IdExpediente ");
                 parameters.Add("IdExpediente", idExpediente.Trim(), DbType.String);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exp1))
+            {
+                where.Append(" AND db.EXP1 CONTAINING @Exp1 ");
+                parameters.Add("Exp1", exp1.Trim(), DbType.String);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exp2))
+            {
+                where.Append(" AND db.EXP2 CONTAINING @Exp2 ");
+                parameters.Add("Exp2", exp2.Trim(), DbType.String);
             }
 
             if (!string.IsNullOrWhiteSpace(semaforo))
@@ -206,6 +239,10 @@ namespace LexDoctor.AlertasApi.Repositories
                     db.IdExpediente,
                     db.Acto,
                     db.Dema,
+                    db.EXP1,
+                    db.EXP2,
+                    db.EXP3,
+                    db.EXP4,
                     db.DescripcionUltimoEscrito,
                     db.FechaUltimoMovimiento,
                     db.DiasInactivo,
