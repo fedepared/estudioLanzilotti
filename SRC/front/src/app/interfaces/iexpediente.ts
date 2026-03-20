@@ -4,9 +4,13 @@ export interface IExpedientePage {
   resumenSemaforos: IResumenSemaforos;
 }
 export interface IExpediente {
-  idExpediente: string;
+  idExpediente?: string;
   acto: string;
   dema: string;
+  exP1?: string;
+  exP2?: string;
+  exP3?: string;
+  exP4?: string;
   descripcionUltimoEscrito: string;
   fechaUltimoMovimiento: Date;
   diasInactivo?: number;
