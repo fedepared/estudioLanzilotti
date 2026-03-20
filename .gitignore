@@ -5,8 +5,8 @@
 SRC/.vs/
 
 # Build results for this solution/project
-SRC/LexDoctor.AlertasApi/bin/
-SRC/LexDoctor.AlertasApi/obj/
+SRC/Back/LexDoctor.AlertasApi/bin/
+SRC/Back/LexDoctor.AlertasApi/obj/
 
 # User-specific files
 *.user
