@@ -520,11 +520,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+      "projectUniqueName": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
       "projectName": "LexDoctor.AlertasApi",
-      "projectPath": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+      "projectPath": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
       "packagesPath": "C:\\Users\\fedeytamy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\obj\\",
+      "outputPath": "C:\\Users\\fedeytamy\\Desktop\\estudio lanzilotti\\estudioLanzilotti\\SRC\\LexDoctor.AlertasApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
