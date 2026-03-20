@@ -1,0 +1,51 @@
+.app-footer {
+  background: #1a1612;
+  border-top: 1px solid #2d2620;
+  padding: 0.25rem 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+
+.footer-inner:hover {
+  opacity: 0.85;
+}
+
+.footer-craft {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.68rem;
+  color: #8b7355;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+
+.footer-wave {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c9a96e;
+  letter-spacing: 0.04em;
+}
+
+.footer-solutions {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.68rem;
+  color: #8b7355;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

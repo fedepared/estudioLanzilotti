@@ -1,12 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { GenericService } from '../../services/generic';
-import { IExpediente } from '../../interfaces/iexpediente';
+import { IExpediente, IExpedientePage, IResumenSemaforos } from '../../interfaces/iexpediente';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
+import { ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+const HEX_A_COLOR: Record<string, string> = {
+  '#ef4444': 'rojo',
+  '#facc15': 'amarillo',
+  '#22c55e': 'verde',
+};
 
 @Component({
   selector: 'app-home',
@@ -14,155 +23,114 @@ import { TooltipModule } from 'primeng/tooltip';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit {
-  constructor(private genericService: GenericService<IExpediente>) {}
+export class Home {
+  constructor(private genericService: GenericService<IExpedientePage>, private cd: ChangeDetectorRef) {
+
+  }
 
   expedientes: IExpediente[] = [];
-  filtroGlobal: string = '';
+  totalRegistros: number = 0;
+  resumen: IResumenSemaforos = { rojos: 0, amarillos: 0, verdes: 0 };
+  pageSize: number = 20;
+  loading: boolean = false;
   fechaActual: Date = new Date();
 
-  // Métricas del header
-  get totalExpedientes(): number {
-    return this.expedientes.length;
-  }
+  // Filtros
+  filtroTexto: string = '';
+  filtroSemaforo: string = '';
 
-  get expedientesCriticos(): number {
-    return this.expedientes.filter((e) => e.colorSemaforo === 'red' || e.colorSemaforo === 'rojo')
-      .length;
-  }
+  private currentPage: number = 1;
+  private currentPageSize: number = 20;
 
-  get expedientesAdvertencia(): number {
-    return this.expedientes.filter(
-      (e) => e.colorSemaforo === 'yellow' || e.colorSemaforo === 'amarillo',
-    ).length;
-  }
+  // Debounce del texto
+  private textoSubject = new Subject<string>();
+
+  get totalExpedientes(): number { return this.totalRegistros; }
+  get expedientesCriticos(): number { return this.resumen.rojos; }
+  get expedientesAdvertencia(): number { return this.resumen.amarillos; }
 
   ngOnInit(): void {
-    // TODO: Descomentar cuando el back esté disponible
-    // this.getExpedientes();
-
-    // Datos de prueba temporales — remover al conectar el back
-    this.expedientes = this.getMockExpedientes();
+    // Debounce: espera 400ms después de que el usuario deja de tipear
+    this.textoSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(() => {
+      this.currentPage = 1;
+      this.cargarPagina(1, this.currentPageSize);
+    });
   }
+  onTextoChange(valor: string): void {
+    this.filtroTexto = valor;
+    this.textoSubject.next(valor);
+  }
+
+  /** Llamado por los botones de semáforo */
+  onSemaforoChange(color: string): void {
+    // Toggle: si ya está seleccionado, lo deselecciona
+    this.filtroSemaforo = this.filtroSemaforo === color ? '' : color;
+    this.currentPage = 1;
+    this.cargarPagina(1, this.currentPageSize);
+  }
+
+  onLazyLoad(event: TableLazyLoadEvent): void {
+    const pageSize = event.rows ?? this.currentPageSize;
+    const pageNumber = Math.floor((event.first ?? 0) / pageSize) + 1;
+    this.currentPageSize = pageSize;
+    this.currentPage = pageNumber;
+    this.cargarPagina(pageNumber, pageSize);
+  }
+
+
+
+  private cargarPagina(pageNumber: number, pageSize: number): void {
+    Promise.resolve().then(() => {
+      this.loading = true;
+      this.cd.detectChanges();
+
+
+      let params = `Alertas/caducidad?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+      if (this.filtroTexto?.trim()) {
+        params += `&texto=${encodeURIComponent(this.filtroTexto.trim())}`;
+      }
+      if (this.filtroSemaforo) {
+        params += `&semaforo=${encodeURIComponent(this.filtroSemaforo)}`;
+      }
+      this.genericService.getAll(params).subscribe({
+        next: (resp: IExpedientePage) => {
+          this.expedientes = this.normalizarExpedientes(resp.datos);
+          this.totalRegistros = resp.totalRegistros;
+          this.resumen = resp.resumenSemaforos ?? { rojos: 0, amarillos: 0, verdes: 0 };
+          this.loading = false;
+          this.cd.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error cargando expedientes:', err);
+          this.loading = false;
+          this.cd.detectChanges();
+        },
+      });
+    });
+  }
+
+
+  private normalizarExpedientes(items: IExpediente[]): IExpediente[] {
+    return items.map((exp) => ({
+      ...exp,
+      estadoSemaforo: exp.estadoSemaforo?.trim() ?? '',
+      colorSemaforo:
+        HEX_A_COLOR[exp.colorSemaforo?.toLowerCase()] ?? exp.colorSemaforo?.toLowerCase() ?? '',
+    }));
+  }
+
 
   getRowClass = (exp: IExpediente): string => {
     const color = exp.colorSemaforo?.toLowerCase();
-    if (color === 'red' || color === 'rojo') return 'row-red';
-    if (color === 'yellow' || color === 'amarillo') return 'row-yellow';
-    if (color === 'green' || color === 'verde') return 'row-green';
+    if (color === 'rojo') return 'row-red';
+    if (color === 'amarillo') return 'row-yellow';
+    if (color === 'verde') return 'row-green';
     return '';
   };
 
-  /**
-   * Extrae las iniciales del nombre del demandado (máx. 2).
-   */
-  getInitials(nombre: string): string {
-    if (!nombre) return '?';
-    return nombre
-      .split(' ')
-      .slice(0, 2)
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase();
-  }
 
-  // ─────────────────────────────────────────────
-  // MOCK — eliminar cuando el back esté disponible
-  // ─────────────────────────────────────────────
-  private getMockExpedientes(): IExpediente[] {
-    return [
-      {
-        idExpediente: '2024-CIV-00341',
-        acto: 'Demanda',
-        dema: 'Constructora Álvarez S.A.',
-        descripcionUltimoEscrito:
-          'Contestación de demanda por daños y perjuicios presentada por la parte demandada.',
-        fechaUltimoMovimiento: new Date('2024-01-10'),
-        diasInactivo: 92,
-        mesesInactivo: 3,
-        estadoSemaforo: 'Crítico',
-        colorSemaforo: 'red',
-        prioridadSemaforo: 1,
-      },
-      {
-        idExpediente: '2024-LAB-00118',
-        acto: 'Apelación',
-        dema: 'Ramírez, Jorge Luis',
-        descripcionUltimoEscrito: 'Recurso de apelación contra sentencia de primera instancia.',
-        fechaUltimoMovimiento: new Date('2024-02-15'),
-        diasInactivo: 56,
-        mesesInactivo: 1,
-        estadoSemaforo: 'Advertencia',
-        colorSemaforo: 'yellow',
-        prioridadSemaforo: 2,
-      },
-      {
-        idExpediente: '2023-MER-00892',
-        acto: 'Cautelar',
-        dema: 'González & Asociados S.R.L.',
-        descripcionUltimoEscrito:
-          'Medida cautelar de no innovar solicitada sobre bienes registrables.',
-        fechaUltimoMovimiento: new Date('2024-01-28'),
-        diasInactivo: 74,
-        mesesInactivo: 2,
-        estadoSemaforo: 'Crítico',
-        colorSemaforo: 'red',
-        prioridadSemaforo: 1,
-      },
-      {
-        idExpediente: '2024-CIV-00445',
-        acto: 'Ejecutivo',
-        dema: 'Herrera, María Inés',
-        descripcionUltimoEscrito: 'Presentación de liquidación de intereses y capital adeudado.',
-        fechaUltimoMovimiento: new Date('2024-03-01'),
-        diasInactivo: 18,
-        mesesInactivo: 0,
-        estadoSemaforo: 'Al día',
-        colorSemaforo: 'green',
-        prioridadSemaforo: 3,
-      },
-      {
-        idExpediente: '2023-FAM-00067',
-        acto: 'Divorcio',
-        dema: 'Moreno, Carlos Alberto',
-        descripcionUltimoEscrito:
-          'Convenio de alimentos y régimen de visitas presentado ante el juzgado.',
-        fechaUltimoMovimiento: new Date('2024-02-08'),
-        diasInactivo: 43,
-        mesesInactivo: 1,
-        estadoSemaforo: 'Advertencia',
-        colorSemaforo: 'yellow',
-        prioridadSemaforo: 2,
-      },
-      {
-        idExpediente: '2024-PEN-00231',
-        acto: 'Denuncia',
-        dema: 'López, Sebastián Omar',
-        descripcionUltimoEscrito:
-          'Ampliación de denuncia penal con nuevas evidencias documentales.',
-        fechaUltimoMovimiento: new Date('2024-03-05'),
-        diasInactivo: 14,
-        mesesInactivo: 0,
-        estadoSemaforo: 'Al día',
-        colorSemaforo: 'green',
-        prioridadSemaforo: 3,
-      },
-      {
-        idExpediente: '2022-CIV-01105',
-        acto: 'Sucesión',
-        dema: 'Fernández, Rosa Elena',
-        descripcionUltimoEscrito:
-          'Inventario y avalúo de bienes sucesorios en proceso de homologación.',
-        fechaUltimoMovimiento: new Date('2023-11-20'),
-        diasInactivo: 120,
-        mesesInactivo: 4,
-        estadoSemaforo: 'Crítico',
-        colorSemaforo: 'red',
-        prioridadSemaforo: 1,
-      },
-    ];
-  }
-  getExpedientes() {
-    this.genericService.getAll('').subscribe();
-  }
+
 }

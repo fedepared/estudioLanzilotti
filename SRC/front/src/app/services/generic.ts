@@ -6,8 +6,9 @@ import { ApiHandler } from './api-handler';
   providedIn: 'root',
 })
 export class GenericService<T> extends ApiHandler {
-  getAll(path: string): Observable<T[]> {
-    return this.http.get<T[]>(`${this.baseUrl}/${path}`).pipe(catchError(this.handleError));
+
+  getAll(path: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/${path}`).pipe(catchError(this.handleError));
   }
 
   getById(path: string, id: number | string): Observable<T> {

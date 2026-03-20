@@ -364,12 +364,11 @@
 .semaforo-label {
   font-size: 0.78rem;
   color: #4a3f35;
-  font-style: italic;
 }
 
 /* ID */
 .expediente-id {
-  font-family: 'Courier Prime', 'Courier New', monospace;
+ 
   font-size: 0.82rem;
   font-weight: 600;
   color: #1a1612;
@@ -379,7 +378,7 @@
 /* Acto */
 .acto-badge {
   display: inline-block;
-  background: #f0ebe2;
+
   color: #4a3f35;
   font-size: 0.72rem;
   font-weight: 600;
@@ -387,7 +386,6 @@
   text-transform: uppercase;
   padding: 0.2rem 0.55rem;
   border-radius: 2px;
-  border: 1px solid #ddd5c4;
 }
 
 /* Demandado */
@@ -530,3 +528,61 @@
   .search-input { width: 220px; }
   .col-descripcion { display: none; }
 }
+
+/* Números de instancia */
+.col-exP1, .col-exP2, .col-exP3, .col-exP4 { width: 130px; }
+
+.expediente-num {
+  font-family: 'Lato', monospace;
+  font-size: 0.8rem;
+  color: #4a3f35;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+/* ============================================================
+   FILTROS SEMÁFORO
+   ============================================================ */
+.semaforo-filters {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.sf-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  background: #f5f3ef;
+  color: #6b5e52;
+  transition: all 0.15s;
+}
+
+.sf-btn .sf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Rojo */
+.sf-btn.sf-rojo .sf-dot { background: #e05555; }
+.sf-btn.sf-rojo:hover   { background: #fff5f5; border-color: #e05555; color: #c0392b; }
+.sf-btn.sf-rojo.active  { background: #fde8e8; border-color: #e05555; color: #c0392b; }
+
+/* Amarillo */
+.sf-btn.sf-amarillo .sf-dot { background: #d4a017; }
+.sf-btn.sf-amarillo:hover   { background: #fffcf0; border-color: #d4a017; color: #a07800; }
+.sf-btn.sf-amarillo.active  { background: #fef9e7; border-color: #d4a017; color: #a07800; }
+
+/* Verde */
+.sf-btn.sf-verde .sf-dot { background: #4caf7d; }
+.sf-btn.sf-verde:hover   { background: #f5fbf8; border-color: #4caf7d; color: #1e8449; }
+.sf-btn.sf-verde.active  { background: #eafaf1; border-color: #4caf7d; color: #1e8449; }
