@@ -7,7 +7,7 @@
 }
 
 .dashboard-root {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--app-footer-height, 40px));
   background: #f5f3ef;
   background-image:
     radial-gradient(ellipse at 80% 0%, rgba(180,160,120,0.08) 0%, transparent 60%),
@@ -103,6 +103,9 @@
 
 .header-stat.critical .stat-value { color: #e05555; }
 .header-stat.warning .stat-value { color: #d4a017; }
+.header-stat.success .stat-value { color: #4caf7d; }
+
+
 
 /* ============================================================
    TOOLBAR
@@ -223,6 +226,7 @@
    ============================================================ */
 .table-wrapper {
   padding: 1.5rem 2.5rem 3rem;
+  max-height: fit-content;
 }
 
 /* ============================================================
@@ -262,14 +266,6 @@
 ::ng-deep .expedientes-table .p-sortable-column.p-highlight {
   background: #2d2620 !important;
   color: #e8dcc8 !important;
-}
-
-::ng-deep .expedientes-table .p-datatable-tbody > tr > td {
-  padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid #ede7db !important;
-  border-right: none !important;
-  font-size: 0.83rem;
-  vertical-align: middle;
 }
 
 /* ROW COLORS */
@@ -329,14 +325,16 @@
 /* ============================================================
    COLUMNS
    ============================================================ */
-.col-semaforo { width: 130px; }
-.col-id       { width: 140px; }
-.col-acto     { width: 160px; }
-.col-dema     { width: 200px; }
+/* .col-semaforo { width: 130px; } */
+/* .col-id       { width: 140px; } */
+.col-acto     { width: 200px; }
+-col-exP1     { width: 80px; }
+-col-exP2     { width: 80px; }
+/* .col-dema     { width: 200px; } */
 .col-descripcion { min-width: 220px; }
-.col-fecha    { width: 140px; }
-.col-inactividad { width: 120px; }
-.col-acciones { width: 90px; }
+/* .col-fecha    { width: 140px; } */
+/* .col-inactividad { width: 120px; } */
+/* .col-acciones { width: 90px; } */
 
 /* ============================================================
    CELL COMPONENTS
@@ -346,6 +344,7 @@
 .semaforo-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 }
 
@@ -421,6 +420,7 @@
 .descripcion-text {
   font-size: 0.8rem;
   color: #5a5048;
+  line-clamp: 2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

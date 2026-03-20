@@ -7,21 +7,25 @@
       </div>
       <div class="firm-info">
         <span class="firm-name">ESTUDIO LANZILOTTI</span>
-        <span class="firm-subtitle">Sistema de seguimiento</span>
+        <span class="firm-subtitle">Control de escritos vencidos</span>
       </div>
     </div>
     <div class="header-right">
       <div class="header-stat">
-        <span class="stat-value">{{ totalExpedientes }}</span>
+        <span class="stat-value" [appCountUp]="totalExpedientes" [duration]="1800"></span>
         <span class="stat-label">Total</span>
       </div>
       <div class="header-stat critical">
-        <span class="stat-value">{{ expedientesCriticos }}</span>
+        <span class="stat-value" [appCountUp]="expedientesCriticos" [duration]="1800"></span>
         <span class="stat-label">Críticos</span>
       </div>
       <div class="header-stat warning">
-        <span class="stat-value">{{ expedientesAdvertencia }}</span>
+        <span class="stat-value" [appCountUp]="expedientesAdvertencia" [duration]="1800"></span>
         <span class="stat-label">Advertencia</span>
+      </div>
+      <div class="header-stat success">
+        <span class="stat-value" [appCountUp]="expedientesAlDia" [duration]="1800"></span>
+        <span class="stat-label">Al día</span>
       </div>
     </div>
   </header>
@@ -29,9 +33,9 @@
   <!-- Toolbar -->
   <div class="toolbar">
     <div class="toolbar-left">
-      <span class="section-title">Expedientes activos</span>
+      <span class="section-title">Procesos activos</span>
       <span class="section-divider">|</span>
-      <span class="section-date">{{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }}</span>
+      <span class="section-date">última actualización: {{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }} 1:00 AM</span>
     </div>
     <div class="toolbar-right">
       <!-- Filtros semáforo -->
@@ -77,29 +81,34 @@
 
   <!-- Table -->
   <div class="table-wrapper">
-    <p-table #dt [value]="expedientes" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [totalRecords]="totalRegistros"
-      [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30, 40, 50]"
+    <p-table #dt [value]="expedientes" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [scrollable]="true" [scrollHeight]="'55vh'" [totalRecords]="totalRegistros"
+      [loading]="loading" [paginator]="true" [rows]="50" [rowsPerPageOptions]="[50, 100, 150, 200, 250]"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} expedientes"
-      [sortField]="'prioridadSemaforo'" [sortOrder]="1" styleClass="p-datatable-sm expedientes-table"
+       styleClass="p-datatable-sm expedientes-table" [size]="'small'"
       dataKey="idExpediente">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="estadoSemaforo" class="col-semaforo">
-            Estado <p-sortIcon field="estadoSemaforo" />
+          <!-- <th pSortableColumn="estadoSemaforo" class="col-semaforo"> -->
+          <th class="col-semaforo">
+            Estado
           </th>
-
-          <th pSortableColumn="acto" class="col-acto">Acto S/ Demandado <p-sortIcon field="acto" /></th>
-          <th pSortableColumn="exP1" class="col-exP1">N 1° ins <p-sortIcon field="exP1" /></th>
-          <th pSortableColumn="exP2" class="col-exP2">N 2° ins <p-sortIcon field="exP2" /></th>
+          <!-- <th pSortableColumn="acto" class="col-acto">Acto S/ Demandado <p-sortIcon field="acto" /></th> -->
+          <th class="col-acto">Acto S/ Demandado </th>
+          <!-- <th pSortableColumn="exP1" class="col-exP1">N 1° ins <p-sortIcon field="exP1" /></th> -->
+          <th class="col-exP1">N 1° ins </th>
+          <!-- <th pSortableColumn="exP2" class="col-exP2">N 2° ins <p-sortIcon field="exP2" /></th> -->
+          <th class="col-exP2">N 2° ins </th>
           <!-- <th pSortableColumn="exP3" class="col-exP3">N 3° ins <p-sortIcon field="exP3" /></th>
           <th pSortableColumn="exP4" class="col-exP4">N 4° ins <p-sortIcon field="exP4" /></th> -->
           <th class="col-descripcion">Último escrito</th>
-          <th pSortableColumn="fechaUltimoMovimiento" class="col-fecha">
-            Último movimiento <p-sortIcon field="fechaUltimoMovimiento" />
+          <!-- <th pSortableColumn="fechaUltimoMovimiento" class="col-fecha"> -->
+          <th class="col-fecha">
+            Último movimiento
           </th>
-          <th pSortableColumn="diasInactivo" class="col-inactividad">
-            Inactividad <p-sortIcon field="diasInactivo" />
+          <!-- <th pSortableColumn="diasInactivo" class="col-inactividad"> -->
+          <th class="col-inactividad">
+            Inactividad 
           </th>
 
         </tr>
@@ -156,7 +165,7 @@
 
           <!-- Fecha -->
           <td class="col-fecha">
-            <span class="fecha-text">{{ exp.fechaUltimoMovimiento | date: 'dd/MM/yyyy' }}</span>
+            <span class="fecha-text">{{ exp.fechaUltimoMovimiento | date: 'dd/MM/yy' }}</span>
           </td>
 
           <!-- Inactividad -->

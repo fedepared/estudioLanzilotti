@@ -10,6 +10,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CountUp } from '../../directives/count-up';
 
 const HEX_A_COLOR: Record<string, string> = {
   '#ef4444': 'rojo',
@@ -19,7 +20,7 @@ const HEX_A_COLOR: Record<string, string> = {
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, TooltipModule],
+  imports: [CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, TooltipModule,CountUp],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -33,7 +34,7 @@ export class Home {
   resumen: IResumenSemaforos = { rojos: 0, amarillos: 0, verdes: 0 };
   pageSize: number = 20;
   loading: boolean = false;
-  fechaActual: Date = new Date();
+  fechaActual: Date = new Date ();
 
   // Filtros
   filtroTexto: string = '';
@@ -45,14 +46,15 @@ export class Home {
   // Debounce del texto
   private textoSubject = new Subject<string>();
 
-  get totalExpedientes(): number { return this.totalRegistros; }
+  get totalExpedientes(): number { return (this.resumen.rojos + this.resumen.amarillos + this.resumen.verdes); }
   get expedientesCriticos(): number { return this.resumen.rojos; }
   get expedientesAdvertencia(): number { return this.resumen.amarillos; }
+  get expedientesAlDia(): number { return this.resumen.verdes; }
 
   ngOnInit(): void {
     // Debounce: espera 400ms después de que el usuario deja de tipear
     this.textoSubject.pipe(
-      debounceTime(400),
+      debounceTime(1000),
       distinctUntilChanged()
     ).subscribe(() => {
       this.currentPage = 1;
@@ -60,8 +62,11 @@ export class Home {
     });
   }
   onTextoChange(valor: string): void {
-    this.filtroTexto = valor;
-    this.textoSubject.next(valor);
+    if(valor.length> 3)
+    {
+      this.filtroTexto = valor;
+      this.textoSubject.next(valor);
+    }
   }
 
   /** Llamado por los botones de semáforo */
