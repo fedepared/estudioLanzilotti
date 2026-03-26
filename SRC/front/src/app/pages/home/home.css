@@ -10,8 +10,8 @@
   min-height: calc(100vh - var(--app-footer-height, 40px));
   background: #f5f3ef;
   background-image:
-    radial-gradient(ellipse at 80% 0%, rgba(180,160,120,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 10% 90%, rgba(100,80,60,0.06) 0%, transparent 50%);
+    radial-gradient(ellipse at 80% 0%, rgba(180, 160, 120, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 90%, rgba(100, 80, 60, 0.06) 0%, transparent 50%);
 }
 
 /* ============================================================
@@ -36,15 +36,12 @@
 }
 
 .firm-logo {
-  width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #8b7355 0%, #c9a96e 100%);
-  border-radius: 2px;
+  width: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  overflow: visible;
+
 }
 
 .firm-info {
@@ -101,9 +98,21 @@
   margin-top: 0.2rem;
 }
 
-.header-stat.critical .stat-value { color: #e05555; }
-.header-stat.warning .stat-value { color: #d4a017; }
-.header-stat.success .stat-value { color: #4caf7d; }
+.header-stat.critical .stat-value {
+  color: #e05555;
+}
+
+.header-stat.risk .stat-value {
+  color: #f97316;
+}
+
+.header-stat.warning .stat-value {
+  color: #d4a017;
+}
+
+.header-stat.success .stat-value {
+  color: #4caf7d;
+}
 
 
 
@@ -117,7 +126,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #ddd5c4;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .toolbar-left {
@@ -181,7 +190,7 @@
 
 .search-input:focus {
   border-color: #8b7355 !important;
-  box-shadow: 0 0 0 2px rgba(139,115,85,0.15) !important;
+  box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.15) !important;
 }
 
 .search-input::placeholder {
@@ -217,9 +226,25 @@
   flex-shrink: 0;
 }
 
-.legend-dot.red    { background: #e05555; box-shadow: 0 0 4px rgba(224,85,85,0.4); }
-.legend-dot.yellow { background: #d4a017; box-shadow: 0 0 4px rgba(212,160,23,0.4); }
-.legend-dot.green  { background: #4caf7d; box-shadow: 0 0 4px rgba(76,175,125,0.4); }
+.legend-dot.red {
+  background: #e05555;
+  box-shadow: 0 0 4px rgba(224, 85, 85, 0.4);
+}
+
+.legend-dot.orange {
+  background: #f97316;
+  box-shadow: 0 0 4px rgba(249, 115, 22, 0.45);
+}
+
+.legend-dot.yellow {
+  background: #d4a017;
+  box-shadow: 0 0 4px rgba(212, 160, 23, 0.4);
+}
+
+.legend-dot.green {
+  background: #4caf7d;
+  box-shadow: 0 0 4px rgba(76, 175, 125, 0.4);
+}
 
 /* ============================================================
    TABLE WRAPPER
@@ -235,12 +260,12 @@
 ::ng-deep .expedientes-table {
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 2px 16px rgba(26,22,18,0.08), 0 1px 4px rgba(26,22,18,0.05);
+  box-shadow: 0 2px 16px rgba(26, 22, 18, 0.08), 0 1px 4px rgba(26, 22, 18, 0.05);
   border: 1px solid #ddd5c4;
   font-family: 'Lato', sans-serif;
 }
 
-::ng-deep .expedientes-table .p-datatable-thead > tr > th {
+::ng-deep .expedientes-table .p-datatable-thead>tr>th {
   background: #1a1612 !important;
   color: #c9a96e !important;
   font-family: 'Lato', sans-serif !important;
@@ -254,7 +279,7 @@
   white-space: nowrap;
 }
 
-::ng-deep .expedientes-table .p-datatable-thead > tr > th:last-child {
+::ng-deep .expedientes-table .p-datatable-thead>tr>th:last-child {
   border-right: none !important;
 }
 
@@ -269,35 +294,44 @@
 }
 
 /* ROW COLORS */
-::ng-deep .expedientes-table .p-datatable-tbody > tr {
+::ng-deep .expedientes-table .p-datatable-tbody>tr {
   background: #ffffff;
   transition: filter 0.15s;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr:hover {
+::ng-deep .expedientes-table .p-datatable-tbody>tr:hover {
   filter: brightness(0.97);
   cursor: default;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr.row-red {
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-red {
   background: #fff5f5 !important;
   border-left: 3px solid #e05555;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr.row-red:hover {
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-red:hover {
   background: #ffeeee !important;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr.row-yellow {
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-orange {
+  background: #fff8f3 !important;
+  border-left: 3px solid #f97316;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-orange:hover {
+  background: #fef0e6 !important;
+}
+
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-yellow {
   background: #fffcf0 !important;
   border-left: 3px solid #d4a017;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr.row-yellow:hover {
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-yellow:hover {
   background: #fff8e0 !important;
 }
 
-::ng-deep .expedientes-table .p-datatable-tbody > tr.row-green {
+::ng-deep .expedientes-table .p-datatable-tbody>tr.row-green {
   background: #f5fbf8 !important;
   border-left: 3px solid #4caf7d;
 }
@@ -327,11 +361,23 @@
    ============================================================ */
 /* .col-semaforo { width: 130px; } */
 /* .col-id       { width: 140px; } */
-.col-acto     { width: 200px; }
--col-exP1     { width: 80px; }
--col-exP2     { width: 80px; }
+.col-acto {
+  width: 200px;
+}
+
+-col-exP1 {
+  width: 80px;
+}
+
+-col-exP2 {
+  width: 80px;
+}
+
 /* .col-dema     { width: 200px; } */
-.col-descripcion { min-width: 220px; }
+.col-descripcion {
+  min-width: 220px;
+}
+
 /* .col-fecha    { width: 140px; } */
 /* .col-inactividad { width: 120px; } */
 /* .col-acciones { width: 90px; } */
@@ -356,9 +402,25 @@
   box-shadow: 0 0 5px currentColor;
 }
 
-.semaforo-dot.semaforo-red    { background: #e05555; color: #e05555; }
-.semaforo-dot.semaforo-yellow { background: #d4a017; color: #d4a017; }
-.semaforo-dot.semaforo-green  { background: #4caf7d; color: #4caf7d; }
+.semaforo-dot.semaforo-red {
+  background: #e05555;
+  color: #e05555;
+}
+
+.semaforo-dot.semaforo-orange {
+  background: #f97316;
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.6);
+}
+
+.semaforo-dot.semaforo-yellow {
+  background: #d4a017;
+  color: #d4a017;
+}
+
+.semaforo-dot.semaforo-green {
+  background: #4caf7d;
+  color: #4caf7d;
+}
 
 .semaforo-label {
   font-size: 0.78rem;
@@ -367,7 +429,7 @@
 
 /* ID */
 .expediente-id {
- 
+
   font-size: 0.82rem;
   font-weight: 600;
   color: #1a1612;
@@ -454,9 +516,29 @@
   width: fit-content;
 }
 
-.dias-badge.dias-red    { background: #fde8e8; color: #c0392b; border: 1px solid #f5c6c6; }
-.dias-badge.dias-yellow { background: #fef9e7; color: #a07800; border: 1px solid #f5e79e; }
-.dias-badge.dias-green  { background: #eafaf1; color: #1e8449; border: 1px solid #b7e8cc; }
+.dias-badge.dias-red {
+  background: #fde8e8;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+}
+
+.dias-badge.dias-orange {
+  background: #feeadb;
+  color: #c2560a;
+  border: 1px solid #fcd2b0;
+}
+
+.dias-badge.dias-yellow {
+  background: #fef9e7;
+  color: #a07800;
+  border: 1px solid #f5e79e;
+}
+
+.dias-badge.dias-green {
+  background: #eafaf1;
+  color: #1e8449;
+  border: 1px solid #b7e8cc;
+}
 
 .meses-text {
   font-size: 0.68rem;
@@ -478,7 +560,7 @@
 
 ::ng-deep .acciones-cell .p-button:hover {
   color: #1a1612 !important;
-  background: rgba(139,115,85,0.1) !important;
+  background: rgba(139, 115, 85, 0.1) !important;
 }
 
 /* ============================================================
@@ -521,16 +603,40 @@
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .table-wrapper { padding: 1rem; }
-  .toolbar { padding: 0.75rem 1rem; }
-  .legend-bar { padding: 0.5rem 1rem; flex-wrap: wrap; gap: 0.75rem; }
-  .dashboard-header { padding: 1rem; }
-  .search-input { width: 220px; }
-  .col-descripcion { display: none; }
+  .table-wrapper {
+    padding: 1rem;
+  }
+
+  .toolbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .legend-bar {
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .dashboard-header {
+    padding: 1rem;
+  }
+
+  .search-input {
+    width: 220px;
+  }
+
+  .col-descripcion {
+    display: none;
+  }
 }
 
 /* Números de instancia */
-.col-exP1, .col-exP2, .col-exP3, .col-exP4 { width: 130px; }
+.col-exP1,
+.col-exP2,
+.col-exP3,
+.col-exP4 {
+  width: 130px;
+}
 
 .expediente-num {
   font-family: 'Lato', monospace;
@@ -539,6 +645,7 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
+
 /* ============================================================
    FILTROS SEMÁFORO
    ============================================================ */
@@ -572,17 +679,76 @@
   flex-shrink: 0;
 }
 
+.imag-padre {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
 /* Rojo */
-.sf-btn.sf-rojo .sf-dot { background: #e05555; }
-.sf-btn.sf-rojo:hover   { background: #fff5f5; border-color: #e05555; color: #c0392b; }
-.sf-btn.sf-rojo.active  { background: #fde8e8; border-color: #e05555; color: #c0392b; }
+.sf-btn.sf-rojo .sf-dot {
+  background: #e05555;
+}
+
+.sf-btn.sf-rojo:hover {
+  background: #fff5f5;
+  border-color: #e05555;
+  color: #c0392b;
+}
+
+.sf-btn.sf-rojo.active {
+  background: #fde8e8;
+  border-color: #e05555;
+  color: #c0392b;
+}
+
+.sf-btn.sf-naranja .sf-dot {
+  background: #f97316;
+}
+
+.sf-btn.sf-naranja:hover {
+  background: #fff8f3;
+  border-color: #f97316;
+  color: #c2560a;
+}
+
+.sf-btn.sf-naranja.active {
+  background: #feeadb;
+  border-color: #f97316;
+  color: #c2560a;
+}
 
 /* Amarillo */
-.sf-btn.sf-amarillo .sf-dot { background: #d4a017; }
-.sf-btn.sf-amarillo:hover   { background: #fffcf0; border-color: #d4a017; color: #a07800; }
-.sf-btn.sf-amarillo.active  { background: #fef9e7; border-color: #d4a017; color: #a07800; }
+.sf-btn.sf-amarillo .sf-dot {
+  background: #d4a017;
+}
+
+.sf-btn.sf-amarillo:hover {
+  background: #fffcf0;
+  border-color: #d4a017;
+  color: #a07800;
+}
+
+.sf-btn.sf-amarillo.active {
+  background: #fef9e7;
+  border-color: #d4a017;
+  color: #a07800;
+}
 
 /* Verde */
-.sf-btn.sf-verde .sf-dot { background: #4caf7d; }
-.sf-btn.sf-verde:hover   { background: #f5fbf8; border-color: #4caf7d; color: #1e8449; }
-.sf-btn.sf-verde.active  { background: #eafaf1; border-color: #4caf7d; color: #1e8449; }
+.sf-btn.sf-verde .sf-dot {
+  background: #4caf7d;
+}
+
+.sf-btn.sf-verde:hover {
+  background: #f5fbf8;
+  border-color: #4caf7d;
+  color: #1e8449;
+}
+
+.sf-btn.sf-verde.active {
+  background: #eafaf1;
+  border-color: #4caf7d;
+  color: #1e8449;
+}

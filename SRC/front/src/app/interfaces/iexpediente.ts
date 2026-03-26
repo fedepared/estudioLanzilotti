@@ -21,6 +21,7 @@ export interface IExpediente {
 }
 export interface IResumenSemaforos {
   rojos: number;
+  naranjas: number;
   amarillos: number;
   verdes: number;
 }

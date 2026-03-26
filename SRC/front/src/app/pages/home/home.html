@@ -3,7 +3,7 @@
   <header class="dashboard-header">
     <div class="header-left">
       <div class="firm-logo">
-        <span class="logo-icon">⚖</span>
+        <img class="imag-padre" src="foto-padre-FOscuro.jpg" alt="">
       </div>
       <div class="firm-info">
         <span class="firm-name">ESTUDIO LANZILOTTI</span>
@@ -18,6 +18,10 @@
       <div class="header-stat critical">
         <span class="stat-value" [appCountUp]="expedientesCriticos" [duration]="1800"></span>
         <span class="stat-label">Críticos</span>
+      </div>
+      <div class="header-stat risk">
+        <span class="stat-value" [appCountUp]="expedientesEnRiesgo" [duration]="1800"></span>
+        <span class="stat-label">En riesgo</span>
       </div>
       <div class="header-stat warning">
         <span class="stat-value" [appCountUp]="expedientesAdvertencia" [duration]="1800"></span>
@@ -40,15 +44,31 @@
     <div class="toolbar-right">
       <!-- Filtros semáforo -->
       <div class="semaforo-filters">
-        <button class="sf-btn sf-rojo" [class.active]="filtroSemaforo === 'rojo'" (click)="onSemaforoChange('rojo')"
+        <button
+          class="sf-btn sf-rojo"
+          [class.active]="filtroSemaforo === 'rojo'"
+          (click)="onSemaforoChange('rojo')"
           title="Filtrar críticos">
           <span class="sf-dot"></span> Críticos
         </button>
-        <button class="sf-btn sf-amarillo" [class.active]="filtroSemaforo === 'amarillo'"
-          (click)="onSemaforoChange('amarillo')" title="Filtrar advertencia">
+        <button
+          class="sf-btn sf-naranja"
+          [class.active]="filtroSemaforo === 'naranja'"
+          (click)="onSemaforoChange('naranja')"
+          title="Filtrar en riesgo">
+          <span class="sf-dot"></span> En riesgo
+        </button>
+        <button
+          class="sf-btn sf-amarillo"
+          [class.active]="filtroSemaforo === 'amarillo'"
+          (click)="onSemaforoChange('amarillo')"
+          title="Filtrar advertencia">
           <span class="sf-dot"></span> Advertencia
         </button>
-        <button class="sf-btn sf-verde" [class.active]="filtroSemaforo === 'verde'" (click)="onSemaforoChange('verde')"
+        <button
+          class="sf-btn sf-verde"
+          [class.active]="filtroSemaforo === 'verde'"
+          (click)="onSemaforoChange('verde')"
           title="Filtrar al día">
           <span class="sf-dot"></span> Al día
         </button>
@@ -57,8 +77,14 @@
       <!-- Buscador -->
       <div class="search-wrapper">
         <i class="pi pi-search search-icon"></i>
-        <input pInputText type="text" [ngModel]="filtroTexto" (input)="onTextoChange($any($event.target).value)"
-          placeholder="Buscar expediente, acto, demandado..." class="search-input" />
+        <input
+          pInputText
+          type="text"
+          [ngModel]="filtroTexto"
+          (input)="onTextoChange($any($event.target).value)"
+          placeholder="Buscar expediente, acto, demandado..."
+          class="search-input"
+        />
       </div>
     </div>
   </div>
@@ -67,11 +93,15 @@
   <div class="legend-bar">
     <div class="legend-item">
       <span class="legend-dot red"></span>
-      <span>Inactividad crítica (más de 85 días)</span>
+      <span>Inactividad en crítico (más de 5 meses)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot orange"></span>
+      <span>Inactividad en riesgo (más de 85 días)</span>
     </div>
     <div class="legend-item">
       <span class="legend-dot yellow"></span>
-      <span>Inactividad moderada (72 días)</span>
+      <span>Inactividad en advertencia (más de 72 días)</span>
     </div>
     <div class="legend-item">
       <span class="legend-dot green"></span>
@@ -81,84 +111,78 @@
 
   <!-- Table -->
   <div class="table-wrapper">
-    <p-table #dt [value]="expedientes" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [scrollable]="true" [scrollHeight]="'55vh'" [totalRecords]="totalRegistros"
-      [loading]="loading" [paginator]="true" [rows]="50" [rowsPerPageOptions]="[50, 100, 150, 200, 250]"
+    <p-table
+      #dt
+      [value]="expedientes"
+      [lazy]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      [scrollable]="true"
+      [scrollHeight]="'55vh'"
+      [totalRecords]="totalRegistros"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="50"
+      [rowsPerPageOptions]="[50, 100, 150, 200, 250]"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} expedientes"
-       styleClass="p-datatable-sm expedientes-table" [size]="'small'"
-      dataKey="idExpediente">
+      styleClass="p-datatable-sm expedientes-table"
+      [size]="'small'"
+      dataKey="idExpediente"
+    >
       <ng-template pTemplate="header">
         <tr>
-          <!-- <th pSortableColumn="estadoSemaforo" class="col-semaforo"> -->
-          <th class="col-semaforo">
-            Estado
-          </th>
-          <!-- <th pSortableColumn="acto" class="col-acto">Acto S/ Demandado <p-sortIcon field="acto" /></th> -->
-          <th class="col-acto">Acto S/ Demandado </th>
-          <!-- <th pSortableColumn="exP1" class="col-exP1">N 1° ins <p-sortIcon field="exP1" /></th> -->
-          <th class="col-exP1">N 1° ins </th>
-          <!-- <th pSortableColumn="exP2" class="col-exP2">N 2° ins <p-sortIcon field="exP2" /></th> -->
-          <th class="col-exP2">N 2° ins </th>
-          <!-- <th pSortableColumn="exP3" class="col-exP3">N 3° ins <p-sortIcon field="exP3" /></th>
-          <th pSortableColumn="exP4" class="col-exP4">N 4° ins <p-sortIcon field="exP4" /></th> -->
+          <th class="col-semaforo">Estado</th>
+          <th class="col-acto">Acto S/ Demandado</th>
+          <th class="col-exP1">N 1° ins</th>
+          <th class="col-exP2">N 2° ins</th>
           <th class="col-descripcion">Último escrito</th>
-          <!-- <th pSortableColumn="fechaUltimoMovimiento" class="col-fecha"> -->
-          <th class="col-fecha">
-            Último movimiento
-          </th>
-          <!-- <th pSortableColumn="diasInactivo" class="col-inactividad"> -->
-          <th class="col-inactividad">
-            Inactividad 
-          </th>
-
+          <th class="col-fecha">Último movimiento</th>
+          <th class="col-inactividad">Inactividad</th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-exp>
         <tr [ngClass]="getRowClass(exp)">
+
           <!-- Semáforo -->
           <td class="col-semaforo">
             <div class="semaforo-cell">
-              <span class="semaforo-dot" [ngClass]="{
-                  'semaforo-red':  exp.colorSemaforo === 'rojo',
+              <span
+                class="semaforo-dot"
+                [ngClass]="{
+                  'semaforo-red':    exp.colorSemaforo === 'rojo',
+                  'semaforo-orange': exp.colorSemaforo === 'naranja',
                   'semaforo-yellow': exp.colorSemaforo === 'amarillo',
-                  'semaforo-green':  exp.colorSemaforo === 'verde',
-                }"></span>
-
+                  'semaforo-green':  exp.colorSemaforo === 'verde'
+                }"
+                [pTooltip]="getEstadoLabel(exp.colorSemaforo)"
+                tooltipPosition="right"
+              ></span>
             </div>
           </td>
 
-
-
-          <!-- Acto -->
+          <!-- Acto S/ Demandado -->
           <td class="col-acto">
-            <span class="acto-badge">{{ exp.acto +' S/ '+ exp.dema }}</span>
+            <span class="acto-badge">{{ exp.acto + ' S/ ' + exp.dema }}</span>
           </td>
 
-
-          <!-- exP1 -->
+          <!-- N° 1° instancia -->
           <td class="col-exP1">
             <span class="expediente-num">{{ exp.exP1?.trim() || '—' }}</span>
           </td>
 
-          <!-- exP2 -->
+          <!-- N° 2° instancia -->
           <td class="col-exP2">
             <span class="expediente-num">{{ exp.exP2?.trim() || '—' }}</span>
           </td>
 
-          <!-- exP3 -->
-          <!-- <td class="col-exP3">
-            <span class="expediente-num">{{ exp.exP3?.trim() || '—' }}</span>
-          </td> -->
-
-          <!-- exP4 -->
-          <!-- <td class="col-exP4">
-            <span class="expediente-num">{{ exp.exP4?.trim() || '—' }}</span>
-          </td> -->
-
           <!-- Último Escrito -->
           <td class="col-descripcion">
-            <span class="descripcion-text" [pTooltip]="exp.descripcionUltimoEscrito" tooltipPosition="top">
+            <span
+              class="descripcion-text"
+              [pTooltip]="exp.descripcionUltimoEscrito"
+              tooltipPosition="top"
+            >
               {{ exp.descripcionUltimoEscrito }}
             </span>
           </td>
@@ -171,11 +195,15 @@
           <!-- Inactividad -->
           <td class="col-inactividad">
             <div class="inactividad-cell">
-              <span class="dias-badge" [ngClass]="{
-                  'dias-red': exp.colorSemaforo === 'rojo',
+              <span
+                class="dias-badge"
+                [ngClass]="{
+                  'dias-red':    exp.colorSemaforo === 'rojo',
+                  'dias-orange': exp.colorSemaforo === 'naranja',
                   'dias-yellow': exp.colorSemaforo === 'amarillo',
-                  'dias-green': exp.colorSemaforo === 'verde',
-                }">
+                  'dias-green':  exp.colorSemaforo === 'verde'
+                }"
+              >
                 {{ exp.diasInactivo ?? 0 }}d
               </span>
               <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0">
@@ -189,13 +217,11 @@
 
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="8" class="empty-state">
+          <td colspan="7" class="empty-state">
             <div class="empty-content">
               <i class="pi pi-folder-open empty-icon"></i>
               <p class="empty-title">No hay expedientes disponibles</p>
-              <p class="empty-subtitle">
-                Los expedientes aparecerán aquí una vez conectado al servidor.
-              </p>
+              <p class="empty-subtitle">Los expedientes aparecerán aquí una vez conectado al servidor.</p>
             </div>
           </td>
         </tr>
