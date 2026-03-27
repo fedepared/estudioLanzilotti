@@ -13,6 +13,7 @@
         public DateTime FechaUltimoMovimiento { get; set; }
         public int DiasInactivo { get; set; }
         public int MesesInactivo { get; set; }
+        public string OJUD { get; set; }
 
         // semáforo
         public string EstadoSemaforo { get; set; }      
