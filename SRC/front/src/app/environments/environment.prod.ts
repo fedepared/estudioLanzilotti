@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://localhost:43886/api', 
+  baseUrl: 'http://192.168.0.230:43886/api', 
   mediaBaseUrl: '',
 };
