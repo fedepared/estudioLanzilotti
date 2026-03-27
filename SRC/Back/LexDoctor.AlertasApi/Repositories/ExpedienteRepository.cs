@@ -5,7 +5,6 @@ using LexDoctor.AlertasApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -35,8 +34,11 @@ namespace LexDoctor.AlertasApi.Repositories
             if (_alertasOptions.DiasInicioAmarillo < 0)
                 throw new ArgumentException("DiasInicioAmarillo no puede ser negativo.");
 
-            if (_alertasOptions.DiasInicioRojo <= _alertasOptions.DiasInicioAmarillo)
-                throw new ArgumentException("DiasInicioRojo debe ser mayor que DiasInicioAmarillo.");
+            if (_alertasOptions.DiasInicioNaranja <= _alertasOptions.DiasInicioAmarillo)
+                throw new ArgumentException("DiasInicioNaranja debe ser mayor que DiasInicioAmarillo.");
+
+            if (_alertasOptions.DiasInicioRojo <= _alertasOptions.DiasInicioNaranja)
+                throw new ArgumentException("DiasInicioRojo debe ser mayor que DiasInicioNaranja.");
         }
 
         private string BuildCacheKey(
@@ -47,7 +49,7 @@ namespace LexDoctor.AlertasApi.Repositories
             string idExpediente,
             string exp1,
             string exp2)
-                {
+        {
             texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
             semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
             idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
@@ -63,11 +65,12 @@ namespace LexDoctor.AlertasApi.Repositories
                    $"exp1={exp1}:" +
                    $"exp2={exp2}:" +
                    $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
+                   $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
                    $"diaRo={_alertasOptions.DiasInicioRojo}";
         }
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
-              int pageNumber,
+            int pageNumber,
             int pageSize,
             string texto = null,
             string semaforo = null,
@@ -91,7 +94,10 @@ namespace LexDoctor.AlertasApi.Repositories
             }
 
             string cacheKeyResumenGlobal =
-                $"alertas-caducidad-v2:resumen-global:diaAm={_alertasOptions.DiasInicioAmarillo}:diaRo={_alertasOptions.DiasInicioRojo}";
+                $"alertas-caducidad-v2:resumen-global:" +
+                $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
+                $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
+                $"diaRo={_alertasOptions.DiasInicioRojo}";
 
             int startRow = ((pageNumber - 1) * pageSize) + 1;
             int endRow = pageNumber * pageSize;
@@ -100,7 +106,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 WITH UltimasMarcasTiempo AS (
                     SELECT
                         m.PROC,
-                        MAX(m.FECH || COALESCE(m.HORA, '0000') || MOVI) AS MaxMarcaTiempo
+                        MAX(m.FECH || COALESCE(m.HORA, '0000') || m.MOVI) AS MaxMarcaTiempo
                     FROM MOVI m
                     WHERE TRIM(COALESCE(m.FECH, '')) <> ''
                       AND m.HECH = 'P'
@@ -111,29 +117,41 @@ namespace LexDoctor.AlertasApi.Repositories
                         m.PROC,
                         COALESCE(m.DSCR, '') AS DSCR,
                         m.HECH,
-                        CASE 
+                        CASE
                             WHEN TRIM(COALESCE(m.FECH, '')) = '' THEN NULL
                             ELSE CAST(
-                                SUBSTRING(m.FECH FROM 1 FOR 4) || '-' || 
-                                SUBSTRING(m.FECH FROM 5 FOR 2) || '-' || 
-                                SUBSTRING(m.FECH FROM 7 FOR 2) 
+                                SUBSTRING(m.FECH FROM 1 FOR 4) || '-' ||
+                                SUBSTRING(m.FECH FROM 5 FOR 2) || '-' ||
+                                SUBSTRING(m.FECH FROM 7 FOR 2)
                             AS DATE)
                         END AS FechaReal
                     FROM MOVI m
                     INNER JOIN UltimasMarcasTiempo umt
                         ON umt.PROC = m.PROC
                        AND umt.MaxMarcaTiempo = (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI)
-                    WHERE m.HECH = 'P' AND TRIM(COALESCE(m.FECH, '')) <> ''
+                    WHERE m.HECH = 'P'
+                      AND TRIM(COALESCE(m.FECH, '')) <> ''
                 ),
                 DatosCalculados AS (
                     SELECT
                         p.PROC AS IdExpediente,
                         COALESCE(p.ACTO, '') AS Acto,
                         COALESCE(p.DEMA, '') AS Dema,
-                        COALESCE(p.EXP1, '') AS EXP1,
-                        COALESCE(p.EXP2, '') AS EXP2,
-                        COALESCE(p.EXP3, '') AS EXP3,
-                        COALESCE(p.EXP4, '') AS EXP4,
+                        TRIM(COALESCE(p.EXP1, '')) AS EXP1,
+                        TRIM(COALESCE(p.EXP2, '')) AS EXP2,
+                        TRIM(COALESCE(p.EXP3, '')) AS EXP3,
+                        TRIM(COALESCE(p.EXP4, '')) AS EXP4,
+                        TRIM(
+                            COALESCE(TRIM(o.NOM1), '') ||
+                            CASE
+                                WHEN TRIM(COALESCE(o.NOM2, '')) <> '' THEN ' ' || TRIM(o.NOM2)
+                                ELSE ''
+                            END ||
+                            CASE
+                                WHEN TRIM(COALESCE(o.DIRE, '')) <> '' THEN ' - ' || TRIM(o.DIRE)
+                                ELSE ''
+                            END
+                        ) AS OJUD,
                         dum.DSCR AS DescripcionUltimoEscrito,
                         dum.FechaReal AS FechaUltimoMovimiento,
                         DATEDIFF(DAY FROM dum.FechaReal TO CURRENT_DATE) AS DiasInactivo,
@@ -141,8 +159,11 @@ namespace LexDoctor.AlertasApi.Repositories
                     FROM PROC p
                     INNER JOIN DetalleUltimoMovimiento dum
                         ON dum.PROC = p.PROC
-                    WHERE (p.GRUP IS NULL OR p.GRUP <> 'B') 
+                    LEFT JOIN OJUD o
+                        ON o.OJUD = p.OJUD
+                    WHERE (p.GRUP IS NULL OR p.GRUP <> 'B')
                       AND EXTRACT(YEAR FROM dum.FechaReal) >= 2020
+                      AND TRIM(COALESCE(p.EXP1, '')) <> ''
                 ),
                 DatosBase AS (
                     SELECT
@@ -153,24 +174,28 @@ namespace LexDoctor.AlertasApi.Repositories
                         dc.EXP2,
                         dc.EXP3,
                         dc.EXP4,
+                        dc.OJUD,
                         dc.DescripcionUltimoEscrito,
                         dc.FechaUltimoMovimiento,
                         dc.DiasInactivo,
                         dc.MesesInactivo,
                         CASE
                             WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 'rojo'
+                            WHEN dc.DiasInactivo >= @DiasInicioNaranja THEN 'naranja'
                             WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 'amarillo'
                             ELSE 'verde'
                         END AS EstadoSemaforo,
                         CASE
                             WHEN dc.DiasInactivo >= @DiasInicioRojo THEN CAST(@ColorRojo AS VARCHAR(20))
+                            WHEN dc.DiasInactivo >= @DiasInicioNaranja THEN CAST(@ColorNaranja AS VARCHAR(20))
                             WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN CAST(@ColorAmarillo AS VARCHAR(20))
                             ELSE CAST(@ColorVerde AS VARCHAR(20))
                         END AS ColorSemaforo,
                         CASE
                             WHEN dc.DiasInactivo >= @DiasInicioRojo THEN 1
-                            WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 2
-                            ELSE 3
+                            WHEN dc.DiasInactivo >= @DiasInicioNaranja THEN 2
+                            WHEN dc.DiasInactivo >= @DiasInicioAmarillo THEN 3
+                            ELSE 4
                         END AS PrioridadSemaforo
                     FROM DatosCalculados dc
                 )";
@@ -178,11 +203,15 @@ namespace LexDoctor.AlertasApi.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("StartRow", startRow, DbType.Int32);
             parameters.Add("EndRow", endRow, DbType.Int32);
+
             parameters.Add("DiasInicioAmarillo", _alertasOptions.DiasInicioAmarillo, DbType.Int32);
+            parameters.Add("DiasInicioNaranja", _alertasOptions.DiasInicioNaranja, DbType.Int32);
             parameters.Add("DiasInicioRojo", _alertasOptions.DiasInicioRojo, DbType.Int32);
-            parameters.Add("ColorRojo", _alertasOptions.ColorRojo, DbType.String);
-            parameters.Add("ColorAmarillo", _alertasOptions.ColorAmarillo, DbType.String);
+
             parameters.Add("ColorVerde", _alertasOptions.ColorVerde, DbType.String);
+            parameters.Add("ColorAmarillo", _alertasOptions.ColorAmarillo, DbType.String);
+            parameters.Add("ColorNaranja", _alertasOptions.ColorNaranja, DbType.String);
+            parameters.Add("ColorRojo", _alertasOptions.ColorRojo, DbType.String);
 
             var where = new StringBuilder(" WHERE 1 = 1 ");
 
@@ -193,11 +222,12 @@ namespace LexDoctor.AlertasApi.Repositories
                            db.IdExpediente CONTAINING @Texto
                         OR db.Acto CONTAINING @Texto
                         OR db.Dema CONTAINING @Texto
+                        OR db.OJUD CONTAINING @Texto
                         OR db.DescripcionUltimoEscrito CONTAINING @Texto
-                        OR db.EXP1 CONTAINING @Texto
-                        OR db.EXP2 CONTAINING @Texto
-                        OR db.EXP3 CONTAINING @Texto
-                        OR db.EXP4 CONTAINING @Texto
+                        OR TRIM(db.EXP1) CONTAINING @Texto
+                        OR TRIM(db.EXP2) CONTAINING @Texto
+                        OR TRIM(db.EXP3) CONTAINING @Texto
+                        OR TRIM(db.EXP4) CONTAINING @Texto
                     )");
                 parameters.Add("Texto", texto.Trim(), DbType.String);
             }
@@ -210,19 +240,19 @@ namespace LexDoctor.AlertasApi.Repositories
 
             if (!string.IsNullOrWhiteSpace(exp1))
             {
-                where.Append(" AND db.EXP1 CONTAINING @Exp1 ");
+                where.Append(" AND TRIM(db.EXP1) CONTAINING @Exp1 ");
                 parameters.Add("Exp1", exp1.Trim(), DbType.String);
             }
 
             if (!string.IsNullOrWhiteSpace(exp2))
             {
-                where.Append(" AND db.EXP2 CONTAINING @Exp2 ");
+                where.Append(" AND TRIM(db.EXP2) CONTAINING @Exp2 ");
                 parameters.Add("Exp2", exp2.Trim(), DbType.String);
             }
 
             if (!string.IsNullOrWhiteSpace(semaforo))
             {
-                if (semaforo == "rojo" || semaforo == "amarillo" || semaforo == "verde")
+                if (semaforo == "rojo" || semaforo == "naranja" || semaforo == "amarillo" || semaforo == "verde")
                 {
                     where.Append(" AND db.EstadoSemaforo = @Semaforo ");
                     parameters.Add("Semaforo", semaforo, DbType.String);
@@ -234,7 +264,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 FROM DatosBase db
                 " + where;
 
-                        string sqlData = cteBase + @"
+            string sqlData = cteBase + @"
                 SELECT
                     db.IdExpediente,
                     db.Acto,
@@ -243,6 +273,7 @@ namespace LexDoctor.AlertasApi.Repositories
                     db.EXP2,
                     db.EXP3,
                     db.EXP4,
+                    db.OJUD,
                     db.DescripcionUltimoEscrito,
                     db.FechaUltimoMovimiento,
                     db.DiasInactivo,
@@ -258,9 +289,10 @@ namespace LexDoctor.AlertasApi.Repositories
                     db.FechaUltimoMovimiento ASC
                 ROWS @StartRow TO @EndRow;";
 
-                        string sqlResumenGlobal = cteBase + @"
+            string sqlResumenGlobal = cteBase + @"
                 SELECT
                     COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'rojo' THEN 1 ELSE 0 END), 0) AS Rojos,
+                    COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'naranja' THEN 1 ELSE 0 END), 0) AS Naranjas,
                     COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'amarillo' THEN 1 ELSE 0 END), 0) AS Amarillos,
                     COALESCE(SUM(CASE WHEN db.EstadoSemaforo = 'verde' THEN 1 ELSE 0 END), 0) AS Verdes
                 FROM DatosBase db;";
@@ -314,6 +346,7 @@ namespace LexDoctor.AlertasApi.Repositories
                 throw new Exception($"Error inesperado en el repositorio de expedientes: {ex.Message}", ex);
             }
         }
+
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(int pageNumber, int pageSize)
         {
             int startRow = ((pageNumber - 1) * pageSize) + 1;
@@ -338,7 +371,8 @@ namespace LexDoctor.AlertasApi.Repositories
                         AS DATE) AS FechaReal
                     FROM MOVI m
                     INNER JOIN UltimasMarcasTiempo umt 
-                        ON m.PROC = umt.PROC AND (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI) = umt.MaxMarcaTiempo
+                        ON m.PROC = umt.PROC
+                       AND (m.FECH || COALESCE(m.HORA, '0000') || m.MOVI) = umt.MaxMarcaTiempo
                     WHERE m.HECH = 'P'
                 ) ";
 
@@ -346,25 +380,25 @@ namespace LexDoctor.AlertasApi.Repositories
                 SELECT COUNT(p.PROC)
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
-                WHERE EXTRACT(YEAR FROM dum.FechaReal) >= 2020 AND (p.GRUP IS NULL OR p.GRUP <> 'B');";
+                WHERE EXTRACT(YEAR FROM dum.FechaReal) >= 2020
+                  AND (p.GRUP IS NULL OR p.GRUP <> 'B');";
 
             string sqlData = cteBase + @"
                 SELECT 
                     p.PROC AS IdExpediente,
-                    p.ACTO AS ACTO, 
-                    p.DEMA AS DEMA,
+                    p.ACTO AS Acto, 
+                    p.DEMA AS Dema,
                     dum.DSCR AS DescripcionUltimoEscrito,
                     dum.FechaReal AS FechaUltimoMovimiento,
-                    dum.HECH AS HECHO,
                     DATEDIFF(DAY FROM dum.FechaReal TO CURRENT_DATE) AS DiasInactivo,
                     DATEDIFF(MONTH FROM dum.FechaReal TO CURRENT_DATE) AS MesesInactivo
                 FROM PROC p
                 INNER JOIN DetalleUltimoMovimiento dum ON dum.PROC = p.PROC
                 WHERE NOT EXISTS (
-                    SELECT 1 
-                    FROM MOVI ms 
-                    WHERE ms.PROC = p.PROC 
-                      AND ms.HECH IN ('P', 'N') 
+                    SELECT 1
+                    FROM MOVI ms
+                    WHERE ms.PROC = p.PROC
+                      AND ms.HECH IN ('P', 'N')
                       AND ms.DSCR CONTAINING 'SENTENCIA'
                 )
                 ORDER BY DiasInactivo DESC
@@ -377,7 +411,9 @@ namespace LexDoctor.AlertasApi.Repositories
                 await connection.OpenAsync();
 
                 var total = await connection.ExecuteScalarAsync<int>(sqlCount);
-                var datos = await connection.QueryAsync<AlertaCaducidadDto>(sqlData, new { StartRow = startRow, EndRow = endRow });
+                var datos = await connection.QueryAsync<AlertaCaducidadDto>(
+                    sqlData,
+                    new { StartRow = startRow, EndRow = endRow });
 
                 return new ResultadoPaginado<AlertaCaducidadDto>
                 {
