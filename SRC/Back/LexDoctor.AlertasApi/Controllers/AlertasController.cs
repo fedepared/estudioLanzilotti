@@ -44,18 +44,5 @@ namespace LexDoctor.AlertasApi.Controllers
     
     
 
-        [HttpGet("caducidad/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> GetAlertasCaducidad(int pageNumber, int pageSize)
-        {
-            try
-            {
-                var alertas = await _repository.ObtenerAlertasCaducidadAsync(pageNumber,pageSize);
-                return Ok(alertas);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno al consultar Lex-Doctor: {ex.Message}");
-            }
-        }
     }
 }

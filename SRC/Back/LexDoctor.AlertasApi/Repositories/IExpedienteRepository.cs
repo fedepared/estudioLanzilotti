@@ -14,8 +14,5 @@ namespace LexDoctor.AlertasApi.Repositories
             string exp1 = null,
             string exp2 = null);
 
-        Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsync(
-            int pageNumber,
-            int pageSize);
     }
 }
