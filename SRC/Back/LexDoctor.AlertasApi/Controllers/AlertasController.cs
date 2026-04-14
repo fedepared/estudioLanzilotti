@@ -19,38 +19,42 @@ namespace LexDoctor.AlertasApi.Controllers
 
         [HttpGet("caducidad")]
         public async Task<IActionResult> ObtenerAlertasCaducidad(
-        int pageNumber = 1,
-        int pageSize = 20,
-        string texto = null,
-        string semaforo = null,
-        string idExpediente = null,
-        string exp1 = null,
-        string exp2 = null,
-        int? mesUltimoMovimiento = null,
-        int? anioUltimoMovimiento = null)
-        {
-            try
-            {
-                var resultado = await _repository.ObtenerAlertasCaducidadAsyncV2(
-                pageNumber,
-                pageSize,
-                texto,
-                semaforo,
-                idExpediente,
-                exp1,
-                exp2,
-                mesUltimoMovimiento,
-                anioUltimoMovimiento);
+             int pageNumber = 1,
+             int pageSize = 20,
+             string texto = null,
+             string semaforo = null,
+             string idExpediente = null,
+             string exp1 = null,
+             string exp2 = null,
+             int? mesUltimoMovimiento = null,
+             int? anioUltimoMovimiento = null,
+             DateTime? fechaUltimoMovimientoDesde = null,
+             DateTime? fechaUltimoMovimientoHasta = null)
+                {
+                    try
+                    {
+                        var resultado = await _repository.ObtenerAlertasCaducidadAsyncV2(
+                            pageNumber,
+                            pageSize,
+                            texto,
+                            semaforo,
+                            idExpediente,
+                            exp1,
+                            exp2,
+                            mesUltimoMovimiento,
+                            anioUltimoMovimiento,
+                            fechaUltimoMovimientoDesde,
+                            fechaUltimoMovimientoHasta);
 
-                return Ok(resultado);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno al consultar Lex-Doctor: {ex.Message}");
-            }
-        }
-    
-    
+                        return Ok(resultado);
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Error interno al consultar Lex-Doctor: {ex.Message}");
+                    }
+                }
+
+
 
     }
 }

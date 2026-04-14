@@ -14,7 +14,9 @@ namespace LexDoctor.AlertasApi.Repositories
            string exp1 = null,
            string exp2 = null,
            int? mesUltimoMovimiento = null,
-           int? anioUltimoMovimiento = null);
+           int? anioUltimoMovimiento = null,
+           DateTime? fechaUltimoMovimientoDesde = null,
+           DateTime? fechaUltimoMovimientoHasta = null);
 
     }
 }
