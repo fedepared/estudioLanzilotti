@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {}
+    "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {
+    "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+        "projectUniqueName": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
         "projectName": "LexDoctor.AlertasApi",
-        "projectPath": "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+        "projectPath": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
         "packagesPath": "C:\\Users\\agusf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agusf\\OneDrive\\Desktop\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\obj\\",
+        "outputPath": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

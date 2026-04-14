@@ -42,51 +42,72 @@ namespace LexDoctor.AlertasApi.Repositories
         }
       
         private string BuildCacheKey(
-            int pageNumber,
-            int pageSize,
-            string texto,
-            string semaforo,
-            string idExpediente,
-            string exp1,
-            string exp2)
-        {
-            texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
-            semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
-            idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
-            exp1 = string.IsNullOrWhiteSpace(exp1) ? "" : exp1.Trim().ToLowerInvariant();
-            exp2 = string.IsNullOrWhiteSpace(exp2) ? "" : exp2.Trim().ToLowerInvariant();
+    int pageNumber,
+    int pageSize,
+    string texto,
+    string semaforo,
+    string idExpediente,
+    string exp1,
+    string exp2,
+    int? mesUltimoMovimiento,
+    int? anioUltimoMovimiento)
+{
+    texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
+    semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
+    idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
+    exp1 = string.IsNullOrWhiteSpace(exp1) ? "" : exp1.Trim().ToLowerInvariant();
+    exp2 = string.IsNullOrWhiteSpace(exp2) ? "" : exp2.Trim().ToLowerInvariant();
 
-            return $"alertas-caducidad-v2:" +
-                   $"page={pageNumber}:" +
-                   $"size={pageSize}:" +
-                   $"texto={texto}:" +
-                   $"semaforo={semaforo}:" +
-                   $"id={idExpediente}:" +
-                   $"exp1={exp1}:" +
-                   $"exp2={exp2}:" +
-                   $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
-                   $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
-                   $"diaRo={_alertasOptions.DiasInicioRojo}";
-        }
+    return $"alertas-caducidad-v2:" +
+           $"page={pageNumber}:" +
+           $"size={pageSize}:" +
+           $"texto={texto}:" +
+           $"semaforo={semaforo}:" +
+           $"id={idExpediente}:" +
+           $"exp1={exp1}:" +
+           $"exp2={exp2}:" +
+           $"mesUltMov={(mesUltimoMovimiento?.ToString() ?? "")}:" +
+           $"anioUltMov={(anioUltimoMovimiento?.ToString() ?? "")}:" +
+           $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
+           $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
+           $"diaRo={_alertasOptions.DiasInicioRojo}";
+}
 
         public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
-      int pageNumber,
-      int pageSize,
-      string texto = null,
-      string semaforo = null,
-      string idExpediente = null,
-      string exp1 = null,
-      string exp2 = null)
+            int pageNumber,
+            int pageSize,
+            string texto = null,
+            string semaforo = null,
+            string idExpediente = null,
+            string exp1 = null,
+            string exp2 = null,
+            int? mesUltimoMovimiento = null,
+            int? anioUltimoMovimiento = null)
+
         {
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 20;
             if (pageSize > 100) pageSize = 100;
+            if (mesUltimoMovimiento.HasValue && (mesUltimoMovimiento < 1 || mesUltimoMovimiento > 12))
+                throw new ArgumentException("mesUltimoMovimiento debe estar entre 1 y 12.");
+
+            if (anioUltimoMovimiento.HasValue && anioUltimoMovimiento < 1900)
+                throw new ArgumentException("anioUltimoMovimiento no es válido.");
 
             semaforo = string.IsNullOrWhiteSpace(semaforo)
                 ? null
                 : semaforo.Trim().ToLowerInvariant();
 
-            string cacheKey = BuildCacheKey(pageNumber, pageSize, texto, semaforo, idExpediente, exp1, exp2);
+            string cacheKey = BuildCacheKey(
+            pageNumber,
+            pageSize,
+            texto,
+            semaforo,
+            idExpediente,
+            exp1,
+            exp2,
+            mesUltimoMovimiento,
+            anioUltimoMovimiento);
 
             if (_cache.TryGetValue(cacheKey, out ResultadoPaginado<AlertaCaducidadDto> resultadoCacheado))
             {
@@ -233,6 +254,18 @@ namespace LexDoctor.AlertasApi.Repositories
             {
                 where.Append(" AND TRIM(db.EXP2) CONTAINING @Exp2 ");
                 parameters.Add("Exp2", exp2.Trim(), DbType.String);
+            }
+
+            if (mesUltimoMovimiento.HasValue)
+            {
+                where.Append(" AND EXTRACT(MONTH FROM db.FechaUltimoMovimiento) = @MesUltimoMovimiento ");
+                parameters.Add("MesUltimoMovimiento", mesUltimoMovimiento.Value, DbType.Int32);
+            }
+
+            if (anioUltimoMovimiento.HasValue)
+            {
+                where.Append(" AND EXTRACT(YEAR FROM db.FechaUltimoMovimiento) = @AnioUltimoMovimiento ");
+                parameters.Add("AnioUltimoMovimiento", anioUltimoMovimiento.Value, DbType.Int32);
             }
 
             if (!string.IsNullOrWhiteSpace(semaforo))
