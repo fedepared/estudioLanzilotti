@@ -40,7 +40,7 @@ namespace LexDoctor.AlertasApi.Repositories
             if (_alertasOptions.DiasInicioRojo <= _alertasOptions.DiasInicioNaranja)
                 throw new ArgumentException("DiasInicioRojo debe ser mayor que DiasInicioNaranja.");
         }
-      
+
         private string BuildCacheKey(
     int pageNumber,
     int pageSize,
@@ -50,8 +50,10 @@ namespace LexDoctor.AlertasApi.Repositories
     string exp1,
     string exp2,
     int? mesUltimoMovimiento,
-    int? anioUltimoMovimiento)
-{
+    int? anioUltimoMovimiento,
+    DateTime? fechaUltimoMovimientoDesde,
+    DateTime? fechaUltimoMovimientoHasta)
+        {
     texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
     semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
     idExpediente = string.IsNullOrWhiteSpace(idExpediente) ? "" : idExpediente.Trim().ToLowerInvariant();
@@ -70,10 +72,12 @@ namespace LexDoctor.AlertasApi.Repositories
            $"anioUltMov={(anioUltimoMovimiento?.ToString() ?? "")}:" +
            $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
            $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
-           $"diaRo={_alertasOptions.DiasInicioRojo}";
+           $"diaRo={_alertasOptions.DiasInicioRojo}"+
+           $"fechaDesde={(fechaUltimoMovimientoDesde?.ToString("yyyy-MM-dd") ?? "")}:" +
+            $"fechaHasta={(fechaUltimoMovimientoHasta?.ToString("yyyy-MM-dd") ?? "")}:";
 }
 
-        public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
+            public async Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasCaducidadAsyncV2(
             int pageNumber,
             int pageSize,
             string texto = null,
@@ -82,7 +86,9 @@ namespace LexDoctor.AlertasApi.Repositories
             string exp1 = null,
             string exp2 = null,
             int? mesUltimoMovimiento = null,
-            int? anioUltimoMovimiento = null)
+            int? anioUltimoMovimiento = null,
+            DateTime? fechaUltimoMovimientoDesde = null,
+            DateTime? fechaUltimoMovimientoHasta = null)
 
         {
             if (pageNumber <= 0) pageNumber = 1;
@@ -93,6 +99,11 @@ namespace LexDoctor.AlertasApi.Repositories
 
             if (anioUltimoMovimiento.HasValue && anioUltimoMovimiento < 1900)
                 throw new ArgumentException("anioUltimoMovimiento no es válido.");
+            if (fechaUltimoMovimientoDesde.HasValue && fechaUltimoMovimientoHasta.HasValue &&
+            fechaUltimoMovimientoDesde.Value.Date > fechaUltimoMovimientoHasta.Value.Date)
+            {
+                throw new ArgumentException("fechaUltimoMovimientoDesde no puede ser mayor que fechaUltimoMovimientoHasta.");
+            }
 
             semaforo = string.IsNullOrWhiteSpace(semaforo)
                 ? null
@@ -107,7 +118,9 @@ namespace LexDoctor.AlertasApi.Repositories
             exp1,
             exp2,
             mesUltimoMovimiento,
-            anioUltimoMovimiento);
+            anioUltimoMovimiento,
+            fechaUltimoMovimientoDesde,
+            fechaUltimoMovimientoHasta);
 
             if (_cache.TryGetValue(cacheKey, out ResultadoPaginado<AlertaCaducidadDto> resultadoCacheado))
             {
@@ -275,6 +288,17 @@ namespace LexDoctor.AlertasApi.Repositories
                     where.Append(" AND db.EstadoSemaforo = @Semaforo ");
                     parameters.Add("Semaforo", semaforo, DbType.String);
                 }
+            }
+            if (fechaUltimoMovimientoDesde.HasValue)
+            {
+                where.Append(" AND db.FechaUltimoMovimiento >= @FechaUltimoMovimientoDesde ");
+                parameters.Add("FechaUltimoMovimientoDesde", fechaUltimoMovimientoDesde.Value.Date, DbType.Date);
+            }
+
+            if (fechaUltimoMovimientoHasta.HasValue)
+            {
+                where.Append(" AND db.FechaUltimoMovimiento <= @FechaUltimoMovimientoHasta ");
+                parameters.Add("FechaUltimoMovimientoHasta", fechaUltimoMovimientoHasta.Value.Date, DbType.Date);
             }
 
             string sqlCount = cteBase + @"
