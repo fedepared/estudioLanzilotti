@@ -3,7 +3,7 @@
   <header class="dashboard-header">
     <div class="header-left">
       <div class="firm-logo">
-        <img class="imag-padre" src="foto-padre-FOscuro.jpg" alt="">
+        <img class="imag-padre" src="foto-padre-FOscuro.jpg" alt="" />
       </div>
       <div class="firm-info">
         <span class="firm-name">ESTUDIO LANZILOTTI</span>
@@ -36,76 +36,86 @@
 
   <!-- Toolbar -->
   <div class="toolbar">
-    <div class="toolbar-left">
+    <div class="toolbar-top">
       <span class="section-title">Procesos activos</span>
       <span class="section-divider">|</span>
-      <span class="section-date">última actualización: {{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }} 1:00 AM</span>
+      <span class="section-date"
+        >última actualización: {{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }} 1:00 AM</span
+      >
     </div>
-    <div class="toolbar-right">
-      <!-- Filtros semáforo -->
+
+    <div class="toolbar-bottom">
       <div class="semaforo-filters">
         <button
           class="sf-btn sf-rojo"
           [class.active]="filtroSemaforo === 'rojo'"
           (click)="onSemaforoChange('rojo')"
-          title="Filtrar críticos">
+          title="Filtrar críticos"
+        >
           <span class="sf-dot"></span> Críticos
         </button>
         <button
           class="sf-btn sf-naranja"
           [class.active]="filtroSemaforo === 'naranja'"
           (click)="onSemaforoChange('naranja')"
-          title="Filtrar en riesgo">
+          title="Filtrar en riesgo"
+        >
           <span class="sf-dot"></span> En riesgo
         </button>
         <button
           class="sf-btn sf-amarillo"
           [class.active]="filtroSemaforo === 'amarillo'"
           (click)="onSemaforoChange('amarillo')"
-          title="Filtrar advertencia">
+          title="Filtrar advertencia"
+        >
           <span class="sf-dot"></span> Advertencia
         </button>
         <button
           class="sf-btn sf-verde"
           [class.active]="filtroSemaforo === 'verde'"
           (click)="onSemaforoChange('verde')"
-          title="Filtrar al día">
+          title="Filtrar al día"
+        >
           <span class="sf-dot"></span> Al día
         </button>
       </div>
 
-      <!-- Buscador -->
-      <div class="search-wrapper">
-        <i class="pi pi-search search-icon"></i>
-        <input
-          pInputText
-          type="text"
-          [ngModel]="filtroTexto"
-          (input)="onTextoChange($any($event.target).value)"
-          placeholder="Buscar expediente, acto, demandado..."
-          class="search-input"
+      <div class="filters-right">
+        <div class="search-wrapper">
+          <i class="pi pi-search search-icon"></i>
+          <input
+            pInputText
+            type="text"
+            [ngModel]="filtroTexto"
+            (input)="onTextoChange($any($event.target).value)"
+            placeholder="Buscar expediente, acto, demandado..."
+            class="search-input"
+          />
+        </div>
+
+        <div class="calendar-wrapper">
+          <p-datepicker
+            [(ngModel)]="rangofechas"
+            selectionMode="range"
+            view="month"
+            dateFormat="mm/yy"
+            [showButtonBar]="true"
+            [readonlyInput]="true"
+            placeholder="Seleccionar periodo"
+            styleClass="custom-datepicker"
+            pTooltip="Seleccionar rangos de fechas"
+            tooltipPosition="top"
+          />
+        </div>
+
+        <p-button
+          icon="pi pi-search"
+          styleClass="btn-filter-custom"
+          title="Aplicar filtros"
+          pTooltip="Filtrar"
+          tooltipPosition="top"
         />
       </div>
-    </div>
-  </div>
-
-  <!-- Legend -->
-  <div class="legend-bar">
-    <div class="legend-item">
-      <span class="legend-dot red"></span>
-      <span>Inactividad en crítico (más de 5 meses)</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-dot orange"></span>
-      <span>Inactividad en riesgo (más de 85 días)</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-dot yellow"></span>
-      <span>Inactividad en advertencia (más de 72 días)</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-dot green"></span>
-      <span>Al día</span>
     </div>
   </div>
 
@@ -143,17 +153,16 @@
 
       <ng-template pTemplate="body" let-exp>
         <tr [ngClass]="getRowClass(exp)">
-
           <!-- Semáforo -->
           <td class="col-semaforo">
             <div class="semaforo-cell">
               <span
                 class="semaforo-dot"
                 [ngClass]="{
-                  'semaforo-red':    exp.colorSemaforo === 'rojo',
+                  'semaforo-red': exp.colorSemaforo === 'rojo',
                   'semaforo-orange': exp.colorSemaforo === 'naranja',
                   'semaforo-yellow': exp.colorSemaforo === 'amarillo',
-                  'semaforo-green':  exp.colorSemaforo === 'verde'
+                  'semaforo-green': exp.colorSemaforo === 'verde',
                 }"
                 [pTooltip]="getEstadoLabel(exp.colorSemaforo)"
                 tooltipPosition="right"
@@ -198,20 +207,22 @@
               <span
                 class="dias-badge"
                 [ngClass]="{
-                  'dias-red':    exp.colorSemaforo === 'rojo',
+                  'dias-red': exp.colorSemaforo === 'rojo',
                   'dias-orange': exp.colorSemaforo === 'naranja',
                   'dias-yellow': exp.colorSemaforo === 'amarillo',
-                  'dias-green':  exp.colorSemaforo === 'verde'
+                  'dias-green': exp.colorSemaforo === 'verde',
                 }"
               >
                 {{ exp.diasInactivo ?? 0 }}d
               </span>
-              <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0">
+              <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0; else menosDeUnMes">
                 ({{ exp.mesesInactivo }} mes{{ exp.mesesInactivo !== 1 ? 'es' : '' }})
               </span>
+              <ng-template #menosDeUnMes>
+                <span class="meses-text">(Menos de 1 mes)</span>
+              </ng-template>
             </div>
           </td>
-
         </tr>
       </ng-template>
 
@@ -221,16 +232,34 @@
             <div class="empty-content">
               <i class="pi pi-folder-open empty-icon"></i>
               <p class="empty-title">No hay expedientes disponibles</p>
-              <p class="empty-subtitle">Los expedientes aparecerán aquí una vez conectado al servidor.</p>
+              <p class="empty-subtitle">
+                Los expedientes aparecerán aquí una vez conectado al servidor.
+              </p>
             </div>
           </td>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="paginatorleft">
-        <div class="paginator-info">
-          <i class="pi pi-list"></i>
+        <div class="legend-bar">
+          <div class="legend-item">
+            <span class="legend-dot red"></span>
+            <span>Crítico (más de 5 meses)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot orange"></span>
+            <span>Riesgo (más de 85 días)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot yellow"></span>
+            <span>Advertencia (más de 72 días)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot green"></span>
+            <span>Al día</span>
+          </div>
         </div>
+        
       </ng-template>
     </p-table>
   </div>

@@ -7,6 +7,7 @@ import Aura from '@primeuix/themes/aura';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID } from '@angular/core';
+import es from 'primelocale/es.json';
 
 registerLocaleData(localeEs);
 
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     { provide: LOCALE_ID, useValue: 'es' },
     providePrimeNG({
+      translation: es.es,
       theme: {
         preset: Aura,
       },
