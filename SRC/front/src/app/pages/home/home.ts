@@ -44,8 +44,8 @@ const HEX_A_COLOR: Record<string, string> = {
 export class Home implements OnInit {
   constructor(
     private genericService: GenericService<IExpedientePage>,
-    private cd: ChangeDetectorRef,
-  ) {}
+   
+  ) { }
   // ── Calendario ────────────────────────────────────────────────────────────────
   rangofechas: Date[] | undefined;
   // ── Estado ────────────────────────────────────────────────────────────────
@@ -91,18 +91,29 @@ export class Home implements OnInit {
 
   // ── Eventos filtro ────────────────────────────────────────────────────────
   onTextoChange(valor: string): void {
-    if (valor.length > 3 || valor.length === 0) {
-      this.filtroTexto = valor;
-      this.textoSubject.next(valor);
-    }
+
+    this.filtroTexto = valor;
+    this.textoSubject.next(valor);
+
   }
 
   onSemaforoChange(color: string): void {
     this.filtroSemaforo = this.filtroSemaforo === color ? '' : color;
+    // this.currentPage = 1;
+    // this.cargarPagina(1, this.currentPageSize);
+  }
+  aplicarFiltros(): void {
     this.currentPage = 1;
     this.cargarPagina(1, this.currentPageSize);
   }
+  limpiarFiltros(): void {
+    this.filtroTexto = '';
+    this.filtroSemaforo = '';
 
+    this.rangofechas = undefined;
+    this.currentPage = 1;
+    this.cargarPagina(1, this.currentPageSize);
+  }
   // ── Lazy load ─────────────────────────────────────────────────────────────
   onLazyLoad(event: TableLazyLoadEvent): void {
     const pageSize = event.rows ?? this.currentPageSize;
@@ -116,7 +127,7 @@ export class Home implements OnInit {
   private cargarPagina(pageNumber: number, pageSize: number): void {
     Promise.resolve().then(() => {
       this.loading = true;
-      this.cd.detectChanges();
+     
 
       let params = `Alertas/caducidad?pageNumber=${pageNumber}&pageSize=${pageSize}`;
       if (this.filtroTexto?.trim()) {
@@ -125,7 +136,14 @@ export class Home implements OnInit {
       if (this.filtroSemaforo) {
         params += `&semaforo=${encodeURIComponent(this.filtroSemaforo)}`;
       }
-
+      if (this.rangofechas?.length) {
+        const [desde, hasta] = this.rangofechas;
+        if (desde) {
+          params += `&fechaUltimoMovimientoDesde=${this.primerDiaMes(desde)}`;
+          // Si no eligió rango (solo un mes), "hasta" = fin de ese mismo mes
+          params += `&fechaUltimoMovimientoHasta=${this.ultimoDiaMes(hasta ?? desde)}`;
+        }
+      }
       this.genericService.getAll(params).subscribe({
         next: (resp: IExpedientePage) => {
           this.expedientes = this.normalizarExpedientes(resp.datos);
@@ -137,17 +155,27 @@ export class Home implements OnInit {
             verdes: 0,
           };
           this.loading = false;
-          this.cd.detectChanges();
+          
         },
         error: (err) => {
           console.error('Error cargando expedientes:', err);
           this.loading = false;
-          this.cd.detectChanges();
         },
       });
     });
   }
-
+  private primerDiaMes(d: Date): string {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    return `${yyyy}-${mm}-01`;
+  }
+  private ultimoDiaMes(d: Date): string {
+    const ultimo = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    const yyyy = ultimo.getFullYear();
+    const mm = String(ultimo.getMonth() + 1).padStart(2, '0');
+    const dd = String(ultimo.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
   // ── Normalización ─────────────────────────────────────────────────────────
   private normalizarExpedientes(items: IExpediente[]): IExpediente[] {
     return items.map((exp) => {

@@ -901,13 +901,34 @@
   color: #e8dcc8 !important;
 }
 
-::ng-deep .p-datapicker-panel {
-      background: #1a1612;
+::ng-deep .p-datepicker-panel {
+      background: #1a1612 !important;
 }
 ::ng-deep .p-datepicker-header {
-  background: #1a1612;
+  background: #1a1612 !important;
 }
 
 ::ng-deep .p-datepicker-month-selected {
-  background: #c9a96e ;
+  background: #c9a96e !important;
+}
+ 
+/* Botón Limpiar */
+::ng-deep .btn-clear-custom {
+  background: transparent !important;
+  color: #8b7355 !important;
+  border: 1px solid #ddd5c4 !important;
+  height: 38px !important;
+  width: 38px !important;
+  padding: 0 !important;
+  border-radius: 3px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s !important;
+}
+ 
+::ng-deep .btn-clear-custom:hover {
+  background: #fdecea !important;
+  color: #c0392b !important;
+  border-color: #e05555 !important;
 }

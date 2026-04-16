@@ -39,43 +39,25 @@
     <div class="toolbar-top">
       <span class="section-title">Procesos activos</span>
       <span class="section-divider">|</span>
-      <span class="section-date"
-        >última actualización: {{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }} 1:00 AM</span
-      >
+      <span class="section-date">última actualización: {{ fechaActual | date: "EEEE d 'de' MMMM, yyyy" }} 1:00 AM</span>
     </div>
 
     <div class="toolbar-bottom">
       <div class="semaforo-filters">
-        <button
-          class="sf-btn sf-rojo"
-          [class.active]="filtroSemaforo === 'rojo'"
-          (click)="onSemaforoChange('rojo')"
-          title="Filtrar críticos"
-        >
+        <button class="sf-btn sf-rojo" [class.active]="filtroSemaforo === 'rojo'" (click)="onSemaforoChange('rojo')"
+          title="Filtrar críticos">
           <span class="sf-dot"></span> Críticos
         </button>
-        <button
-          class="sf-btn sf-naranja"
-          [class.active]="filtroSemaforo === 'naranja'"
-          (click)="onSemaforoChange('naranja')"
-          title="Filtrar en riesgo"
-        >
+        <button class="sf-btn sf-naranja" [class.active]="filtroSemaforo === 'naranja'"
+          (click)="onSemaforoChange('naranja')" title="Filtrar en riesgo">
           <span class="sf-dot"></span> En riesgo
         </button>
-        <button
-          class="sf-btn sf-amarillo"
-          [class.active]="filtroSemaforo === 'amarillo'"
-          (click)="onSemaforoChange('amarillo')"
-          title="Filtrar advertencia"
-        >
+        <button class="sf-btn sf-amarillo" [class.active]="filtroSemaforo === 'amarillo'"
+          (click)="onSemaforoChange('amarillo')" title="Filtrar advertencia">
           <span class="sf-dot"></span> Advertencia
         </button>
-        <button
-          class="sf-btn sf-verde"
-          [class.active]="filtroSemaforo === 'verde'"
-          (click)="onSemaforoChange('verde')"
-          title="Filtrar al día"
-        >
+        <button class="sf-btn sf-verde" [class.active]="filtroSemaforo === 'verde'" (click)="onSemaforoChange('verde')"
+          title="Filtrar al día">
           <span class="sf-dot"></span> Al día
         </button>
       </div>
@@ -83,62 +65,31 @@
       <div class="filters-right">
         <div class="search-wrapper">
           <i class="pi pi-search search-icon"></i>
-          <input
-            pInputText
-            type="text"
-            [ngModel]="filtroTexto"
-            (input)="onTextoChange($any($event.target).value)"
-            placeholder="Buscar expediente, acto, demandado..."
-            class="search-input"
-          />
+          <input pInputText type="text" [ngModel]="filtroTexto" (keyup.enter)="aplicarFiltros()"
+            placeholder="Buscar expediente, acto, demandado..." class="search-input" />
         </div>
 
         <div class="calendar-wrapper">
-          <p-datepicker
-            [(ngModel)]="rangofechas"
-            selectionMode="range"
-            view="month"
-            dateFormat="mm/yy"
-            [showButtonBar]="true"
-            [readonlyInput]="true"
-            placeholder="Seleccionar periodo"
-            styleClass="custom-datepicker"
-            pTooltip="Seleccionar rangos de fechas"
-            tooltipPosition="top"
-          />
+          <p-datepicker [(ngModel)]="rangofechas" selectionMode="range" view="month" dateFormat="mm/yy"
+            [showButtonBar]="true" [readonlyInput]="true" placeholder="Seleccionar periodo (mes/año)"
+            styleClass="custom-datepicker" pTooltip="Seleccionar rangos de fechas" tooltipPosition="top" />
         </div>
 
-        <p-button
-          icon="pi pi-search"
-          styleClass="btn-filter-custom"
-          title="Aplicar filtros"
-          pTooltip="Filtrar"
-          tooltipPosition="top"
-        />
+        <p-button icon="pi pi-search" styleClass="btn-filter-custom" title="Aplicar filtros" pTooltip="Aplicar filtros"
+          tooltipPosition="top" (onClick)="aplicarFiltros()" />
+        <p-button icon="pi pi-times" styleClass="btn-clear-custom" pTooltip="Limpiar todos los filtros"
+          tooltipPosition="top" (onClick)="limpiarFiltros()" />
       </div>
     </div>
   </div>
 
   <!-- Table -->
   <div class="table-wrapper">
-    <p-table
-      #dt
-      [value]="expedientes"
-      [lazy]="true"
-      (onLazyLoad)="onLazyLoad($event)"
-      [scrollable]="true"
-      [scrollHeight]="'55vh'"
-      [totalRecords]="totalRegistros"
-      [loading]="loading"
-      [paginator]="true"
-      [rows]="50"
-      [rowsPerPageOptions]="[50, 100, 150, 200, 250]"
-      [showCurrentPageReport]="true"
+    <p-table #dt [value]="expedientes" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [scrollable]="true"
+      [scrollHeight]="'55vh'" [totalRecords]="totalRegistros" [loading]="loading" [paginator]="true" [rows]="50"
+      [rowsPerPageOptions]="[50, 100, 150, 200, 250]" [showCurrentPageReport]="true"
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} expedientes"
-      styleClass="p-datatable-sm expedientes-table"
-      [size]="'small'"
-      dataKey="idExpediente"
-    >
+      styleClass="p-datatable-sm expedientes-table" [size]="'small'" dataKey="idExpediente">
       <ng-template pTemplate="header">
         <tr>
           <th class="col-semaforo">Estado</th>
@@ -156,17 +107,12 @@
           <!-- Semáforo -->
           <td class="col-semaforo">
             <div class="semaforo-cell">
-              <span
-                class="semaforo-dot"
-                [ngClass]="{
+              <span class="semaforo-dot" [ngClass]="{
                   'semaforo-red': exp.colorSemaforo === 'rojo',
                   'semaforo-orange': exp.colorSemaforo === 'naranja',
                   'semaforo-yellow': exp.colorSemaforo === 'amarillo',
                   'semaforo-green': exp.colorSemaforo === 'verde',
-                }"
-                [pTooltip]="getEstadoLabel(exp.colorSemaforo)"
-                tooltipPosition="right"
-              ></span>
+                }" [pTooltip]="getEstadoLabel(exp.colorSemaforo)" tooltipPosition="right"></span>
             </div>
           </td>
 
@@ -187,11 +133,7 @@
 
           <!-- Último Escrito -->
           <td class="col-descripcion">
-            <span
-              class="descripcion-text"
-              [pTooltip]="exp.descripcionUltimoEscrito"
-              tooltipPosition="top"
-            >
+            <span class="descripcion-text" [pTooltip]="exp.descripcionUltimoEscrito" tooltipPosition="top">
               {{ exp.descripcionUltimoEscrito }}
             </span>
           </td>
@@ -204,22 +146,26 @@
           <!-- Inactividad -->
           <td class="col-inactividad">
             <div class="inactividad-cell">
-              <span
-                class="dias-badge"
-                [ngClass]="{
-                  'dias-red': exp.colorSemaforo === 'rojo',
-                  'dias-orange': exp.colorSemaforo === 'naranja',
-                  'dias-yellow': exp.colorSemaforo === 'amarillo',
-                  'dias-green': exp.colorSemaforo === 'verde',
-                }"
-              >
-                {{ exp.diasInactivo ?? 0 }}d
-              </span>
-              <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0; else menosDeUnMes">
-                ({{ exp.mesesInactivo }} mes{{ exp.mesesInactivo !== 1 ? 'es' : '' }})
-              </span>
-              <ng-template #menosDeUnMes>
-                <span class="meses-text">(Menos de 1 mes)</span>
+              <!-- Si tiene 30 días o más, muestra el número -->
+              <ng-container *ngIf="exp.diasInactivo >= 30; else menosDeMes">
+                <span class="dias-badge" [ngClass]="{
+          'dias-red':    exp.colorSemaforo === 'rojo',
+          'dias-orange': exp.colorSemaforo === 'naranja',
+          'dias-yellow': exp.colorSemaforo === 'amarillo',
+          'dias-green':  exp.colorSemaforo === 'verde'
+        }">
+                  {{ exp.diasInactivo }}d
+                </span>
+                <span class="meses-text" *ngIf="exp.mesesInactivo && exp.mesesInactivo > 0">
+                  ({{ exp.mesesInactivo }} mes{{ exp.mesesInactivo !== 1 ? 'es' : '' }})
+                </span>
+              </ng-container>
+
+              <!-- Si tiene menos de 30 días, muestra el texto fijo -->
+              <ng-template #menosDeMes>
+                <span class="dias-badge dias-green">
+                  Menos de un mes
+                </span>
               </ng-template>
             </div>
           </td>
@@ -259,7 +205,7 @@
             <span>Al día</span>
           </div>
         </div>
-        
+
       </ng-template>
     </p-table>
   </div>
