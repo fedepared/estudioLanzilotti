@@ -183,7 +183,7 @@ namespace LexDoctor.AlertasApi.Repositories
             INNER JOIN DetalleUltimoMovimiento dum
                 ON dum.PROC = p.PROC
             WHERE (p.GRUP IS NULL OR p.GRUP <> 'B')
-              AND EXTRACT(YEAR FROM dum.FechaReal) >= 2020
+              AND EXTRACT(YEAR FROM dum.FechaReal) >= 2018
               AND TRIM(COALESCE(p.EXP1, '')) <> ''
         ),
         DatosBase AS (
