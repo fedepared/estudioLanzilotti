@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {}
+    "C:\\Users\\Abril\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {}
   },
   "projects": {
-    "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {
+    "C:\\Users\\Abril\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+        "projectUniqueName": "C:\\Users\\Abril\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
         "projectName": "LexDoctor.AlertasApi",
-        "projectPath": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
-        "packagesPath": "C:\\Users\\agusf\\.nuget\\packages\\",
-        "outputPath": "D:\\Sistemas\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\obj\\",
+        "projectPath": "C:\\Users\\Abril\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\LexDoctor.AlertasApi.csproj",
+        "packagesPath": "C:\\Users\\Abril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Abril\\Desktop\\abogados\\estudioLanzilotti\\SRC\\Back\\LexDoctor.AlertasApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agusf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Abril\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -75,6 +74,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.25, 8.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
