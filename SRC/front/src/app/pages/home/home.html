@@ -65,7 +65,7 @@
       <div class="filters-right">
         <div class="search-wrapper">
           <i class="pi pi-search search-icon"></i>
-          <input pInputText type="text" [ngModel]="filtroTexto" (keyup.enter)="aplicarFiltros()"
+          <input pInputText type="text" [(ngModel)]="filtroTexto" (keyup.enter)="aplicarFiltros()"
             placeholder="Buscar expediente, acto, demandado..." class="search-input" />
         </div>
 

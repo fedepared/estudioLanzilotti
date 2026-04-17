@@ -387,7 +387,7 @@
   min-width: 220px;
 }
 
-/* .col-fecha    { width: 140px; } */
+ .col-fecha    {     text-align: center !important; } 
 /* .col-inactividad { width: 120px; } */
 /* .col-acciones { width: 90px; } */
 
@@ -513,6 +513,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+      text-align: center !important;
 }
 
 .dias-badge {
@@ -522,7 +523,7 @@
   font-weight: 700;
   padding: 0.15rem 0.5rem;
   border-radius: 2px;
-  width: fit-content;
+  /* width: fit-content; */
 }
 
 .dias-badge.dias-red {
@@ -931,4 +932,16 @@
   background: #fdecea !important;
   color: #c0392b !important;
   border-color: #e05555 !important;
+}
+
+::ng-deep .p-paginator-page.p-paginator-page-selected {
+   background: #c9a96e !important;
+
+}
+
+::ng-deep .p-select-option.p-select-option-selected.p-focus {
+  background: #c9a96e !important;
+}
+::ng-deep .p-select-option.p-select-option-selected {
+  background: #c9a96e !important;
 }
