@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
+* {caret-color: #333 !important; }
 :root {
 	--app-footer-height: 40px;
 }
