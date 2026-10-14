@@ -18,5 +18,18 @@ namespace LexDoctor.AlertasApi.Repositories
            DateTime? fechaUltimoMovimientoDesde = null,
            DateTime? fechaUltimoMovimientoHasta = null);
 
+        Task<ResultadoPaginado<AlertaCaducidadDto>> ObtenerAlertasRojasAsyncV2(
+           int pageNumber,
+           int pageSize,
+           string texto = null,
+           string semaforo = null,
+           string idExpediente = null,
+           string exp1 = null,
+           string exp2 = null,
+           int? mesUltimoMovimiento = null,
+           int? anioUltimoMovimiento = null,
+           DateTime? fechaUltimoMovimientoDesde = null,
+           DateTime? fechaUltimoMovimientoHasta = null);
+
     }
 }
