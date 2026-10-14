@@ -1,38 +1,12 @@
 <div class="dashboard-root">
   <!-- Header -->
-  <header class="dashboard-header">
-    <div class="header-left">
-      <div class="firm-logo">
-        <img class="imag-padre" src="foto-padre-FOscuro.jpg" alt="" />
-      </div>
-      <div class="firm-info">
-        <span class="firm-name">ESTUDIO LANZILOTTI</span>
-        <span class="firm-subtitle">Control de escritos vencidos</span>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="header-stat">
-        <span class="stat-value" [appCountUp]="totalExpedientes" [duration]="1800"></span>
-        <span class="stat-label">Total</span>
-      </div>
-      <div class="header-stat critical">
-        <span class="stat-value" [appCountUp]="expedientesCriticos" [duration]="1800"></span>
-        <span class="stat-label">Críticos</span>
-      </div>
-      <div class="header-stat risk">
-        <span class="stat-value" [appCountUp]="expedientesEnRiesgo" [duration]="1800"></span>
-        <span class="stat-label">En riesgo</span>
-      </div>
-      <div class="header-stat warning">
-        <span class="stat-value" [appCountUp]="expedientesAdvertencia" [duration]="1800"></span>
-        <span class="stat-label">Advertencia</span>
-      </div>
-      <div class="header-stat success">
-        <span class="stat-value" [appCountUp]="expedientesAlDia" [duration]="1800"></span>
-        <span class="stat-label">Al día</span>
-      </div>
-    </div>
-  </header>
+  <app-header
+    [total]="totalExpedientes"
+    [criticos]="expedientesCriticos"
+    [enRiesgo]="expedientesEnRiesgo"
+    [advertencia]="expedientesAdvertencia"
+    [alDia]="expedientesAlDia"
+  />
 
   <!-- Toolbar -->
   <div class="toolbar">

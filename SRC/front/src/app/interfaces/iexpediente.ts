@@ -11,6 +11,7 @@ export interface IExpediente {
   exP2?: string;
   exP3?: string;
   exP4?: string;
+  ojud?: string;
   descripcionUltimoEscrito: string;
   fechaUltimoMovimiento: Date;
   diasInactivo?: number;
