@@ -10,7 +10,11 @@ export class CountUp implements OnChanges {
   constructor(private el: ElementRef) {}
 
   ngOnChanges() {
-    if (this.target > 0) this.animate();
+    if (this.target > 0) {
+      this.animate();
+    } else {
+      this.el.nativeElement.textContent = (this.target ?? 0).toLocaleString();
+    }
   }
 
   private animate() {

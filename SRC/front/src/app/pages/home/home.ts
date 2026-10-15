@@ -9,8 +9,8 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CountUp } from '../../directives/count-up';
 import { DatePickerModule } from 'primeng/datepicker';
+import { Header } from '../../component/header/header';
 
 // ── Mapa hex → clave lógica ──────────────────────────────────────────────────
 const HEX_A_COLOR: Record<string, string> = {
@@ -30,7 +30,7 @@ const HEX_A_COLOR: Record<string, string> = {
     ButtonModule,
     InputTextModule,
     TooltipModule,
-    CountUp,
+    Header,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

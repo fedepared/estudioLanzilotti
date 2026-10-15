@@ -14,197 +14,9 @@
     radial-gradient(ellipse at 10% 90%, rgba(100, 80, 60, 0.06) 0%, transparent 50%);
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
-.dashboard-header {
-  background: #1a1612;
-  padding: 1.25rem 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid #8b7355;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.firm-logo {
-  height: 44px;
-  width: auto;
-  display: flex;
-  align-items: center;
-  overflow: visible;
-
-}
-
-.firm-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.firm-name {
-  font-family: 'EB Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #e8dcc8;
-  letter-spacing: 0.04em;
-  line-height: 1;
-}
-
-.firm-subtitle {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.7rem;
-  color: #8b7355;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.header-right {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.header-stat {
-  text-align: center;
-  padding: 0.4rem 1rem;
-  border-left: 1px solid #2d2620;
-}
-
-.header-stat .stat-value {
-  display: block;
-  font-family: 'Lato', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #e8dcc8;
-  line-height: 1;
-}
-
-.header-stat .stat-label {
-  display: block;
-  font-family: 'Lato', sans-serif;
-  font-size: 0.65rem;
-  color: #8b7355;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 0.2rem;
-}
-
-.header-stat.critical .stat-value {
-  color: #e05555;
-}
-
-.header-stat.risk .stat-value {
-  color: #f97316;
-}
-
-.header-stat.warning .stat-value {
-  color: #d4a017;
-}
-
-.header-stat.success .stat-value {
-  color: #4caf7d;
-}
 
 
 
-/* ============================================================
-   TOOLBAR
-   ============================================================ */
-.toolbar {
-  background: #ffffff;
-  padding: 0.9rem 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ddd5c4;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-.toolbar1 {
-  background: #ffffff;
-  padding: 0.9rem 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ddd5c4;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-
-.toolbar-left {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.section-title {
-  font-family: 'EB Garamond', serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1a1612;
-  letter-spacing: 0.02em;
-}
-
-.section-divider {
-  color: #c9a96e;
-  font-size: 1.1rem;
-}
-
-.section-date {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.78rem;
-  color: #8b7355;
-  letter-spacing: 0.04em;
-  text-transform: capitalize;
-}
-
-.toolbar-right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-icon {
-  position: absolute;
-  left: 0.75rem;
-  color: #8b7355;
-  font-size: 0.85rem;
-  z-index: 1;
-}
-
-.search-input {
-  padding-left: 2.2rem !important;
-  width: 320px;
-  font-family: 'Lato', sans-serif !important;
-  font-size: 0.82rem !important;
-  border: 1px solid #ddd5c4 !important;
-  border-radius: 3px !important;
-  background: #faf8f5 !important;
-  color: #1a1612 !important;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.search-input:focus {
-  border-color: #8b7355 !important;
-  box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.15) !important;
-}
-
-.search-input::placeholder {
-  color: #b8a89a !important;
-}
 
 /* ============================================================
    LEGEND
@@ -368,28 +180,22 @@
 /* ============================================================
    COLUMNS
    ============================================================ */
-/* .col-semaforo { width: 130px; } */
-/* .col-id       { width: 140px; } */
 .col-acto {
   width: 200px;
 }
 
--col-exP1 {
-  width: 80px;
+.col-exP1,
+.col-exP2 {
+  width: 120px;
 }
 
--col-exP2 {
-  width: 80px;
-}
-
-/* .col-dema     { width: 200px; } */
 .col-descripcion {
   min-width: 220px;
 }
 
- .col-fecha    {     text-align: center !important; } 
-/* .col-inactividad { width: 120px; } */
-/* .col-acciones { width: 90px; } */
+.col-fecha {
+  text-align: center !important;
+}
 
 /* ============================================================
    CELL COMPONENTS
@@ -436,19 +242,9 @@
   color: #4a3f35;
 }
 
-/* ID */
-.expediente-id {
-
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #1a1612;
-  letter-spacing: 0.04em;
-}
-
 /* Acto */
 .acto-badge {
   display: inline-block;
-
   color: #4a3f35;
   font-size: 0.72rem;
   font-weight: 600;
@@ -456,35 +252,6 @@
   text-transform: uppercase;
   padding: 0.2rem 0.55rem;
   border-radius: 2px;
-}
-
-/* Demandado */
-.dema-cell {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.dema-initials {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #1a1612;
-  color: #c9a96e;
-  font-family: 'EB Garamond', serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  letter-spacing: 0.02em;
-}
-
-.dema-name {
-  font-size: 0.83rem;
-  color: #1a1612;
-  font-weight: 500;
 }
 
 /* Descripción */
@@ -556,22 +323,6 @@
   font-style: italic;
 }
 
-/* Acciones */
-.acciones-cell {
-  display: flex;
-  gap: 0.1rem;
-  justify-content: center;
-}
-
-::ng-deep .acciones-cell .p-button {
-  color: #8b7355 !important;
-  transition: color 0.15s, background 0.15s;
-}
-
-::ng-deep .acciones-cell .p-button:hover {
-  color: #1a1612 !important;
-  background: rgba(139, 115, 85, 0.1) !important;
-}
 
 /* ============================================================
    EMPTY STATE
@@ -627,9 +378,6 @@
     gap: 0.75rem;
   }
 
-  .dashboard-header {
-    padding: 1rem;
-  }
 
   .search-input {
     width: 220px;
@@ -640,13 +388,6 @@
   }
 }
 
-/* Números de instancia */
-.col-exP1,
-.col-exP2,
-.col-exP3,
-.col-exP4 {
-  width: 130px;
-}
 
 .expediente-num {
   font-family: 'Lato', monospace;

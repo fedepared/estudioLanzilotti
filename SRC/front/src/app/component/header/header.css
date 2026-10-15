@@ -1,0 +1,135 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.dashboard-header {
+  background: #1a1612;
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #8b7355;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-hamburger {
+  background: transparent;
+  border: 1px solid #3d3227;
+  color: #c9a96e;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-hamburger:hover {
+  background: #2d2620;
+  color: #e8dcc8;
+  border-color: #8b7355;
+}
+
+.firm-logo {
+  height: 44px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.imag-padre {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.firm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.firm-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e8dcc8;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.firm-subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  color: #8b7355;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header-right {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.header-stat {
+  text-align: center;
+  padding: 0.4rem 1rem;
+  border-left: 1px solid #2d2620;
+}
+
+.header-stat .stat-value {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e8dcc8;
+  line-height: 1;
+}
+
+.header-stat .stat-label {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  color: #8b7355;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.header-stat.critical .stat-value {
+  color: #e05555;
+}
+
+.header-stat.risk .stat-value {
+  color: #f97316;
+}
+
+.header-stat.warning .stat-value {
+  color: #d4a017;
+}
+
+.header-stat.success .stat-value {
+  color: #4caf7d;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+}
