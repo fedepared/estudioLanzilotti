@@ -50,7 +50,7 @@ export class EscritosRojos implements OnInit {
   fechaActual: Date = new Date();
 
   filtroTexto: string = '';
-  filtroSemaforo: string = 'rojo';
+  filtroSemaforo: string = '';
 
   private currentPage: number = 1;
   private currentPageSize: number = 50;
@@ -87,7 +87,7 @@ export class EscritosRojos implements OnInit {
 
   limpiarFiltros(): void {
     this.filtroTexto = '';
-    this.filtroSemaforo = 'rojo';
+    this.filtroSemaforo = '';
     this.rangofechas = undefined;
     this.currentPage = 1;
     this.cargarPagina(1, this.currentPageSize);
@@ -105,7 +105,7 @@ export class EscritosRojos implements OnInit {
     this.loading = true;
     this.cdr.markForCheck();
 
-    let params = `Alertas/caducidad?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    let params = `Alertas/rojos?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     if (this.filtroTexto?.trim()) {
       params += `&texto=${encodeURIComponent(this.filtroTexto.trim())}`;
     }
@@ -151,10 +151,23 @@ export class EscritosRojos implements OnInit {
   }
 
   private normalizarExpedientes(items: IExpediente[]): IExpediente[] {
-    return items.map((exp) => {
+    return (items || []).map((exp: any) => {
       const raw = exp.colorSemaforo?.trim().toLowerCase() ?? '';
       const color = HEX_A_COLOR[raw] ?? raw;
-      return { ...exp, estadoSemaforo: exp.estadoSemaforo?.trim() ?? '', colorSemaforo: color };
+      return {
+        ...exp,
+        idExpediente: exp.idExpediente ?? exp.IdExpediente ?? '',
+        acto: exp.acto ?? exp.Acto ?? '',
+        dema: exp.dema ?? exp.Dema ?? '',
+        exP1: (exp.exP1 ?? exp.exp1 ?? exp.EXP1 ?? '').trim(),
+        exP2: (exp.exP2 ?? exp.exp2 ?? exp.EXP2 ?? '').trim(),
+        exP3: (exp.exP3 ?? exp.exp3 ?? exp.EXP3 ?? '').trim(),
+        exP4: (exp.exP4 ?? exp.exp4 ?? exp.EXP4 ?? '').trim(),
+        ojud: (exp.ojud ?? exp.Ojud ?? exp.OJUD ?? '').trim(),
+        descripcionUltimoEscrito: exp.descripcionUltimoEscrito ?? exp.DescripcionUltimoEscrito ?? '',
+        estadoSemaforo: exp.estadoSemaforo?.trim() ?? '',
+        colorSemaforo: color,
+      };
     });
   }
 
