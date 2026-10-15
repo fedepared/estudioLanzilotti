@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using FirebirdSql.Data.FirebirdClient;
 using LexDoctor.AlertasApi.Config;
 using LexDoctor.AlertasApi.Models;
@@ -52,7 +52,7 @@ namespace LexDoctor.AlertasApi.Repositories
     int? mesUltimoMovimiento,
     int? anioUltimoMovimiento,
     DateTime? fechaUltimoMovimientoDesde,
-    DateTime? fechaUltimoMovimientoHasta)
+    DateTime? fechaUltimoMovimientoHasta, string prefix = "alertas-caducidad-v2")
         {
     texto = string.IsNullOrWhiteSpace(texto) ? "" : texto.Trim().ToLowerInvariant();
     semaforo = string.IsNullOrWhiteSpace(semaforo) ? "" : semaforo.Trim().ToLowerInvariant();
@@ -60,7 +60,7 @@ namespace LexDoctor.AlertasApi.Repositories
     exp1 = string.IsNullOrWhiteSpace(exp1) ? "" : exp1.Trim().ToLowerInvariant();
     exp2 = string.IsNullOrWhiteSpace(exp2) ? "" : exp2.Trim().ToLowerInvariant();
 
-    return $"alertas-caducidad-v2:" +
+    return $"{prefix}:" +
            $"page={pageNumber}:" +
            $"size={pageSize}:" +
            $"texto={texto}:" +
@@ -507,7 +507,7 @@ namespace LexDoctor.AlertasApi.Repositories
             mesUltimoMovimiento,
             anioUltimoMovimiento,
             fechaUltimoMovimientoDesde,
-            fechaUltimoMovimientoHasta);
+            fechaUltimoMovimientoHasta, prefix: "alertas-rojos-v2");
 
             if (_cache.TryGetValue(cacheKey, out ResultadoPaginado<AlertaCaducidadDto> resultadoCacheado))
             {
@@ -515,7 +515,7 @@ namespace LexDoctor.AlertasApi.Repositories
             }
 
             string cacheKeyResumenGlobal =
-                $"alertas-caducidad-v2:resumen-global:" +
+                $"alertas-rojos-v2:resumen-global:" +
                 $"diaAm={_alertasOptions.DiasInicioAmarillo}:" +
                 $"diaNar={_alertasOptions.DiasInicioNaranja}:" +
                 $"diaRo={_alertasOptions.DiasInicioRojo}";

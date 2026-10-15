@@ -1,13 +1,7 @@
 <div class="dashboard-root">
   <!-- Header -->
-  <app-header
-    subtitle="Escritos rojos"
-    [total]="totalExpedientes"
-    [criticos]="expedientesCriticos"
-    [enRiesgo]="expedientesEnRiesgo"
-    [advertencia]="expedientesAdvertencia"
-    [alDia]="expedientesAlDia"
-  />
+  <app-header subtitle="control de escritos rojos" [total]="totalExpedientes" [criticos]="expedientesCriticos"
+    [enRiesgo]="expedientesEnRiesgo" [advertencia]="expedientesAdvertencia" [alDia]="expedientesAlDia" />
 
   <!-- Toolbar -->
   <div class="toolbar">
@@ -69,10 +63,10 @@
         <tr>
           <th class="col-semaforo">Estado</th>
           <th class="col-acto">Acto S/ Demandado</th>
-          <th class="col-exP1">N 1° ins</th>
-          <th class="col-exP2">Juzgado</th>
-          <th class="col-descripcion">Último escrito</th>
-          <th class="col-fecha">Último movimiento</th>
+          <th class="col-expediente">Expediente</th>
+          <th class="col-ojud">Juzgado / Órgano</th>
+          <th class="col-descripcion">Último movimiento</th>
+          <th class="col-fecha">Fecha mov.</th>
           <th class="col-inactividad">Inactividad</th>
         </tr>
       </ng-template>
@@ -91,31 +85,47 @@
             </div>
           </td>
 
-          <!-- Acto S/ Demandado -->
+          <!-- Acto S/ Demandado + ID -->
           <td class="col-acto">
-            <span class="acto-badge">{{ exp.acto + ' S/ ' + exp.dema }}</span>
+            <div class="acto-container">
+              <span class="acto-badge">{{ exp.acto + ' S/ ' + exp.dema }}</span>
+              <span *ngIf="exp.idExpediente" class="id-badge" [pTooltip]="'ID Lex-Doctor: ' + exp.idExpediente"
+                tooltipPosition="top">
+                #{{ exp.idExpediente }}
+              </span>
+            </div>
           </td>
 
-          <!-- N° 1° instancia -->
-          <td class="col-exP1">
-            <span class="expediente-num">{{ exp.exP1?.trim() || '—' }}</span>
+          <!-- Expediente (1° y 2° instancia) -->
+          <td class="col-expediente">
+            <div class="expediente-wrapper">
+              <span class="instancia-1" [pTooltip]="'1° Instancia'" tooltipPosition="top">
+                {{ exp.exP1?.trim() || '—' }}
+              </span>
+              <span *ngIf="exp.exP2?.trim()" class="instancia-2"
+                [pTooltip]="'2° Instancia / Cámara: ' + exp.exP2?.trim()" tooltipPosition="top">
+                <span class="instancia-tag">2°</span> {{ exp.exP2?.trim() }}
+              </span>
+            </div>
           </td>
 
-          <!-- N° 2° instancia -->
-          <td class="col-exP2">
-            <span class="expediente-num">{{ exp.ojud }}</span>
+          <!-- Juzgado / Órgano Judicial -->
+          <td class="col-ojud">
+            <span class="ojud-text" [pTooltip]="exp.ojud" tooltipPosition="top">
+              {{ exp.ojud || '—' }}
+            </span>
           </td>
 
-          <!-- Último Escrito -->
+          <!-- Último movimiento -->
           <td class="col-descripcion">
             <span class="descripcion-text" [pTooltip]="exp.descripcionUltimoEscrito" tooltipPosition="top">
-              {{ exp.descripcionUltimoEscrito }}
+              {{ exp.descripcionUltimoEscrito || '—' }}
             </span>
           </td>
 
           <!-- Fecha -->
           <td class="col-fecha">
-            <span class="fecha-text">{{ exp.fechaUltimoMovimiento | date: 'dd/MM/yy' }}</span>
+            <span class="fecha-text">{{ exp.fechaUltimoMovimiento | date: 'dd/MM/yyyy' }}</span>
           </td>
 
           <!-- Inactividad -->
@@ -152,9 +162,9 @@
           <td colspan="7" class="empty-state">
             <div class="empty-content">
               <i class="pi pi-folder-open empty-icon"></i>
-              <p class="empty-title">No hay expedientes críticos disponibles</p>
+              <p class="empty-title">No hay expedientes disponibles</p>
               <p class="empty-subtitle">
-                Los expedientes con estado crítico aparecerán aquí una vez conectados al servidor.
+                Los expedientes correspondientes aparecerán aquí según los filtros seleccionados.
               </p>
             </div>
           </td>

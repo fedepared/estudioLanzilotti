@@ -1,9 +1,5 @@
 <!-- Backdrop -->
-<div 
-  class="sidebar-backdrop" 
-  [class.open]="sidebarService.isOpen()" 
-  (click)="close()"
-  aria-hidden="true">
+<div class="sidebar-backdrop" [class.open]="sidebarService.isOpen()" (click)="close()" aria-hidden="true">
 </div>
 
 <!-- Drawer Panel -->
@@ -24,35 +20,24 @@
   <nav class="sidebar-nav">
     <div class="nav-section-label">Menú principal</div>
 
-    <a 
-      routerLink="/inicio" 
-      routerLinkActive="active" 
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="close()" 
+    <a routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="close()"
       class="nav-item">
       <div class="nav-icon-wrapper">
         <i class="pi pi-table"></i>
       </div>
       <div class="nav-info">
-        <span class="nav-title">Control general</span>
-        <span class="nav-desc">Todos los procesos y estados</span>
+        <span class="nav-title">Escritos Vencidos</span>
+        <span class="nav-desc">Control de escritos vencidos</span>
       </div>
     </a>
 
-    <a 
-      routerLink="/escritos-rojos" 
-      routerLinkActive="active" 
-      (click)="close()" 
-      class="nav-item critical-item">
-      <div class="nav-icon-wrapper critical">
-        <i class="pi pi-exclamation-triangle"></i>
+    <a routerLink="/escritos-rojos" routerLinkActive="active" (click)="close()" class="nav-item">
+      <div class="nav-icon-wrapper">
+        <i class="pi pi-bookmark"></i>
       </div>
       <div class="nav-info">
-        <div class="title-with-badge">
-          <span class="nav-title">Escritos rojos</span>
-          <span class="status-badge red">Críticos</span>
-        </div>
-        <span class="nav-desc">Inactividad mayor a 5 meses</span>
+        <span class="nav-title">Escritos Rojos</span>
+        <span class="nav-desc">Control de escritos rojos</span>
       </div>
     </a>
   </nav>
